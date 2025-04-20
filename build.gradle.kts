@@ -3,8 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.4.4" // Matches the version from pom.xml
     id("io.spring.dependency-management") version "1.1.7" // Standard Spring plugin
-    kotlin("jvm") version "1.8.0" // Update to a compatible Kotlin version for Spring Boot 3.x
-    kotlin("plugin.spring") version "1.8.0" // Update for Spring support in Kotlin
+    kotlin("jvm") version "2.1.20" // Update to a compatible Kotlin version for Spring Boot 3.x
+    kotlin("plugin.spring") version "2.1.20" // Update for Spring support in Kotlin
     application // To define the main class
 }
 
@@ -12,7 +12,7 @@ group = "com.absolutecinema"
 version = "1.0-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_24
 }
 
 repositories {
@@ -26,7 +26,7 @@ dependencies {
     implementation("io.pebbletemplates:pebble-spring-boot-starter:3.2.2") // Add Pebble starter
 
     // Database
-    runtimeOnly("org.postgresql:postgresql:42.2.20") // Use runtimeOnly as it's needed at runtime
+    runtimeOnly("org.postgresql:postgresql") // Use runtimeOnly as it's needed at runtime
 
     // .env file support
     implementation("io.github.cdimascio:dotenv-java:2.3.2") // Or latest version
@@ -40,7 +40,7 @@ dependencies {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
