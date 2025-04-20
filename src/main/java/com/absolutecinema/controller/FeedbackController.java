@@ -1,0 +1,41 @@
+package com.absolutecinema.controller;
+
+import com.absolutecinema.entity.Feedback;
+import com.absolutecinema.service.FeedbackService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/feedback")
+public class FeedbackController {
+
+    @Autowired
+    private FeedbackService feedbackService;
+
+    @PostMapping
+    public ResponseEntity<Feedback> submitFeedback(@RequestBody Feedback feedback) {
+        Feedback savedFeedback = feedbackService.saveFeedback(feedback);
+        return ResponseEntity.ok(savedFeedback);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Feedback>> getAllFeedback() {
+        List<Feedback> feedbackList = feedbackService.getAllFeedback();
+        return ResponseEntity.ok(feedbackList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Feedback> getFeedbackById(@PathVariable Long id) {
+        Feedback feedback = feedbackService.getFeedbackById(id);
+        return ResponseEntity.ok(feedback);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFeedback(@PathVariable Long id) {
+        feedbackService.deleteFeedback(id);
+        return ResponseEntity.noContent().build();
+    }
+}
