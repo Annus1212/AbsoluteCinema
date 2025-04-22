@@ -1,47 +1,272 @@
-{% extends "layout/page" %}
+{# {% extends "layout/page" %}
+{% block content %} #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #0e0f1a;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+            color: #fff;
+        }
 
-{% block content %}
-    <section>
-        <h2>Welcome, Admin!</h2>
-        <p>Here you can manage movies, bookings, snacks, and more.</p>
-    </section>
-    <section>
-        <h3>Quick Stats</h3>
-        <ul>
-            {# Use default filter for null or missing values #}
-            <li>Total Movies: {{ totalMovies | default(0) }}</li>
-            <li>Total Bookings: {{ totalBookings | default(0) }}</li>
-            <li>Total Snacks Sold: {{ totalSnacks | default(0) }}</li>
-            <li>Total Loyalty Accounts: {{ totalLoyaltyAccounts | default(0) }}</li>
-        </ul>
-    </section>
-    <section>
-        <h3>Recent Feedback</h3>
-        {% if recentFeedback is null or recentFeedback is empty %}
-            <p>No recent feedback.</p>
-        {% else %}
-            <ul>
-                {% for feedback in recentFeedback %}
-                    <li>
-                        {# Pebble handles null checks in path expressions gracefully, but default provides fallback #}
-                        <span>{{ feedback.user.username | default('Anonymous') }}</span>: <span>{{ feedback.comment }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </section>
+        .stat-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
 
-    <!-- Add links to specific admin sections -->
-    <nav>
-         <h4>Management Links</h4>
-        <ul>
-            <li><a href="/admin/movies">Manage Movies</a></li>
-            <li><a href="/admin/bookings">Manage Bookings</a></li>
-            <li><a href="/admin/snacks">Manage Snacks</a></li>
-            <li><a href="/admin/loyalty">Manage Loyalty Program</a></li>
-            <li><a href="/admin/feedback">Manage Feedback</a></li>
-            <li><a href="/admin/analytics">View Analytics</a></li>
-            <li><a href="/logout">Logout</a></li> {# Assuming /logout exists #}
+        .stat-box {
+            background: linear-gradient(135deg, #1c1e2f, #282a3e);
+            border: 1px solid #333750;
+            color: #f0f0ff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 30px;
+            border-radius: 10px;
+            width: 350px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-box:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon {
+            font-size: 32px;
+        }
+
+        .stat-info .label {
+            font-size: 14px;
+            color: #c7c9e4;
+            letter-spacing: 1px;
+        }
+
+        .stat-info .value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        .review-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 700px;
+            margin: 0 auto;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 25px;
+            height: 20%;
+            transition: height 0.5s ease-in-out;
+            background: linear-gradient(135deg, #1c1e2f, #282a3e); /* Matches stat-box */
+            border: 1px solid #333750; /* Matches stat-box */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Matches stat-box */
+            border-radius: 10px;
+        }
+
+        .review-container.expanded {
+            height: 60%;
+        }
+
+        .review-container::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .review-box {
+            padding: 20px 25px;
+            font-size: 16px;
+            line-height: 1.6;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .clean {
+            background-color: #1c1e2f;
+            border: 1px solid #333750;
+            color: #f0f0ff;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Absolute Cinema</h1>
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
+            <li><a href="#" class="nav-link px-2 text-secondary">Movies</a></li>
+            <li><a href="#" class="nav-link px-2 text-secondary">Bookings</a></li>
+            <li><a href="#" class="nav-link px-2 text-secondary">Snacks</a></li>
+            <li><a href="#" class="nav-link px-2 text-secondary">Loyalty Program</a></li>
+            <li><a href="#" class="nav-link px-2 text-secondary">Feedback</a></li>
+            <li><a href="#" class="nav-link px-2 text-secondary">Admin</a></li>
+            <li><a href="#" class="nav-link px-2 text-secondary">Contact Us</a></li>
         </ul>
-    </nav>
-{% endblock %}
+
+        <div class="text-end">
+            <button type="button" class="btn btn-dark me-2">Login</button>
+            <button type="button" class="btn btn-dark">Sign-up</button>
+        </div>
+    </div>
+    <hr>
+</div>
+
+<div class="container">
+    <h2 style="margin-left: 150px" class="my-4">Welcome, Admin!</h2>
+    <p style="margin-left: 400px; font-size:larger ">Here you can manage movies, bookings, snacks and more.</p>
+</div>
+
+<div class="container my-5">
+    <h3 class="my-4">Quick Stats</h3>
+    <div class="stat-container">
+        <div class="stat-box">
+            <div class="icon">🎬</div>
+            <div class="stat-info">
+                <div class="label">Movies Sold</div>
+                <div class="value">100</div>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div class="icon">🎟️</div>
+            <div class="stat-info">
+                <div class="label">Total Bookings</div>
+                <div class="value">245</div>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div class="icon">🍿</div>
+            <div class="stat-info">
+                <div class="label">Snacks Sold</div>
+                <div class="value">320</div>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div class="icon">🧾</div>
+            <div class="stat-info">
+                <div class="label">Loyalty Accounts</div>
+                <div class="value">58</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h3 class="my-4">Recent Feedback</h3>
+    <div class="review-container" onclick="expandContainer()">
+        <div class="review-box clean">"This was an experience of a lifetime." -Jumanji 2004</div>
+        <div class="review-box clean">"An adventure from start to finish." -The Lord of the Rings</div>
+        <div class="review-box clean">"A journey through time and space!" -Interstellar</div>
+        <div class="review-box clean">"The story was a bit predictable but still enjoyable." -Inception</div>
+        <div class="review-box clean">"A powerful and emotional narrative." -The Pursuit of Happyness</div>
+        <div class="review-box clean">"An action-packed rollercoaster ride!" -Mad Max: Fury Road</div>
+        <div class="review-box clean">"A thought-provoking and intellectual masterpiece." -2001: A Space Odyssey</div>
+        <div class="review-box clean">"A unique exploration of human nature." -The Truman Show</div>
+        <div class="review-box clean">"The cinematography was breathtaking." -The Revenant</div>
+        <div class="review-box clean">"An unforgettable film with a compelling message." -Schindler's List</div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h3 class="my-4">Management Links</h3>
+    <div class="stat-container">
+        <a href="/admin/movies" class="text-decoration-none text-white">
+            <div class="stat-box">
+                <div class="icon">🎬</div>
+                <div class="stat-info">
+                    <div class="label">Manage Movies</div>
+                    <div class="value">Go</div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/admin/bookings" class="text-decoration-none text-white">
+            <div class="stat-box">
+                <div class="icon">🎟️</div>
+                <div class="stat-info">
+                    <div class="label">Manage Bookings</div>
+                    <div class="value">Go</div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/admin/snacks" class="text-decoration-none text-white">
+            <div class="stat-box">
+                <div class="icon">🍿</div>
+                <div class="stat-info">
+                    <div class="label">Manage Snacks</div>
+                    <div class="value">Go</div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/admin/loyalty" class="text-decoration-none text-white">
+            <div class="stat-box">
+                <div class="icon">🧾</div>
+                <div class="stat-info">
+                    <div class="label">Manage Loyalty Program</div>
+                    <div class="value">Go</div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/admin/feedback" class="text-decoration-none text-white">
+            <div class="stat-box">
+                <div class="icon">💬</div>
+                <div class="stat-info">
+                    <div class="label">Manage Feedback</div>
+                    <div class="value">Go</div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/admin/analytics" class="text-decoration-none text-white">
+            <div class="stat-box">
+                <div class="icon">📊</div>
+                <div class="stat-info">
+                    <div class="label">View Analytics</div>
+                    <div class="value">Go</div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/logout" class="text-decoration-none text-white">
+            <div class="stat-box">
+                <div class="icon">🚪</div>
+                <div class="stat-info">
+                    <div class="label">Logout</div>
+                    <div class="value">Exit</div>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<script>
+    function expandContainer() {
+        const container = document.querySelector('.review-container');
+        container.classList.toggle('expanded');
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</body>
+</html>
+
+{# {% endblock %} #}
