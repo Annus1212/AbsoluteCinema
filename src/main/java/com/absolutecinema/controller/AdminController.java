@@ -26,4 +26,14 @@ public class AdminController {
         model.addAllAttributes(analyticsService.getAnalyticsData());
         return "admin/dashboard";
     }
+
+    @GetMapping("/admin/managefeedback")
+    public String manageFeedback() {
+        return "admin/managefeedback";
+    }
+
+    @GetMapping("/admin/settings")
+    public String settings() {
+        return "admin/settings";
+    }
 }

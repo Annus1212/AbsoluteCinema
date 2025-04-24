@@ -1,0 +1,128 @@
+{#    {% extends "layout/page" %}#}
+
+{#    {% block content %}#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movies</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 24px;
+    }
+
+    .movie-card {
+      transition: transform 0.15s ease-in-out;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .movie-card:hover {
+      transform: scale(1.1);
+    }
+
+    .movie-poster {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.15s ease-in-out;
+    }
+
+    .movie-title {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+
+
+  <div class="grid-container">
+    <div class="movie-card">
+      <img src="me.jpg" alt="Movie 1" class="movie-poster">
+      <div class="movie-title">Movie Title 1</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me1.jpg" alt="Movie 2" class="movie-poster">
+      <div class="movie-title">Movie Title 2</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me2.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+    <!-- Add more cards as needed -->
+  </div>
+
+</body>
+</html>
+{#{% endblock %}#}
