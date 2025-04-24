@@ -41,7 +41,7 @@ public class SecurityConfig {
                     exception.printStackTrace(); // Or log it
                     response.sendRedirect("/login?error=true");
                 })
-                .defaultSuccessUrl("/admin/dashboard", true)
+                .defaultSuccessUrl("/user/dashboard", true)
                 .permitAll()
             )
             .logout(logout -> logout
