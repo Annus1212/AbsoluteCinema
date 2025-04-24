@@ -328,7 +328,7 @@
             <button class="btn btn-primary" id="submitBtn" style="position: absolute;top: 560px;left:100px;width: 300px;height: 40px;padding: 10px;">SIGN UP</button>
             
             <div class="signup-link" style="position: absolute;top: 590px;left:120px;">
-                Already have an account? <a href="#">Sign In</a>
+                Already have an account? <a href="login">Sign In</a>
             </div>
         </div>
     </div>

@@ -324,13 +324,13 @@
             </div>
             
             <div class="forgot-link">
-                <a href="#">Forgot your password?</a>
+                <a href="forgot-password">Forgot your password?</a>
             </div>
             
             <button class="btn btn-primary" onclick="validateLogin()">SIGN IN</button>
             
             <div class="signup-link">
-                New here? <a href="#">Create an account</a>
+                New here? <a href="register">Create an account</a>
             </div>
 
             <div id="error-message" class="error-message"></div>
