@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absolute Cinema - Feedback</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: var(--bs-body-bg);
+            color: var(--bs-text-color);
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            background-image: 
+              radial-gradient(circle at 100% 0%, rgba(var(--bs-primary-rgb), 0.15) 0%, transparent 25%),
+              radial-gradient(circle at 0% 100%, rgba(65, 105, 225, 0.15) 0%, transparent 25%);
+            background-attachment: fixed;
+        }
+        
+        [data-bs-theme="light"] {
+            --bs-body-bg: #f8f9fa82;
+            --h1: #7c7c7c;
+            --bs-body-bg-rgb: 248, 249, 250;
+            --bs-text-color: #333;
+            --card-bg: rgba(255, 255, 255, 0.46);
+            --card-hover: rgba(255, 255, 255, 0.46);
+            --gradient-start: #a64dff;
+            --gradient-end: #a64dff;
+            --accent-color: #a64dff;
+            --gradient-end: #a64dff;
+            --accent-color1: #4dffff;
+            --star-color: #ddd;
+            --star-active: #ffcc00;
+            --input-bg: rgba(0, 0, 0, 0.02);
+            --input-border: rgba(0, 0, 0, 0.2);
+            --badge-bg: rgba(0, 0, 0, 0.05);
+            --badge-hover: rgba(0, 0, 0, 0.1);
+            --success-bg: rgba(46, 204, 113, 0.05);
+            --success-border: rgba(46, 204, 113, 0.2);
+            --success-color: #2ecc71;
+        }
+
+        [data-bs-theme="dark"] {
+            --bs-body-bg: #0a0a12;
+            --bs-body-bg-rgb: 10, 10, 18;
+            --bs-text-color: #e9ecef;
+            --card-bg: rgba(30, 30, 50, 0.8);
+            --card-hover: rgba(40, 40, 60, 0.95);
+            --gradient-start: #a64dff;
+            --h1: #a64dff;
+            --gradient-end: #4dffff;
+            --accent-color: #4dffff;
+            --star-color: #555;
+            --star-active: #ffcc00;
+            --input-bg: rgba(255, 255, 255, 0.05);
+            --input-border: rgba(255, 255, 255, 0.2);
+            --badge-bg: rgba(255, 255, 255, 0.1);
+            --badge-hover: rgba(255, 255, 255, 0.2);
+            --success-bg: rgba(46, 204, 113, 0.1);
+            --success-border: rgba(46, 204, 113, 0.3);
+            --success-color: #2ecc71;
+        }
+
+        .logo-text {
+            font-weight: 800;
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .logo-text::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            bottom: 8px;
+            right: -12px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+        }
+
+        .theme-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(var(--bs-body-bg-rgb), 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+        }
+
+        .theme-menu {
+            background: rgba(var(--bs-body-bg-rgb), 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .theme-item {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .theme-item:hover {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: white !important;
+        }
+
+        .theme-item.active {
+            background: rgba(var(--bs-primary-rgb), 0.2);
+        }
+
+        .header {
+            background-color: rgba(10, 10, 20, 0.9);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(128, 128, 255, 0.2);
+        }
+        
+        .logo {
+            color: #a64dff;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .dot {
+            color: #4dffff;
+        }
+        
+        .search-bar {
+            flex-grow: 0.4;
+            max-width: 400px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border-radius: 30px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav {
+            background-color: rgba(10, 10, 20, 0.8);
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .nav a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+        
+        .nav a:hover, .nav a.active {
+            color: #a64dff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            color: var(--h1);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #a64dff;
+            display: inline-block;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: #4dffff;
+            margin: 2rem 0 1rem;
+        }
+
+        /* Feedback specific styles */
+        .feedback-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .feedback-section {
+            margin-bottom: 25px;
+        }
+
+        .feedback-section h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            cursor: pointer;
+            font-size: 30px;
+            color: var(--star-color);
+            padding: 5px;
+        }
+
+        .rating label:hover,
+        .rating label:hover ~ label,
+        .rating input:checked ~ label {
+            color: var(--star-active);
+        }
+
+        /* Added this class for the star rating text display */
+        .rating-text {
+            margin-top: 10px;
+            font-size: 16px;
+            color: var(--bs-text-color);
+        }
+
+        .feedback-form-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--bs-text-color);
+            font-size: 16px;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--gradient-start);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #8245e6;
+        }
+
+        .category-badges {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .category-badge {
+            background-color: var(--badge-bg);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .category-badge.selected {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+        }
+
+        .category-badge:hover:not(.selected) {
+            background-color: var(--badge-hover);
+        }
+
+        .success-message {
+            display: none;
+            background-color: var(--success-bg);
+            border: 1px solid var(--success-border);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            color: var(--success-color);
+        }
+
+        footer {
+            padding: 20px 0;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        [data-bs-theme="light"] footer {
+            color: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                margin-top: 1rem;
+                flex-basis: 100%;
+                max-width: 100%;
+                position: static !important;
+                width: 100% !important;
+            }
+            
+            .nav {
+                padding: 0.8rem 1rem;
+            }
+            
+            .category-badges {
+                flex-direction: column;
+            }
+            
+            .feedback-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body data-bs-theme="dark">
+    <div class="theme-toggle">
+        <div class="dropdown">
+          <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-moon-stars-fill"></i>
+          </button>
+          <ul class="dropdown-menu theme-menu" aria-labelledby="themeToggle">
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="light"><i class="bi bi-sun-fill"></i>Light</button></li>
+            <li><button class="dropdown-item theme-item active" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i>Dark</button></li>
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i>Auto</button></li>
+          </ul>
+        </div>
+    </div>
+
+    <header class="header">
+        <a href="#" class="logo">Absolute Cinema<span class="dot">.</span></a>
+        <div class="search-bar" style="position: absolute;left: 1000px;width: 600px;">
+            <input type="text" class="search-input" placeholder="Search movies...">
+        </div>
+    </header>
+    
+    <nav class="nav">
+        <a href="#">Home</a>
+        <a href="#">Movies</a>
+        <a href="#">Bookings</a>
+        <a href="#">Snacks</a>
+        <a href="#">Loyalty Program</a>
+        <a href="#" class="active">Feedback</a>
+        <a href="#">Contact</a>
+    </nav>
+    
+    <div class="container">
+        <h1>Share Your Feedback</h1>
+        
+        <div class="feedback-card">
+            <div class="feedback-section">
+                <h2>How would you rate your experience?</h2>
+                <div class="rating">
+                    <input type="radio" name="rating" id="star5" value="5">
+                    <label for="star5" class="fas fa-star"></label>
+                    <input type="radio" name="rating" id="star4" value="4">
+                    <label for="star4" class="fas fa-star"></label>
+                    <input type="radio" name="rating" id="star3" value="3">
+                    <label for="star3" class="fas fa-star"></label>
+                    <input type="radio" name="rating" id="star2" value="2">
+                    <label for="star2" class="fas fa-star"></label>
+                    <input type="radio" name="rating" id="star1" value="1">
+                    <label for="star1" class="fas fa-star"></label>
+                </div>
+                <!-- Added rating text display -->
+                <div class="rating-text" id="ratingText">No rating selected</div>
+            </div>
+            
+            <div class="feedback-section">
+                <h2>What aspects are you providing feedback on?</h2>
+                <div class="category-badges">
+                    <div class="category-badge">Movie Selection</div>
+                    <div class="category-badge">Booking Experience</div>
+                    <div class="category-badge">Cinema Facilities</div>
+                    <div class="category-badge">Staff Service</div>
+                    <div class="category-badge">Food & Beverages</div>
+                    <div class="category-badge">Ticket Pricing</div>
+                    <div class="category-badge">Theater Comfort</div>
+                    <div class="category-badge">Mobile App</div>
+                </div>
+            </div>
+            
+            <div class="feedback-form-container">
+                <div class="form-group">
+                    <label for="feedback">Tell us about your experience:</label>
+                    <textarea class="form-control" id="feedback" rows="5" placeholder="Share your thoughts, suggestions, or concerns..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="name">Name (optional):</label>
+                    <input type="text" class="form-control" id="name" placeholder="Your name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email (optional):</label>
+                    <input type="email" class="form-control" id="email" placeholder="Your email address">
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" id="submitFeedback">Submit Feedback</button>
+                </div>
+                
+                <div class="success-message" id="successMessage">
+                    Thank you for your feedback! We appreciate your input and will use it to improve our services.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Absolute Cinema. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Category badge selection
+        const categoryBadges = document.querySelectorAll('.category-badge');
+        categoryBadges.forEach(badge => {
+            badge.addEventListener('click', () => {
+                badge.classList.toggle('selected');
+            });
+        });
+        
+        // Star rating functionality
+        const ratingInputs = document.querySelectorAll('input[name="rating"]');
+        const ratingText = document.getElementById('ratingText');
+        const ratingLabels = {
+            1: "Poor - Did not meet expectations",
+            2: "Fair - Needs improvement",
+            3: "Good - Met expectations",
+            4: "Very Good - Exceeded expectations",
+            5: "Excellent - Outstanding experience"
+        };
+        
+        ratingInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                const value = input.value;
+                ratingText.textContent = ratingLabels[value];
+            });
+        });
+        
+        // Form submission
+        const submitButton = document.getElementById('submitFeedback');
+        const successMessage = document.getElementById('successMessage');
+        
+        submitButton.addEventListener('click', () => {
+            // Simulate form submission
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+            
+            // Show success message after a short delay
+            setTimeout(() => {
+                successMessage.style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Feedback';
+                
+                // Reset form
+                document.getElementById('feedback').value = '';
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                
+                // Uncheck all stars
+                ratingInputs.forEach(input => {
+                    input.checked = false;
+                });
+                
+                // Reset rating text
+                ratingText.textContent = "No rating selected";
+                
+                // Unselect all categories
+                categoryBadges.forEach(badge => {
+                    badge.classList.remove('selected');
+                });
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }, 1000);
+        });
+
+        // Theme toggle functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeButtons = document.querySelectorAll('.theme-item');
+            
+            // Set theme from localStorage or default to dark
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.setAttribute('data-bs-theme', savedTheme);
+            
+            // Update active class
+            themeButtons.forEach(button => {
+                if (button.getAttribute('data-bs-theme-value') === savedTheme) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            
+            // Event listeners for theme buttons
+            themeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const theme = button.getAttribute('data-bs-theme-value');
+                    document.body.setAttribute('data-bs-theme', theme);
+                    localStorage.setItem('theme', theme);
+                    
+                    // Update active class
+                    themeButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
