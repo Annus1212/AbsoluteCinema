@@ -12,7 +12,7 @@ group = "com.absolutecinema"
 version = "1.0-SNAPSHOT"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_24
+    sourceCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {

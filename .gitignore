@@ -28,6 +28,8 @@ replay_pid*
 *.iml
 *.ipr
 .gradle
+gradlew
+gradlew.bat
 
 build
 .env
