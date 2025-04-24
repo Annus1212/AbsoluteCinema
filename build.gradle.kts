@@ -22,6 +22,7 @@ repositories {
 dependencies {
     // Spring Boot Starters
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("io.pebbletemplates:pebble-spring-boot-starter:3.2.2") // Add Pebble starter
 
