@@ -315,7 +315,8 @@
         </div>
 
         <!-- Login Form (Black Part) -->
-        <div class="login-form">
+        <form class="login-form" method="POST" action="/login" id="login-form">
+            <input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}" />
             <div class="logo">ABSOLUTE CINEMA</div>
             <br>
             <div class="form-group">
@@ -332,33 +333,18 @@
                 <a href="forgot-password">Forgot your password?</a>
             </div>
 
-            <button class="btn btn-primary" onclick="validateLogin()">SIGN IN</button>
+            <button class="btn btn-primary" onclick="validateLogin()" type="submit">SIGN IN</button>
 
             <div class="signup-link">
                 New here? <a href="register">Create an account</a>
             </div>
 
-            <div id="error-message" class="error-message"></div>
-        </div>
+            <div id="error-message" class="error-message">{{errorMessage}}</div>
+        </form>
     </div>
 
 
-    <script>
-        function validateLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
-
-            // Dummy validation (you can replace with actual logic)
-            if (username !== "isbah" || password !== "password123") {
-                errorMessage.textContent = "Invalid username or password.";
-            } else {
-                errorMessage.textContent = "";
-                // Proceed with login logic (e.g., redirect to a new page)
-                alert("Login successful!");
-            }
-        }
-    </script>
+    
 </body>
 
 </html>
