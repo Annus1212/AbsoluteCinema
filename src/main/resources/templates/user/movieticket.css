@@ -31,7 +31,7 @@
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    background-image: 
+    background-image:
       radial-gradient(circle at 100% 0%, rgba(var(--bs-primary-rgb), 0.15) 0%, transparent 25%),
       radial-gradient(circle at 0% 100%, rgba(65, 105, 225, 0.15) 0%, transparent 25%);
     background-attachment: fixed;
