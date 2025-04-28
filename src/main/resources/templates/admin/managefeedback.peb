@@ -1,10 +1,654 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>Manage Feedback</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Management - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+     <link rel="stylesheet" href="/topbar/bar.css">
+     <link rel="stylesheet" href="/admin/managefeedback.css">
+
 </head>
 <body>
-    <h1>Manage Feedback</h1>
+ <!-- Theme Toggle -->
+<div class="theme-toggle">
+    <div class="dropdown">
+        <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <ul class="dropdown-menu theme-menu" aria-labelledby="themeToggle">
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="light"><i class="bi bi-sun-fill"></i>Light</button></li>
+            <li><button class="dropdown-item theme-item active" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i>Dark</button></li>
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i>Auto</button></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-container">
+    <div class="container py-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="logo-text m-0">Absolute Cinema</h1>
+            <div class="search-container">
+                <i class="bi bi-search search-icon"></i>
+                <input id="searchInput" type="search" class="form-control" placeholder="Search movies..." aria-label="Search" autocomplete="off">
+                <div id="filterDropdown" class="filter-dropdown dropdown-menu shadow" style="display: none;">
+                    <div class="filter-section">
+                        <div class="filter-section-title" onclick="toggleFilterSection('genre')">
+                            Genre <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="genreOptions" class="filter-options">
+                            <div class="filter-option">Action</div>
+                            <div class="filter-option">Adventure</div>
+                            <div class="filter-option">Animation</div>
+                            <div class="filter-option">Comedy</div>
+                            <div class="filter-option">Crime</div>
+                            <div class="filter-option">Documentary</div>
+                            <div class="filter-option">Drama</div>
+                            <div class="filter-option">Family</div>
+                            <div class="filter-option">Fantasy</div>
+                            <div class="filter-option">History</div>
+                            <div class="filter-option">Horror</div>
+                            <div class="filter-option">Music</div>
+                            <div class="filter-option">Mystery</div>
+                            <div class="filter-option">Romance</div>
+                            <div class="filter-option">Science Fiction</div>
+                            <div class="filter-option">Thriller</div>
+                            <div class="filter-option">War</div>
+                            <div class="filter-option">Western</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-section-title" onclick="toggleFilterSection('year')">
+                            Release Year <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="yearOptions" class="filter-options">
+                            <div class="filter-option">2025</div>
+                            <div class="filter-option">2024</div>
+                            <div class="filter-option">2023</div>
+                            <div class="filter-option">2022</div>
+                            <div class="filter-option">2021</div>
+                            <div class="filter-option">2020</div>
+                            <div class="filter-option">2019</div>
+                            <div class="filter-option">2018</div>
+                            <div class="filter-option">2017</div>
+                            <div class="filter-option">2016</div>
+                            <div class="filter-option">2015</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-section-title" onclick="toggleFilterSection('rating')">
+                            Top Rated <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="ratingOptions" class="filter-options">
+                            <div class="filter-option">9+ Rating</div>
+                            <div class="filter-option">8+ Rating</div>
+                            <div class="filter-option">7+ Rating</div>
+                            <div class="filter-option">6+ Rating</div>
+                            <div class="filter-option">5+ Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center mt-3">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+                <li><a href="/" class="nav-link px-2">Home</a></li>
+                <li><a href="/movies" class="nav-link px-2">Movies</a></li>
+                <li><a href="/bookings" class="nav-link px-2">Bookings</a></li>
+                <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
+                <li><a href="/loyalty" class="nav-link px-2">Loyalty Program</a></li>
+                <li><a href="/feedback" class="nav-link px-2">Feedback</a></li>
+                <li><a href="/contact" class="nav-link px-2">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <h2>Feedback Management</h2>
+            <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#exportModal">
+                <i class="bi bi-download me-2"></i> Export Data
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="icon">
+                    <i class="bi bi-chat-square-text"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="label">Total Feedback</div>
+                    <div class="value">3,247</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">
+                    <i class="bi bi-emoji-smile"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="label">Positive Feedback</div>
+                    <div class="value">2,183</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">
+                    <i class="bi bi-emoji-frown"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="label">Negative Feedback</div>
+                    <div class="value">524</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon">
+                    <i class="bi bi-reply"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="label">Response Rate</div>
+                    <div class="value">92%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sentiment Analysis Chart -->
+        <div class="charts-container">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h4>Feedback Sentiment Trend</h4>
+                    <div class="chart-actions">
+                        <button class="btn-outline">Weekly</button>
+                        <button class="btn-outline">Monthly</button>
+                        <button class="btn-outline active">Yearly</button>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <canvas id="sentimentChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h4>Top Feedback Categories</h4>
+                    <div class="chart-actions">
+                        <button class="btn-outline" id="refreshCategories">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    <canvas id="categoriesChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-container">
+            <div class="filter-dropdown">
+                <button class="filter-btn" onclick="toggleFilterMenu('sentimentFilter')">
+                    <span>Sentiment</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <div id="sentimentFilter" class="filter-menu">
+                    <div class="filter-item active">All Sentiments</div>
+                    <div class="filter-item">Positive</div>
+                    <div class="filter-item">Neutral</div>
+                    <div class="filter-item">Negative</div>
+                </div>
+            </div>
+            <div class="filter-dropdown">
+                <button class="filter-btn" onclick="toggleFilterMenu('dateFilter')">
+                    <span>Date Range</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <div id="dateFilter" class="filter-menu">
+                    <div class="filter-item active">All Time</div>
+                    <div class="filter-item">Today</div>
+                    <div class="filter-item">This Week</div>
+                    <div class="filter-item">This Month</div>
+                    <div class="filter-item">Last 3 Months</div>
+                </div>
+            </div>
+            <div class="filter-dropdown">
+                <button class="filter-btn" onclick="toggleFilterMenu('statusFilter')">
+                    <span>Status</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <div id="statusFilter" class="filter-menu">
+                    <div class="filter-item active">All Status</div>
+                    <div class="filter-item">Responded</div>
+                    <div class="filter-item">Pending</div>
+                    <div class="filter-item">Flagged</div>
+                </div>
+            </div>
+            <div class="filter-dropdown">
+                <button class="filter-btn" onclick="toggleFilterMenu('categoryFilter')">
+                    <span>Category</span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <div id="categoryFilter" class="filter-menu">
+                    <div class="filter-item active">All Categories</div>
+                    <div class="filter-item">Movie Quality</div>
+                    <div class="filter-item">App Experience</div>
+                    <div class="filter-item">Customer Service</div>
+                    <div class="filter-item">Booking Experience</div>
+                    <div class="filter-item">Pricing</div>
+                </div>
+            </div>
+            <div class="ms-auto">
+                <button class="btn-outline" onclick="resetFilters()">
+                    <i class="bi bi-x-circle me-1"></i> Reset Filters
+                </button>
+            </div>
+        </div>
+
+        <!-- Feedback Management Section -->
+        <div class="feedback-container">
+            <div class="feedback-header">
+                <h4>User Feedback</h4>
+                <div class="d-flex align-items-center">
+                    <div class="form-check form-switch me-3">
+                        <input class="form-check-input" type="checkbox" id="showUnreadOnly">
+                        <label class="form-check-label" for="showUnreadOnly">Show Unread Only</label>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn-outline dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="bi bi-sort-down me-1"></i> Sort By
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <li><a class="dropdown-item" href="#">Newest First</a></li>
+                            <li><a class="dropdown-item" href="#">Oldest First</a></li>
+                            <li><a class="dropdown-item" href="#">Highest Rating</a></li>
+                            <li><a class="dropdown-item" href="#">Lowest Rating</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="feedback-scrollable">
+                <!-- Feedback Items -->
+                <div class="feedback-item">
+                    <span class="badge badge-positive mb-2">Positive</span>
+                    <div class="movie-title">Interstellar: Beyond the Stars</div>
+                    <div class="feedback-text">"Absolutely loved the IMAX experience for this film! The visual effects were stunning and the surround sound made me feel like I was in space. Best cinema experience I've had in years."</div>
+                    <div class="feedback-meta">
+                        <div class="star-rating">
+                            <div class="stars">★★★★★</div>
+                            <span>5.0</span>
+                        </div>
+                        <div class="user-info">John D. - 2 days ago</div>
+                    </div>
+                    <div class="feedback-actions">
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-reply-fill me-1"></i> Reply
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-flag me-1"></i> Flag
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-archive me-1"></i> Archive
+                        </button>
+                    </div>
+                </div>
+                <div class="feedback-item">
+                    <span class="badge badge-negative mb-2">Negative</span>
+                    <div class="movie-title">Midnight Chronicles</div>
+                    <div class="feedback-text">"The booking process was frustrating. The app crashed twice when I tried to select seats, and I ended up with worse seats than I wanted. Please improve your booking system."</div>
+                    <div class="feedback-meta">
+                        <div class="star-rating">
+                            <div class="stars">★★</div>
+                            <span>2.0</span>
+                        </div>
+                        <div class="user-info">Sarah M. - 1 week ago</div>
+                    </div>
+                    <div class="feedback-actions">
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-reply-fill me-1"></i> Reply
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-flag me-1"></i> Flag
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-archive me-1"></i> Archive
+                        </button>
+                    </div>
+                </div>
+                <div class="feedback-item">
+                    <span class="badge badge-neutral mb-2">Neutral</span>
+                    <div class="movie-title">Echoes of Tomorrow</div>
+                    <div class="feedback-text">"The movie was good, but the temperature in the theater was too cold. I had to put on my jacket during the show. The staff was helpful though and apologized for the inconvenience."</div>
+                    <div class="feedback-meta">
+                        <div class="star-rating">
+                            <div class="stars">★★★</div>
+                            <span>3.0</span>
+                        </div>
+                        <div class="user-info">Michael T. - 3 days ago</div>
+                    </div>
+                    <div class="feedback-actions">
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-reply-fill me-1"></i> Reply
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-flag me-1"></i> Flag
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-archive me-1"></i> Archive
+                        </button>
+                    </div>
+                </div>
+                <div class="feedback-item">
+                    <span class="badge badge-positive mb-2">Positive</span>
+                    <div class="movie-title">Galactic Warriors: Final Battle</div>
+                    <div class="feedback-text">"Great customer service! I accidentally booked for the wrong day and the staff helped me change my tickets without any fees. The movie was excellent too!"</div>
+                    <div class="feedback-meta">
+                        <div class="star-rating">
+                            <div class="stars">★★★★★</div>
+                            <span>5.0</span>
+                        </div>
+                        <div class="user-info">Emma R. - 1 day ago</div>
+                    </div>
+                    <div class="feedback-actions">
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-reply-fill me-1"></i> Reply
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-flag me-1"></i> Flag
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-archive me-1"></i> Archive
+                        </button>
+                    </div>
+                </div>
+                <div class="feedback-item">
+                    <span class="badge badge-negative mb-2">Negative</span>
+                    <div class="movie-title">The Lost Kingdom</div>
+                    <div class="feedback-text">"The snack prices are ridiculous! $8 for a small popcorn is highway robbery. I love your theaters but I'm going to start bringing my own snacks."</div>
+                    <div class="feedback-meta">
+                        <div class="star-rating">
+                            <div class="stars">★★</div>
+                            <span>2.0</span>
+                        </div>
+                        <div class="user-info">David K. - 5 days ago</div>
+                    </div>
+                    <div class="feedback-actions">
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-reply-fill me-1"></i> Reply
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-flag me-1"></i> Flag
+                        </button>
+                        <button class="btn-outline btn-sm">
+                            <i class="bi bi-archive me-1"></i> Archive
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Pagination -->
+            <nav class="custom-pagination">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                            <i class="bi bi-chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal fade custom-modal" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exportModalLabel">Export Feedback Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Date Range</label>
+                        <div class="d-flex gap-2">
+                            <input type="date" class="form-control" placeholder="Start Date">
+                            <input type="date" class="form-control" placeholder="End Date">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Format</label>
+                        <select class="form-select">
+                            <option selected>CSV</option>
+                            <option>Excel</option>
+                            <option>PDF</option>
+                            <option>JSON</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Data to Include</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="includeRatings" checked>
+                            <label class="form-check-label" for="includeRatings">Ratings</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="includeComments" checked>
+                            <label class="form-check-label" for="includeComments">Comments</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="includeUser" checked>
+                            <label class="form-check-label" for="includeUser">User Information</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="includeSentiment" checked>
+                            <label class="form-check-label" for="includeSentiment">Sentiment Analysis</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn-custom">
+                        <i class="bi bi-download me-1"></i> Export
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/topbar/bar.js"></script>
+    <script>
+        // Toggle Filter Menus
+        function toggleFilterMenu(id) {
+            document.getElementById(id).classList.toggle('show');
+            // Close other menus
+            document.querySelectorAll('.filter-menu.show').forEach(menu => {
+                if (menu.id !== id) {
+                    menu.classList.remove('show');
+                }
+            });
+        }
+
+        // Reset Filters
+        function resetFilters() {
+            document.querySelectorAll('.filter-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            document.querySelectorAll('.filter-item:first-child').forEach(item => {
+                item.classList.add('active');
+            });
+        }
+
+        // Close filter menus when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.filter-dropdown')) {
+                document.querySelectorAll('.filter-menu').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+
+        // Theme Toggling
+        document.querySelectorAll('.theme-item').forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.getAttribute('data-bs-theme-value');
+                document.querySelector('html').setAttribute('data-bs-theme', theme);
+
+                // Update active state
+                document.querySelectorAll('.theme-item').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                button.classList.add('active');
+
+                // Update theme toggle icon
+                const themeIcon = document.querySelector('#themeToggle i');
+                if (theme === 'light') {
+                    themeIcon.className = 'bi bi-sun-fill';
+                    document.body.classList.add('light-theme');
+                } else if (theme === 'dark') {
+                    themeIcon.className = 'bi bi-moon-stars-fill';
+                    document.body.classList.remove('light-theme');
+                } else {
+                    themeIcon.className = 'bi bi-circle-half';
+
+                    // Check system preference
+                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                        document.body.classList.remove('light-theme');
+                    } else {
+                        document.body.classList.add('light-theme');
+                    }
+                }
+            });
+        });
+
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sentiment Trend Chart
+            const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+            const sentimentChart = new Chart(sentimentCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [
+                        {
+                            label: 'Positive',
+                            data: [65, 72, 78, 84, 82, 90, 95, 98, 105, 112, 120, 125],
+                            borderColor: '#36d1b7',
+                            backgroundColor: 'rgba(54, 209, 183, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Neutral',
+                            data: [40, 45, 48, 42, 38, 35, 40, 42, 45, 50, 55, 60],
+                            borderColor: '#ffb74d',
+                            backgroundColor: 'rgba(255, 183, 77, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Negative',
+                            data: [25, 28, 30, 27, 25, 22, 20, 18, 15, 20, 22, 25],
+                            borderColor: '#ff5252',
+                            backgroundColor: 'rgba(255, 82, 82, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                color: '#8a8d99'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(50, 52, 62, 0.5)'
+                            },
+                            ticks: {
+                                color: '#8a8d99'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(50, 52, 62, 0.5)'
+                            },
+                            ticks: {
+                                color: '#8a8d99'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Categories Chart
+            const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
+            const categoriesChart = new Chart(categoriesCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Movie Quality', 'App Experience', 'Customer Service', 'Booking Experience', 'Pricing'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            '#722ed1',
+                            '#1677ff',
+                            '#36d1b7',
+                            '#ffb74d',
+                            '#ff5252'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                usePointStyle: true,
+                                color: '#8a8d99'
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+
+            // Refresh button for Categories
+            document.getElementById('refreshCategories').addEventListener('click', function() {
+                // Simulate data refresh with animation
+                categoriesChart.data.datasets[0].data = [
+                    Math.floor(Math.random() * 40) + 20,
+                    Math.floor(Math.random() * 30) + 15,
+                    Math.floor(Math.random() * 25) + 10,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 15) + 5
+                ];
+                categoriesChart.update();
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -6,43 +6,114 @@
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+     <link rel="stylesheet" href="/topbar/bar.css">
      <link rel="stylesheet" href="/admin/dashboard.css">
 </head>
 <body>
-<div class="sidebar">
-    <div class="sidebar-header">
-        <h3>Absolute Cinema</h3>
+
+    <!-- Theme Toggle -->
+<div class="theme-toggle">
+    <div class="dropdown">
+        <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <ul class="dropdown-menu theme-menu" aria-labelledby="themeToggle">
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="light"><i class="bi bi-sun-fill"></i>Light</button></li>
+            <li><button class="dropdown-item theme-item active" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i>Dark</button></li>
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i>Auto</button></li>
+        </ul>
     </div>
-    <ul class="sidebar-menu">
-        <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="#"><i class="fas fa-film"></i> Movies</a></li>
-        <li><a href="#"><i class="fas fa-ticket-alt"></i> Bookings</a></li>
-        <li><a href="#"><i class="fas fa-hamburger"></i> Snacks</a></li>
-        <li><a href="#"><i class="fas fa-star"></i> Loyalty Program</a></li>
-        <li><a href="#"><i class="fas fa-comment"></i> Feedback</a></li>
-        <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
-        <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
-        <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-    </ul>
 </div>
 
-<div class="main-content">
-    <div class="topbar">
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search...">
+<!-- Navigation -->
+<div class="nav-container">
+    <div class="container py-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="logo-text m-0">Absolute Cinema</h1>
+            <div class="search-container">
+                <i class="bi bi-search search-icon"></i>
+                <input id="searchInput" type="search" class="form-control" placeholder="Search movies..." aria-label="Search" autocomplete="off">
+                <div id="filterDropdown" class="filter-dropdown dropdown-menu shadow" style="display: none;">
+                    <div class="filter-section">
+                        <div class="filter-section-title" onclick="toggleFilterSection('genre')">
+                            Genre <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="genreOptions" class="filter-options">
+                            <div class="filter-option">Action</div>
+                            <div class="filter-option">Adventure</div>
+                            <div class="filter-option">Animation</div>
+                            <div class="filter-option">Comedy</div>
+                            <div class="filter-option">Crime</div>
+                            <div class="filter-option">Documentary</div>
+                            <div class="filter-option">Drama</div>
+                            <div class="filter-option">Family</div>
+                            <div class="filter-option">Fantasy</div>
+                            <div class="filter-option">History</div>
+                            <div class="filter-option">Horror</div>
+                            <div class="filter-option">Music</div>
+                            <div class="filter-option">Mystery</div>
+                            <div class="filter-option">Romance</div>
+                            <div class="filter-option">Science Fiction</div>
+                            <div class="filter-option">Thriller</div>
+                            <div class="filter-option">War</div>
+                            <div class="filter-option">Western</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-section-title" onclick="toggleFilterSection('year')">
+                            Release Year <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="yearOptions" class="filter-options">
+                            <div class="filter-option">2025</div>
+                            <div class="filter-option">2024</div>
+                            <div class="filter-option">2023</div>
+                            <div class="filter-option">2022</div>
+                            <div class="filter-option">2021</div>
+                            <div class="filter-option">2020</div>
+                            <div class="filter-option">2019</div>
+                            <div class="filter-option">2018</div>
+                            <div class="filter-option">2017</div>
+                            <div class="filter-option">2016</div>
+                            <div class="filter-option">2015</div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-section-title" onclick="toggleFilterSection('rating')">
+                            Top Rated <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="ratingOptions" class="filter-options">
+                            <div class="filter-option">9+ Rating</div>
+                            <div class="filter-option">8+ Rating</div>
+                            <div class="filter-option">7+ Rating</div>
+                            <div class="filter-option">6+ Rating</div>
+                            <div class="filter-option">5+ Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="user-dropdown">
-            <img src="/api/placeholder/35/35" alt="Admin">
-            <span>Admin User</span>
-            <i class="fas fa-chevron-down ms-2"></i>
+
+        <div class="d-flex flex-wrap align-items-center mt-3">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+                <li><a href="/" class="nav-link px-2">Home</a></li>
+                <li><a href="/movies" class="nav-link px-2">Movies</a></li>
+                <li><a href="/bookings" class="nav-link px-2">Bookings</a></li>
+                <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
+                <li><a href="/loyalty" class="nav-link px-2">Loyalty Program</a></li>
+                <li><a href="/feedback" class="nav-link px-2">Feedback</a></li>
+                <li><a href="/contact" class="nav-link px-2">Contact</a></li>
+            </ul>
         </div>
     </div>
+</div>
 
     <div class="page-header">
         <h2>Dashboard Overview</h2>
-        <p class="text-light">Welcome back! Here's what's happening with your cinema today</p>
+        <p class="text--dark">Welcome back! Here's what's happening with your cinema today...</p>
     </div>
 
     <div class="dashboard-stats">
@@ -207,7 +278,7 @@
             </div>
         </a>
 
-        <a href="#" class="quick-link-card">
+        <a href="/admin/analytics" class="quick-link-card">
             <div class="card-body">
                 <div class="icon"><i class="fas fa-chart-line"></i></div>
                 <div class="card-content">
@@ -239,6 +310,7 @@
     </div>
 </div>
 
+<script src="/topbar/bar.js"></script>
 <script>
     // Revenue Chart
     const revenueCtx = document.getElementById('revenueChart').getContext('2d');
@@ -385,5 +457,9 @@ const demographicsChart = new Chart(demographicsCtx, {
         cutout: '60%'
     }
 });
+
+
+
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
