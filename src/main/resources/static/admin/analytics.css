@@ -39,7 +39,6 @@ body {
     min-height: 100vh;
 }
 
-
 /* Main Content */
 .main-content {
     margin-left: 250px;
@@ -128,7 +127,7 @@ body {
     box-shadow: var(--card-shadow);
     padding: 20px;
     border: 1px solid var(--border-color);
-    height: 350px;
+    height: 500px;
     display: flex;
     flex-direction: column;
 }
@@ -139,7 +138,7 @@ body {
     box-shadow: var(--card-shadow);
     padding: 20px;
     border: 1px solid var(--border-color);
-    height: 380px;
+    height: 440px;
     display: flex;
     flex-direction: column;
 }
@@ -167,179 +166,55 @@ body {
     position: relative;
 }
 
-/* Feedback Section */
-.feedback-container {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    padding: 20px;
-    margin-bottom: 30px;
-    border: 1px solid var(--border-color);
+/* Top movies list */
+.top-movies-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.feedback-header {
+.top-movies-list li {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
+    padding: 10px 0;
     border-bottom: 1px solid var(--border-color);
 }
 
-.feedback-scrollable {
-    max-height: 300px;
-    overflow-y: auto;
+.top-movies-list li:last-child {
+    border-bottom: none;
 }
 
-.feedback-item {
-    padding: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    transition: background-color 0.2s;
-}
-
-.feedback-item:hover {
-    background-color: rgba(114, 46, 209, 0.1);
-}
-
-.feedback-item .movie-title {
-    font-weight: 600;
-    color: var(--primary);
-    font-size: 14px;
-}
-
-.feedback-item .feedback-text {
-    margin: 5px 0;
-    color: var(--text-light);
-}
-
-/* Quick Links */
-.quick-links {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.quick-link-card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    transition: all 0.3s ease;
-    text-decoration: none;
-    color: var(--text-light);
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
-
-.quick-link-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(114, 46, 209, 0.2);
-}
-
-.quick-link-card .card-body {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-}
-
-.quick-link-card .icon {
-    height: 50px;
-    width: 50px;
+.top-movies-list .movie-rank {
+    width: 30px;
+    height: 30px;
+    background: var(--primary-gradient);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-weight: bold;
     margin-right: 15px;
     color: white;
-    background: var(--primary-gradient);
-    box-shadow: 0 5px 15px rgba(114, 46, 209, 0.3);
 }
 
-.quick-link-card .card-content {
+.top-movies-list .movie-info {
     flex-grow: 1;
 }
 
-.quick-link-card .card-title {
+.top-movies-list .movie-title {
     font-weight: 600;
+    color: var(--text-light);
     margin-bottom: 5px;
 }
 
-.quick-link-card .card-text {
-    font-size: 14px;
+.top-movies-list .movie-stats {
+    font-size: 12px;
     color: var(--text-dimmed);
 }
 
-/* Topbar */
-.topbar {
-    background-color: var(--dark-bg);
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    position: sticky;
-    top: 0;
-    z-index: 999;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.user-dropdown {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 8px 15px;
-    border-radius: 30px;
-    background-color: var(--card-bg);
-    transition: all 0.3s;
-    border: 1px solid var(--border-color);
-}
-
-.user-dropdown:hover {
-    background-color: rgba(114, 46, 209, 0.1);
-}
-
-.user-dropdown img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    margin-right: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.search-box {
-    position: relative;
-    width: 300px;
-}
-
-.search-box input {
-    width: 100%;
-    padding: 15px 20px 15px 50px;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    background-color: var(--card-bg);
-    outline: none;
-    transition: all 0.3s;
-    color: var(--text-light);
-    font-size: 16px;
-}
-
-.search-box i {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-dimmed);
-}
-
-.search-box input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 2px rgba(114, 46, 209, 0.2);
-}
-
-.search-box input:focus + i {
-    color: var(--primary);
+.top-movies-list .movie-revenue {
+    font-weight: 600;
+    color: var(--secondary);
 }
 
 .btn-custom {
@@ -378,6 +253,93 @@ body {
     color: var(--primary);
 }
 
+/* Popular snacks list */
+.popular-snacks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popular-snacks-list li {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.popular-snacks-list li:last-child {
+    border-bottom: none;
+}
+
+.popular-snacks-list .snack-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(114, 46, 209, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--primary);
+    font-size: 18px;
+}
+
+.popular-snacks-list .snack-info {
+    flex-grow: 1;
+}
+
+.popular-snacks-list .snack-name {
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.popular-snacks-list .snack-stats {
+    font-size: 12px;
+    color: var(--text-dimmed);
+}
+
+.popular-snacks-list .snack-quantity {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Demographics pill labels */
+.demo-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+.demo-pill.age-13-17 {
+    background-color: rgba(114, 46, 209, 0.2);
+    color: #9d6fe7;
+}
+
+.demo-pill.age-18-24 {
+    background-color: rgba(22, 119, 255, 0.2);
+    color: #5299ff;
+}
+
+.demo-pill.age-25-34 {
+    background-color: rgba(0, 210, 190, 0.2);
+    color: #2be0c8;
+}
+
+.demo-pill.age-35-44 {
+    background-color: rgba(250, 173, 20, 0.2);
+    color: #ffc547;
+}
+
+.demo-pill.age-45-plus {
+    background-color: rgba(245, 106, 76, 0.2);
+    color: #ff8562;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .sidebar {
@@ -410,5 +372,4 @@ body {
     .search-box {
         width: 200px;
     }
-
 }

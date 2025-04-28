@@ -42,7 +42,6 @@ body {
 
 /* Main Content */
 .main-content {
-    margin-left: 250px;
     padding: 30px;
 }
 
@@ -128,7 +127,7 @@ body {
     box-shadow: var(--card-shadow);
     padding: 20px;
     border: 1px solid var(--border-color);
-    height: 350px;
+    height: 400px;
     display: flex;
     flex-direction: column;
 }
@@ -139,7 +138,7 @@ body {
     box-shadow: var(--card-shadow);
     padding: 20px;
     border: 1px solid var(--border-color);
-    height: 380px;
+    height: 400px;
     display: flex;
     flex-direction: column;
 }
@@ -378,6 +377,291 @@ body {
     color: var(--primary);
 }
 
+/* Filter Container Styles */
+.filter-container {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Filter Dropdown Styles */
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-btn {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 8px 15px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.filter-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 5px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    min-width: 180px;
+    z-index: 100;
+    display: none;
+}
+
+.filter-menu.show {
+    display: block;
+}
+
+.filter-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    color: var(--text-muted);
+}
+
+.filter-item:hover {
+    background-color: rgba(114, 46, 209, 0.1);
+    color: var(--text-light);
+}
+
+.filter-item.active {
+    background-color: rgba(114, 46, 209, 0.15);
+    color: var(--primary);
+    font-weight: 500;
+}
+
+/* Feedback Meta Styles */
+.feedback-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 13px;
+    color: var(--text-dimmed);
+}
+
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.stars {
+    color: #ffb74d;
+    letter-spacing: 2px;
+}
+
+.user-info {
+    font-style: italic;
+}
+
+/* Feedback Actions */
+.feedback-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Badges */
+.badge {
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.badge-positive {
+    background-color: rgba(54, 209, 183, 0.15);
+    color: #36d1b7;
+}
+
+.badge-negative {
+    background-color: rgba(255, 82, 82, 0.15);
+    color: #ff5252;
+}
+
+.badge-neutral {
+    background-color: rgba(255, 183, 77, 0.15);
+    color: #ffb74d;
+}
+
+/* Custom Pagination */
+.custom-pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    gap: 5px;
+}
+
+.page-item {
+    display: inline-block;
+}
+
+.page-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.page-item.active .page-link {
+    background: var(--primary-gradient);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 8px rgba(114, 46, 209, 0.3);
+}
+
+.page-item.disabled .page-link {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.page-link:hover:not(.active) {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* Custom Modal Styling */
+.custom-modal .modal-content {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-light);
+}
+
+.custom-modal .modal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 20px;
+}
+
+.custom-modal .modal-footer {
+    border-top: 1px solid var(--border-color);
+    padding: 15px 20px;
+}
+
+.custom-modal .btn-close {
+    color: var(--text-light);
+    opacity: 0.8;
+}
+
+.custom-modal .form-control,
+.custom-modal .form-select {
+    background-color: var(--darker-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-light);
+}
+
+.custom-modal .form-control:focus,
+.custom-modal .form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(114, 46, 209, 0.2);
+}
+
+.custom-modal .form-check-input {
+    background-color: var(--darker-bg);
+    border: 1px solid var(--border-color);
+}
+
+.custom-modal .form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* Form switch */
+.form-switch {
+    padding-left: 2.5em;
+}
+
+.form-check-input {
+    background-color: var(--darker-bg);
+    border-color: var(--border-color);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+/* Filter dropdown styling */
+#filterDropdown {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    width: 250px;
+    margin-top: 10px;
+    padding: 15px;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.filter-section-title {
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.filter-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.filter-option {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filter-option:hover {
+    background-color: rgba(114, 46, 209, 0.1);
+    color: var(--primary);
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .sidebar {
@@ -410,5 +694,6 @@ body {
     .search-box {
         width: 200px;
     }
+
 
 }
