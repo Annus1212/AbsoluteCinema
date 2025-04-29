@@ -1,0 +1,1094 @@
+    <!DOCTYPE html>
+    <html lang="en" data-bs-theme="dark">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Selection - Absolute Cinema</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        :root {
+        --bs-primary: #8a2be2;
+        --bs-primary-rgb: 138, 43, 226;
+        --bs-link-color: #b38aff;
+        --bs-link-hover-color: #d5b8ff;
+        --gradient-start: #8a2be2;
+        --gradient-end: #4169e1;
+        --accent-color: #00c9a7;
+        --card-bg: rgba(30, 30, 40, 0.6);
+        --card-hover: rgba(40, 40, 55, 0.8);
+        }
+
+        [data-bs-theme="light"] {
+        --bs-body-bg: #8a8b8b;
+        --bs-body-bg-rgb: 248, 249, 250;
+        --bs-text-color: #212529;
+        --card-bg: rgba(146, 142, 142, 0.8);
+        --card-hover: rgba(179, 175, 175, 0.95);
+        }
+
+        [data-bs-theme="dark"] {
+        --bs-body-bg: #0a0a12;
+        --bs-body-bg-rgb: 10, 10, 18;
+        --bs-text-color: #e9ecef;
+        }
+
+        body {
+        background-color: var(--bs-body-bg);
+        color: var(--bs-text-color);
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+        background-image: 
+            radial-gradient(circle at 100% 0%, rgba(var(--bs-primary-rgb), 0.15) 0%, transparent 25%),
+            radial-gradient(circle at 0% 100%, rgba(65, 105, 225, 0.15) 0%, transparent 25%);
+        background-attachment: fixed;
+        }
+
+        /* Logo Styles */
+        .logo-text {
+        font-weight: 800;
+        font-size: 2rem;
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent !important;
+        letter-spacing: -0.5px;
+        position: relative;
+        }
+
+        .logo-text::after {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: var(--accent-color);
+        border-radius: 50%;
+        bottom: 8px;
+        right: -12px;
+        }
+
+        /* Navigation */
+        .nav-container {
+        background-color: rgba(var(--bs-body-bg-rgb), 0.8);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 0.5rem 0;
+        }
+
+        .nav-link {
+        font-weight: 500;
+        position: relative;
+        padding: 0.5rem 1rem;
+        margin: 0 0.2rem;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        }
+
+        .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+        width: 80%;
+        }
+
+        .nav-link:hover {
+        color: white !important;
+        background: rgba(var(--bs-primary-rgb), 0.1);
+        transform: translateY(-2px);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 1001;
+        }
+
+        .theme-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: rgba(var(--bs-body-bg-rgb), 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        cursor: pointer;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        color: white;
+        }
+
+        .theme-menu {
+        background: rgba(var(--bs-body-bg-rgb), 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        overflow: hidden;
+        }
+
+        .theme-item {
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all 0.2s ease;
+        }
+
+        .theme-item:hover {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        color: white !important;
+        }
+
+        .theme-item.active {
+        background: rgba(var(--bs-primary-rgb), 0.2);
+        }
+        
+        /* Section Title */
+        .section-title {
+        position: relative;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        display: inline-block;
+        }
+
+        .section-title::after {
+        content: '';
+        position: absolute;
+        width: 60%;
+        height: 4px;
+        bottom: -10px;
+        left: 0;
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        border-radius: 2px;
+        }
+        
+        /* Booking Progress */
+        .booking-progress {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 3rem;
+        position: relative;
+        }
+
+        .booking-progress::before {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.1);
+        z-index: -1;
+        }
+
+        .progress-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 50px;
+        z-index: 2;
+        }
+
+        .step-number {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        margin-bottom: 10px;
+        background: var(--card-bg);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        }
+
+        .step-name {
+        font-size: 0.9rem;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+        }
+
+        .progress-step.active .step-number {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        box-shadow: 0 0 15px rgba(var(--bs-primary-rgb), 0.5);
+        border-color: transparent;
+        }
+
+        .progress-step.active .step-name {
+        color: white;
+        font-weight: 600;
+        }
+
+        .progress-step.completed .step-number {
+        background: var(--accent-color);
+        color: #000;
+        border-color: transparent;
+        }
+
+        /* Screen */
+        .screen-container {
+        perspective: 1000px;
+        margin-bottom: 2rem;
+        }
+
+        .screen {
+        height: 100px;
+        background: linear-gradient(45deg, rgba(var(--bs-primary-rgb), 0.7), rgba(65, 105, 225, 0.7));
+        border-radius: 5px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        transform: rotateX(-25deg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 700;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 30px;
+        }
+
+        /* Seats */
+        .seat-map {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 2rem;
+        }
+
+        .seat-row {
+        display: flex;
+        margin-bottom: 10px;
+        }
+
+        .row-label {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        color: var(--accent-color);
+        margin-right: 10px;
+        }
+
+        .seat {
+        width: 30px;
+        height: 30px;
+        margin: 3px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        }
+
+        .seat:hover:not(.occupied) {
+        background: rgba(var(--bs-primary-rgb), 0.3);
+        transform: scale(1.1);
+        }
+
+        .seat.selected {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        border-color: transparent;
+        box-shadow: 0 0 10px rgba(var(--bs-primary-rgb), 0.5);
+        }
+
+        .seat.occupied {
+        background: rgba(255, 255, 255, 0.3);
+        cursor: not-allowed;
+        }
+
+        .seat.premium {
+        border: 1px solid var(--accent-color);
+        }
+
+        .seat.premium.selected {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        border-color: transparent;
+        }
+
+
+        #selectedSeatsContainer {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            /* Optional scrollbar styling for webkit browsers */
+            scrollbar-width: thin;
+        }
+        
+        #selectedSeatsContainer::-webkit-scrollbar {
+            width: 6px;
+        
+            
+        }
+        
+        #selectedSeatsContainer::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        
+        #selectedSeatsContainer::-webkit-scrollbar-thumb {
+            background: rgba(var(--bs-primary-rgb), 0.5);
+            border-radius: 3px;
+        }
+        
+        .selected-seats {
+            padding: 0;
+            list-style: none;
+            margin-bottom: 0;
+        }
+        .seat-gap {
+        width: 30px;
+        height: 30px;
+        margin: 3px;
+        visibility: hidden;
+        }
+
+        /* Seat Legend */
+        .seat-legend {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        }
+
+        .legend-item {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+        }
+
+        .legend-box {
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+        margin-right: 8px;
+        }
+
+        .seat-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+    padding: 15px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .legend-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+  }
+
+  .legend-box {
+    width: 24px;
+    height: 24px;
+    border-radius: 5px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .legend-available {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .legend-selected {
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    box-shadow: 0 0 10px rgba(var(--bs-primary-rgb), 0.3);
+  }
+
+  .legend-occupied {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .legend-premium {
+    border: 2px solid var(--accent-color);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .legend-label {
+    font-weight: 500;
+  }
+        .legend-available {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .legend-selected {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        }
+
+        .legend-occupied {
+        background: rgba(255, 255, 255, 0.3);
+        }
+
+        .legend-premium {
+        border: 1px solid var(--accent-color);
+        background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Seat Info Panel */
+        .seat-info-panel {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+
+        .selected-seat-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .seat-price {
+        font-weight: 700;
+        color: var(--accent-color);
+        }
+
+        .total-price {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 0;
+        margin-top: 15px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 1.2rem;
+        font-weight: 700;
+        }
+
+        .total-price-value {
+        color: var(--accent-color);
+        }
+
+        .continue-btn {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        color: white;
+        border: none;
+        border-radius: 30px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+        letter-spacing: 1px;
+        width: 100%;
+        margin-top: 20px;
+        }
+
+        .continue-btn:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(138, 43, 226, 0.6);
+        }
+
+        /* Footer */
+        .footer {
+        background: rgba(var(--bs-body-bg-rgb), 0.9);
+        backdrop-filter: blur(10px);
+        padding: 3rem 0 1.5rem;
+        margin-top: 4rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-title {
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        }
+
+        .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        }
+
+        .footer-links li {
+        margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+        color: var(--bs-text-color);
+        opacity: 0.7;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+        opacity: 1;
+        color: var(--bs-primary);
+        transform: translateX(5px);
+        }
+
+        .social-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        }
+
+        .social-link {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+        background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        color: white;
+        transform: translateY(-5px);
+        }
+
+        .copyright {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        text-align: center;
+        font-size: 0.9rem;
+        opacity: 0.7;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fadeIn {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+        .delay-3 { transition-delay: 0.6s; }
+        .delay-4 { transition-delay: 0.8s; }
+
+        .movie-info-box {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 2rem;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .movie-info-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #fff, #d5b8ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 10px;
+        }
+
+        .movie-info-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        }
+
+        .movie-info-item i {
+        margin-right: 10px;
+        color: var(--accent-color);
+        }
+    </style>
+    </head>
+
+    <body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <div class="dropdown">
+        <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <ul class="dropdown-menu theme-menu" aria-labelledby="themeToggle">
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="light"><i class="bi bi-sun-fill"></i> Light</button></li>
+            <li><button class="dropdown-item theme-item active" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i> Dark</button></li>
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i> Auto</button></li>
+        </ul>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="container py-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="logo-text m-0">Absolute Cinema</h1>
+            <div class="search-container">
+            <i class="bi bi-search search-icon"></i>
+            <input id="searchInput" type="search" class="form-control" placeholder="Search movies..." aria-label="Search" autocomplete="off" style="width: 300px;position: absolute;top: 20px;right:180px">
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center mt-3">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+            <li><a href="/" class="nav-link px-2">Home</a></li>
+            <li><a href="/movies" class="nav-link px-2">Movies</a></li>
+            <li><a href="/bookings" class="nav-link px-2">Bookings</a></li>
+            <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
+            <li><a href="/loyalty" class="nav-link px-2">Loyalty Program</a></li>
+            <li><a href="/feedback" class="nav-link px-2">Feedback</a></li>
+            <li><a href="/contact" class="nav-link px-2">Contact</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h2 class="section-title mt-4">Seat Selection</h2>
+        
+        <!-- Booking Progress -->
+        <div class="booking-progress fadeIn">
+        <div class="progress-step completed">
+            <div class="step-number">1</div>
+            <div class="step-name">Movie</div>
+        </div>
+        <div class="progress-step completed">
+            <div class="step-number">2</div>
+            <div class="step-name">Ticket</div>
+        </div>
+        <div class="progress-step active">
+            <div class="step-number">3</div>
+            <div class="step-name">Seats</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-number">4</div>
+            <div class="step-name">Snacks</div>
+        </div>
+        <div class="progress-step">
+            <div class="step-number">5</div>
+            <div class="step-name">Payment</div>
+        </div>
+        </div>
+
+        <div class="row">
+        <div class="col-lg-4 mb-4">
+            <!-- Movie Info Box -->
+            <div class="movie-info-box fadeIn">
+            <h3 class="movie-info-title">Cosmic Odyssey</h3>
+            <div class="movie-info-item">
+                <i class="bi bi-calendar3"></i>
+                <span>Today (Apr 28, 2025)</span>
+            </div>
+            <div class="movie-info-item">
+                <i class="bi bi-clock"></i>
+                <span>7:30 PM</span>
+            </div>
+            <div class="movie-info-item">
+                <i class="bi bi-ticket-perforated"></i>
+                <span>Gold (PKR 1500)</span>
+            </div>
+            <div class="movie-info-item">
+                <i class="bi bi-film"></i>
+                <span>Hall 3, Screen 2</span>
+            </div>
+            </div>
+            
+            <!-- Seat Info Panel -->
+            <div class="seat-info-panel fadeIn delay-1">
+            <h4 class="mb-4">Selected Seats</h4>
+            <div id="selectedSeatsContainer">
+                <p class="text-center text-muted">No seats selected yet</p>
+            </div>
+            <div class="total-price">
+                <span>Total</span>
+                <span class="total-price-value">PKR 0</span>
+            </div>
+            <button class="continue-btn" id="continueBtn" disabled>Continue to Snacks</button>
+            </div>
+        </div>
+        
+        <div class="col-lg-8">
+            <!-- Seat Legend -->
+            <div class="seat-legend fadeIn">
+            <div class="legend-item">
+                <div class="legend-box legend-available"></div>
+                <span>Available</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box legend-selected"></div>
+                <span>Selected</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box legend-occupied"></div>
+                <span>Occupied</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box legend-premium"></div>
+                <span>Premium</span>
+            </div>
+            </div>
+            
+            <!-- Screen -->
+            <div class="screen-container fadeIn delay-1">
+            <div class="screen">Screen</div>
+            </div>
+            
+            <!-- Seat Map -->
+            <div class="seat-map fadeIn delay-2">
+            <!-- Row A -->
+            <div class="seat-row">
+                <div class="row-label">A</div>
+                <div class="seat premium" data-row="A" data-seat="1" style="text-align: center;">1</div>
+                <div class="seat premium" data-row="A" data-seat="2" style="text-align: center;">2</div>
+                <div class="seat premium" data-row="A" data-seat="3" style="text-align: center;">3</div>
+                <div class="seat premium" data-row="A" data-seat="4" style="text-align: center;">4</div>
+                <div class="seat-gap"></div>
+                <div class="seat premium" data-row="A" data-seat="5" style="text-align: center;">5</div>
+                <div class="seat premium" data-row="A" data-seat="6" style="text-align: center;">6</div>
+                <div class="seat premium occupied" data-row="A" data-seat="7" style="text-align: center;">7</div>
+                <div class="seat premium occupied" data-row="A" data-seat="8" style="text-align: center;">8</div>
+                <div class="seat-gap"></div>
+                <div class="seat premium" data-row="A" data-seat="9" style="text-align: center;">9</div>
+                <div class="seat premium" data-row="A" data-seat="10" style="text-align: center;">10</div>
+                <div class="seat premium" data-row="A" data-seat="11" style="text-align: center;">11</div>
+                <div class="seat premium" data-row="A" data-seat="12" style="text-align: center;">12</div>
+            </div>
+            
+            <!-- Row B -->
+            <div class="seat-row">
+                <div class="row-label">B</div>
+                <div class="seat premium" data-row="B" data-seat="1" style="text-align: center;">1</div>
+                <div class="seat premium" data-row="B" data-seat="2" style="text-align: center;">2</div>
+                <div class="seat premium occupied" data-row="B" data-seat="3" style="text-align: center;">3</div>
+                <div class="seat premium" data-row="B" data-seat="4" style="text-align: center;">4</div>
+                <div class="seat-gap"></div>
+                <div class="seat premium" data-row="B" data-seat="5" style="text-align: center;">5</div>
+                <div class="seat premium" data-row="B" data-seat="6" style="text-align: center;">6</div>
+                <div class="seat premium" data-row="B" data-seat="7" style="text-align: center;">7</div>
+                <div class="seat premium" data-row="B" data-seat="8" style="text-align: center;">8</div>
+                <div class="seat-gap"></div>
+                <div class="seat premium" data-row="B" data-seat="9" style="text-align: center;">9</div>
+                <div class="seat premium occupied" data-row="B" data-seat="10" style="text-align: center;">10</div>
+                <div class="seat premium" data-row="B" data-seat="11" style="text-align: center;">11</div>
+                <div class="seat premium" data-row="B" data-seat="12" style="text-align: center;">12</div>
+            </div>
+            
+            <!-- Row C -->
+            <div class="seat-row">
+                <div class="row-label">C</div>
+                <div class="seat" data-row="C" data-seat="1" style="text-align: center;">1</div>
+                <div class="seat" data-row="C" data-seat="2" style="text-align: center;">2</div>
+                <div class="seat" data-row="C" data-seat="3" style="text-align: center;">3</div>
+                <div class="seat" data-row="C" data-seat="4" style="text-align: center;">4</div>
+                <div class="seat-gap"></div>
+                <div class="seat" data-row="C" data-seat="5" style="text-align: center;">5</div>
+                <div class="seat occupied" data-row="C" data-seat="6" style="text-align: center;">6</div>
+                <div class="seat occupied" data-row="C" data-seat="7" style="text-align: center;">7</div>
+                <div class="seat" data-row="C" data-seat="8" style="text-align: center;">8</div>
+                <div class="seat-gap"></div>
+                <div class="seat" data-row="C" data-seat="9" style="text-align: center;">9</div>
+                <div class="seat" data-row="C" data-seat="10" style="text-align: center;">10</div>
+                <div class="seat" data-row="C" data-seat="11" style="text-align: center;">11</div>
+                <div class="seat" data-row="C" data-seat="12" style="text-align: center;">12</div>
+            </div>
+            
+            <!-- Row D -->
+            <div class="seat-row">
+                <div class="row-label">D</div>
+                <div class="seat" data-row="D" data-seat="1" style="text-align: center;">1</div>
+                <div class="seat" data-row="D" data-seat="2" style="text-align: center;">2</div>
+                <div class="seat occupied" data-row="D" data-seat="3" style="text-align: center;">3</div>
+                <div class="seat occupied" data-row="D" data-seat="4" style="text-align: center;">4</div>
+                <div class="seat-gap"></div>
+                <div class="seat" data-row="D" data-seat="5" style="text-align: center;">5</div>
+                <div class="seat" data-row="D" data-seat="6" style="text-align: center;">6</div>
+                <div class="seat" data-row="D" data-seat="7" style="text-align: center;">7</div>
+                <div class="seat" data-row="D" data-seat="8" style="text-align: center;">8</div>
+                <div class="seat-gap"></div>
+                <div class="seat occupied" data-row="D" data-seat="9" style="text-align: center;">9</div>
+                <div class="seat occupied" data-row="D" data-seat="10" style="text-align: center;">10</div>
+                <div class="seat" data-row="D" data-seat="11" style="text-align: center;">11</div>
+                <div class="seat" data-row="D" data-seat="12" style="text-align: center;">12</div>
+            </div>
+            
+            <!-- Row E -->
+            <div class="seat-row">
+                <div class="row-label">E</div>
+                <div class="seat" data-row="E" data-seat="1" style="text-align: center;">1</div>
+                <div class="seat" data-row="E" data-seat="2" style="text-align: center;">2</div>
+                <div class="seat" data-row="E" data-seat="3" style="text-align: center;">3</div>
+                <div class="seat" data-row="E" data-seat="4" style="text-align: center;">4</div>
+                <div class="seat-gap"></div>
+                <div class="seat" data-row="E" data-seat="5" style="text-align: center;">5</div>
+                <div class="seat" data-row="E" data-seat="6" style="text-align: center;">6</div>
+                <div class="seat" data-row="E" data-seat="7" style="text-align: center;">7</div>
+                <div class="seat" data-row="E" data-seat="8" style="text-align: center;">8</div>
+                <div class="seat-gap"></div>
+                <div class="seat" data-row="E" data-seat="9" style="text-align: center;">9</div>
+                <div class="seat" data-row="E" data-seat="10" style="text-align: center;">10</div>
+                <div class="seat" data-row="E" data-seat="11" style="text-align: center;">11</div>
+                <div class="seat" data-row="E" data-seat="12" style="text-align: center;">12</div>
+            </div>
+            
+            <!-- Row F -->
+             <!-- Row F -->
+          <div class="seat-row">
+            <div class="row-label">F</div>
+            <div class="seat" data-row="F" data-seat="1" style="text-align: center;">1</div>
+            <div class="seat" data-row="F" data-seat="2" style="text-align: center;">2</div>
+            <div class="seat occupied" data-row="F" data-seat="3" style="text-align: center;">3</div>
+            <div class="seat" data-row="F" data-seat="4" style="text-align: center;">4</div>
+            <div class="seat-gap"></div>
+            <div class="seat" data-row="F" data-seat="5" style="text-align: center;">5</div>
+            <div class="seat" data-row="F" data-seat="6" style="text-align: center;">6</div>
+            <div class="seat" data-row="F" data-seat="7" style="text-align: center;">7</div>
+            <div class="seat" data-row="F" data-seat="8" style="text-align: center;">8</div>
+            <div class="seat-gap"></div>
+            <div class="seat" data-row="F" data-seat="9" style="text-align: center;">9</div>
+            <div class="seat occupied" data-row="F" data-seat="10" style="text-align: center;">10</div>
+            <div class="seat" data-row="F" data-seat="11" style="text-align: center;">11</div>
+            <div class="seat" data-row="F" data-seat="12" style="text-align: center;">12</div>
+          </div>
+          
+          <!-- Row G -->
+          <div class="seat-row">
+            <div class="row-label">G</div>
+            <div class="seat" data-row="G" data-seat="1" style="text-align: center;">1</div>
+            <div class="seat" data-row="G" data-seat="2" style="text-align: center;">2</div>
+            <div class="seat" data-row="G" data-seat="3" style="text-align: center;">3</div>
+            <div class="seat" data-row="G" data-seat="4" style="text-align: center;">4</div>
+            <div class="seat-gap"></div>
+            <div class="seat occupied" data-row="G" data-seat="5" style="text-align: center;">5</div>
+            <div class="seat occupied" data-row="G" data-seat="6" style="text-align: center;">6</div>
+            <div class="seat" data-row="G" data-seat="7" style="text-align: center;">7</div>
+            <div class="seat" data-row="G" data-seat="8" style="text-align: center;">8</div>
+            <div class="seat-gap"></div>
+            <div class="seat" data-row="G" data-seat="9" style="text-align: center;">9</div>
+            <div class="seat" data-row="G" data-seat="10" style="text-align: center;">10</div>
+            <div class="seat" data-row="G" data-seat="11" style="text-align: center;">11</div>
+            <div class="seat" data-row="G" data-seat="12" style="text-align: center;">12</div>
+          </div>
+          
+          <!-- Row H -->
+          <div class="seat-row">
+            <div class="row-label">H</div>
+            <div class="seat" data-row="H" data-seat="1" style="text-align: center;">1</div>
+            <div class="seat" data-row="H" data-seat="2" style="text-align: center;">2</div>
+            <div class="seat" data-row="H" data-seat="3" style="text-align: center;">3</div>
+            <div class="seat" data-row="H" data-seat="4" style="text-align: center;">4</div>
+            <div class="seat-gap"></div>
+            <div class="seat" data-row="H" data-seat="5" style="text-align: center;">5</div>
+            <div class="seat" data-row="H" data-seat="6" style="text-align: center;">6</div>
+            <div class="seat" data-row="H" data-seat="7" style="text-align: center;">7</div>
+            <div class="seat" data-row="H" data-seat="8" style="text-align: center;">8</div>
+            <div class="seat-gap"></div>
+            <div class="seat" data-row="H" data-seat="9" style="text-align: center;">9</div>
+            <div class="seat" data-row="H" data-seat="10" style="text-align: center;">10</div>
+            <div class="seat occupied" data-row="H" data-seat="11" style="text-align: center;">11</div>
+            <div class="seat occupied" data-row="H" data-seat="12" style="text-align: center;">12</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h4 class="footer-title">Absolute Cinema</h4>
+          <p class="mb-4">Experience movies like never before with our state-of-the-art technology and premium comfort.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h4 class="footer-title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#">Now Showing</a></li>
+            <li><a href="#">Coming Soon</a></li>
+            <li><a href="#">Cinema Locations</a></li>
+            <li><a href="#">Gift Cards</a></li>
+            <li><a href="#">Promotions</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h4 class="footer-title">Information</h4>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Corporate Events</a></li>
+            <li><a href="#">Corporate Packages</a></li>
+            <li><a href="#">Career</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3 col-md-6 mb-4">
+          <h4 class="footer-title">Contact Us</h4>
+          <ul class="footer-links">
+            <li><i class="bi bi-geo-alt me-2"></i> 123 Cinema Street, Karachi</li>
+            <li><i class="bi bi-telephone me-2"></i> (021) 1234-5678</li>
+            <li><i class="bi bi-envelope me-2"></i> info@absolutecinema.com</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2025 Absolute Cinema. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animation on scroll
+      const fadeElems = document.querySelectorAll('.fadeIn');
+      fadeElems.forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      });
+      
+      // Theme toggler
+      const themeTogglers = document.querySelectorAll('.theme-item');
+      themeTogglers.forEach(toggler => {
+        toggler.addEventListener('click', () => {
+          const theme = toggler.getAttribute('data-bs-theme-value');
+          document.documentElement.setAttribute('data-bs-theme', theme);
+          
+          // Update active class
+          themeTogglers.forEach(t => t.classList.remove('active'));
+          toggler.classList.add('active');
+          
+          // Update icon
+          const icon = document.querySelector('#themeToggle i');
+          if (theme === 'light') {
+            icon.className = 'bi bi-sun-fill';
+          } else if (theme === 'dark') {
+            icon.className = 'bi bi-moon-stars-fill';
+          } else {
+            icon.className = 'bi bi-circle-half';
+          }
+        });
+      });
+      
+      // Seat selection functionality
+      const seats = document.querySelectorAll('.seat:not(.occupied)');
+      const selectedSeatsContainer = document.getElementById('selectedSeatsContainer');
+      const continueBtn = document.getElementById('continueBtn');
+      const totalPriceElement = document.querySelector('.total-price-value');
+      
+      let selectedSeats = [];
+      const regularPrice = 1500;
+      const premiumPrice = 2000;
+      
+      seats.forEach(seat => {
+        seat.addEventListener('click', () => {
+          seat.classList.toggle('selected');
+          
+          const row = seat.getAttribute('data-row');
+          const seatNum = seat.getAttribute('data-seat');
+          const isPremium = seat.classList.contains('premium');
+          const seatInfo = {
+            row: row,
+            seat: seatNum,
+            premium: isPremium,
+            price: isPremium ? premiumPrice : regularPrice
+          };
+          
+          if (seat.classList.contains('selected')) {
+            selectedSeats.push(seatInfo);
+          } else {
+            selectedSeats = selectedSeats.filter(s => !(s.row === row && s.seat === seatNum));
+          }
+          
+          updateSelectedSeatsUI();
+        });
+      });
+      
+      function updateSelectedSeatsUI() {
+        if (selectedSeats.length === 0) {
+          selectedSeatsContainer.innerHTML = '<p class="text-center text-muted">No seats selected yet</p>';
+          continueBtn.disabled = true;
+        } else {
+          selectedSeatsContainer.innerHTML = '<ul class="selected-seats"></ul>';
+          const selectedSeatsList = selectedSeatsContainer.querySelector('.selected-seats');
+          
+          let totalPrice = 0;
+          
+          selectedSeats.forEach(seat => {
+            const li = document.createElement('li');
+            li.className = 'selected-seat-item';
+            
+            const seatLabel = document.createElement('span');
+            seatLabel.textContent = `${seat.row}${seat.seat} ${seat.premium ? '(Premium)' : ''}`;
+            
+            const seatPrice = document.createElement('span');
+            seatPrice.className = 'seat-price';
+            seatPrice.textContent = `PKR ${seat.price}`;
+            
+            li.appendChild(seatLabel);
+            li.appendChild(seatPrice);
+            selectedSeatsList.appendChild(li);
+            
+            totalPrice += seat.price;
+          });
+          
+          totalPriceElement.textContent = `PKR ${totalPrice}`;
+          continueBtn.disabled = false;
+        }
+      }
+      
+      // Continue button functionality
+      continueBtn.addEventListener('click', () => {
+        alert('Redirecting to snacks selection...');
+        // In a real application, you would redirect or proceed to the next step
+        // window.location.href = '/snacks';
+      });
+    });
+  </script>
+</body>
+</html>
