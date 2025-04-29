@@ -46,6 +46,16 @@ public class AdminController {
     public String manageloyalty() {
         return "admin/manageloyalty";
     }
+
+    @GetMapping("/admin/manageproduct")
+    public String manageproduct() {
+        return "admin/manageproduct";
+    }
+
+    @GetMapping("/admin/managebooking")
+    public String managebooking() {
+        return "admin/managebooking";
+    }
 }
 
 
