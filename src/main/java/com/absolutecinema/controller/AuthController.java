@@ -5,6 +5,9 @@ import com.absolutecinema.repository.UserRepository;
 import com.absolutecinema.service.AnalyticsService;
 import com.absolutecinema.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +36,14 @@ public class AuthController {
 
     @GetMapping("/auth/login")
     public String login() {
-        return "auth/signin";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "auth/signin";
+        }
+        if (((User)authentication.getPrincipal()).getUsername().equals("admin")) {
+            return "redirect:/admin/dashboard"; // Redirect to the dashboard if already authenticated
+        }
+            return "redirect:/user/dashboard"; // Show login page if not authenticated
     }
 
     // @PostMapping("/auth/login")

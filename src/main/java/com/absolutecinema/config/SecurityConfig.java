@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher; // Added import
 import com.absolutecinema.controller.CustomLoginSuccessHandler;
 import com.absolutecinema.entity.User;
 import com.absolutecinema.repository.UserRepository;
@@ -53,13 +54,16 @@ public class SecurityConfig {
                 //     response.sendRedirect("/login?error=true");
                 // })
                 // .defaultSuccessUrl("/auth/dashboard", true)
-                .successHandler(new CustomLoginSuccessHandler())
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutUrl("/logout")
+                // Allow GET requests for logout for simplicity, although POST is recommended for CSRF protection.
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) 
                 .logoutSuccessUrl("/auth/login")
-                .permitAll());
+                .invalidateHttpSession(true) // Default is true
+                .deleteCookies("JSESSIONID") // Default is true
+                .permitAll()
+            );
 
         return http.build();
     }
