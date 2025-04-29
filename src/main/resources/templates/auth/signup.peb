@@ -306,6 +306,9 @@
             <input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}" />
             <div class="logo">ABSOLUTE CINEMA</div>
             <br>
+            {% if error %}
+                <div class="error-message" style="color: red;">{{ error }}</div>
+            {% endif %}
             <div class="form-group">
                 <input type="text" name="username" id="username" class="form-control" placeholder="Username">
                 <i class="fas fa-user form-icon"></i>
@@ -359,7 +362,7 @@
             }
 
             // Optional: You can add more validation here if needed (e.g., password strength check)
-            alert('Form Submitted Successfully!');
+            // alert('Form Submitted Successfully!');
         });
     </script>
 </body>

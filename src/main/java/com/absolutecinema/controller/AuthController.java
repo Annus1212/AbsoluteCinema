@@ -55,12 +55,19 @@ public class AuthController {
     ) {
         // Here you would typically save the user to the database and handle registration logic
         // For now, we'll just redirect to the login page
+
+        // Check if the username already exists
+        if (userRepository.findByUsername(username) != null) {
+            model.addAttribute("error", "Username already exists");
+            return "auth/signup"; // Return to the registration page with an error message
+        }
+
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password)); // In a real application, you should hash the password before saving it
         user.setEmail(email);
         userRepository.save(user); // Save the user to the database
-        model.addAttribute("successMessage", "Registration successful! Please log in.");
+
         return "redirect:/auth/login";
     }
 
