@@ -1,0 +1,294 @@
+{#    {% extends "layout/page" %}#}
+
+{#    {% block content %}#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movies</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+ <link rel="stylesheet" href="/user/dashboard.css">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+     <link rel="stylesheet" href="/topbar/bar.css">
+     <link rel="stylesheet" href="/admin/dashboard.css">
+  <style>
+
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 24px;
+    }
+
+    .movie-card {
+      transition: transform 0.15s ease-in-out;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .movie-card:hover {
+      transform: scale(1.1);
+    }
+
+    .movie-poster {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: transform 0.15s ease-in-out;
+    }
+
+    .movie-title {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #fff;
+    }
+
+    .nnav-link {
+      text-decoration: none !important;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<div class="ntheme-toggle">
+    <div class="dropdown">
+        <button class="ntheme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <ul class="dropdown-menu ntheme-menu" aria-labelledby="themeToggle">
+            <li><button class="dropdown-item ntheme-item" data-bs-theme-value="light"><i class="bi bi-sun-fill"></i>Light</button></li>
+            <li><button class="dropdown-item ntheme-item active" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i>Dark</button></li>
+            <li><button class="dropdown-item ntheme-item" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i>Auto</button></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Navigation -->
+<div class="nnav-container">
+    <div class="container py-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="nlogo-text m-0">Absolute Cinema</h1>
+            <div class="nsearch-container">
+                <i class="bi bi-search nsearch-icon"></i>
+                <input id="nsearchInput" type="search" class="form-control" placeholder="Search movies..." aria-label="Search" autocomplete="off">
+                <div id="nfilter-dropdown" class="nfilter-dropdown dropdown-menu shadow" style="display: none;">
+                    <div class="nfilter-section">
+                        <div class="nfilter-section-title" onclick="toggleFilterSection('genre')">
+                            Genre <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="genreOptions" class="nfilter-options">
+                            <div class="nfilter-option">Action</div>
+                            <div class="nfilter-option">Adventure</div>
+                            <div class="nfilter-option">Animation</div>
+                            <div class="nfilter-option">Comedy</div>
+                            <div class="nfilter-option">Crime</div>
+                            <div class="nfilter-option">Documentary</div>
+                            <div class="nfilter-option">Drama</div>
+                            <div class="nfilter-option">Family</div>
+                            <div class="nfilter-option">Fantasy</div>
+                            <div class="nfilter-option">History</div>
+                            <div class="nfilter-option">Horror</div>
+                            <div class="nfilter-option">Music</div>
+                            <div class="nfilter-option">Mystery</div>
+                            <div class="nfilter-option">Romance</div>
+                            <div class="nfilter-option">Science Fiction</div>
+                            <div class="nfilter-option">Thriller</div>
+                            <div class="nfilter-option">War</div>
+                            <div class="nfilter-option">Western</div>
+                        </div>
+                    </div>
+
+                    <div class="nfilter-section">
+                        <div class="nfilter-section-title" onclick="toggleFilterSection('year')">
+                            Release Year <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="yearOptions" class="nfilter-options">
+                            <div class="nfilter-option">2025</div>
+                            <div class="nfilter-option">2024</div>
+                            <div class="nfilter-option">2023</div>
+                            <div class="nfilter-option">2022</div>
+                            <div class="nfilter-option">2021</div>
+                            <div class="nfilter-option">2020</div>
+                            <div class="nfilter-option">2019</div>
+                            <div class="nfilter-option">2018</div>
+                            <div class="nfilter-option">2017</div>
+                            <div class="nfilter-option">2016</div>
+                            <div class="nfilter-option">2015</div>
+                        </div>
+                    </div>
+
+                    <div class="nfilter-section">
+                        <div class="nfilter-section-title" onclick="toggleFilterSection('rating')">
+                            Top Rated <i class="bi bi-chevron-down"></i>
+                        </div>
+                        <div id="ratingOptions" class="nfilter-options">
+                            <div class="nfilter-option">9+ Rating</div>
+                            <div class="nfilter-option">8+ Rating</div>
+                            <div class="nfilter-option">7+ Rating</div>
+                            <div class="nfilter-option">6+ Rating</div>
+                            <div class="nfilter-option">5+ Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center mt-3">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+                <li><a href="/" class="nnav-link px-2">Home</a></li>
+                <li><a href="/movies" class="nnav-link px-2">Movies</a></li>
+                <li><a href="/bookings" class="nnav-link px-2">Bookings</a></li>
+                <li><a href="/snacks" class="nnav-link px-2">Snacks</a></li>
+                <li><a href="/loyalty" class="nnav-link px-2">Loyalty Program</a></li>
+                <li><a href="/feedback" class="nnav-link px-2">Feedback</a></li>
+                <li><a href="/contact" class="nnav-link px-2">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+  <div class="grid-container">
+    <div class="movie-card">
+      <img src="me.jpg" alt="Movie 1" class="movie-poster">
+      <div class="movie-title">Movie Title 1</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me1.jpg" alt="Movie 2" class="movie-poster">
+      <div class="movie-title">Movie Title 2</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me2.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+
+
+    <div class="movie-card">
+      <img src="me3.jpg" alt="Movie 3" class="movie-poster">
+      <div class="movie-title">Movie Title 3</div>
+    </div>
+    <!-- Add more cards as needed -->
+  </div>
+
+</body>
+<script src="/topbar/bar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll('[data-bs-theme-value]').forEach(button => {
+      button.addEventListener('click', () => {
+        const theme = button.getAttribute('data-bs-theme-value');
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+        document.querySelectorAll('[data-bs-theme-value]').forEach(btn => {
+          btn.parentElement.classList.remove('active');
+        });
+        button.parentElement.classList.add('active');
+      });
+    });
+
+    // Load saved theme
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+        const activeBtn = document.querySelector(`[data-bs-theme-value="${savedTheme}"]`);
+        if (activeBtn) activeBtn.parentElement.classList.add('active');
+      }
+
+      const searchInput = document.getElementById('searchInput');
+    const dropdown = document.getElementById('filterDropdown');
+
+    searchInput.addEventListener('focus', () => {
+      dropdown.style.display = 'block';
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!searchInput.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+
+    function toggleFilterSection(sectionId) {
+      const options = document.getElementById(sectionId + 'Options');
+      const icon = event.currentTarget.querySelector('i');
+
+      if (options.classList.contains('show')) {
+        options.classList.remove('show');
+        icon.classList.remove('bi-chevron-up');
+        icon.classList.add('bi-chevron-down');
+      } else {
+        options.classList.add('show');
+        icon.classList.remove('bi-chevron-down');
+        icon.classList.add('bi-chevron-up');
+      }
+      event.stopPropagation(); // Prevent event from bubbling up
+    }
+
+    document.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent event from bubbling up
+        this.classList.toggle('selected');
+        // Here you can add logic to handle the selected filter
+        console.log('Selected filter:', this.textContent);
+      });
+    });
+</script>
+</html>
+{#{% endblock %}#}
