@@ -36,4 +36,17 @@ public class AdminController {
     public String settings() {
         return "admin/settings";
     }
+
+    @GetMapping("/admin/analytics")
+    public String analytics() {
+        return "admin/analytics";
+    }
+
+    @GetMapping("/admin/manageloyalty")
+    public String manageloyalty() {
+        return "admin/manageloyalty";
+    }
 }
+
+
+
