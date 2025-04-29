@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Absolute Cinema - Employee Settings</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+
+    <style>
+        /*--------------------------------------------------------------
+        Theme variables & base
+        --------------------------------------------------------------*/
+        .nav-container {
+            background-color: rgba(var(--bs-body-bg-rgb), 0.8); /* Keep for transparency, adjust if needed */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            background: rgba(var(--bs-primary-rgb), 0.1);
+            transform: translateY(-2px);
+        }
+        :root {
+            --bs-primary: #8a2be2;
+            --bs-primary-rgb: 138, 43, 226;
+            --bs-link-color: #b38aff;
+            --bs-link-hover-color: #d5b8ff;
+            --gradient-start: #8a2be2;
+            --gradient-end: #4169e1;
+            --accent-color: #00c9a7;
+            --card-bg: rgba(30, 30, 40, 0.6);
+            --card-hover: rgba(40, 40, 55, 0.8);
+        }
+
+        [data-bs-theme="light"] {
+            --bs-body-bg: #f8f9fa;
+            --bs-body-bg-rgb: 248, 249, 250;
+            --bs-text-color: #212529;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-hover: rgba(255, 255, 255, 0.95);
+            --light-gradient-primary: rgba(138, 43, 226, 0.05); /* Example */
+            --light-gradient-secondary: rgba(65, 105, 225, 0.05); /* Example */
+        }
+
+
+        [data-bs-theme="dark"] {
+            --bs-body-bg: #0a0a12;
+            --bs-body-bg-rgb: 10, 10, 18;
+            --bs-text-color: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bs-body-bg);
+            color: var(--bs-text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image:
+                    radial-gradient(circle at 100% 0%, var(--light-gradient-primary) 0%, transparent 25%),
+                    radial-gradient(circle at 0% 100%, var(--light-gradient-secondary) 0%, transparent 25%);
+            background-attachment: fixed;
+        }
+
+        /*--------------------------------------------------------------
+        Typography & logo
+        --------------------------------------------------------------*/
+        .logo-text {
+            font-weight: 800;
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .logo-text::after {
+            content: "";
+            position: absolute;
+            width: 8px; height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            bottom: 8px; right: -12px;
+        }
+
+        /*--------------------------------------------------------------
+        Theme Toggle
+        --------------------------------------------------------------*/
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+
+        .theme-btn {
+            background: transparent;
+            border: none;
+            color: var(--bs-text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            background: rgba(var(--bs-primary-rgb), 0.1);
+            color: var(--bs-primary);
+        }
+
+        .theme-menu {
+            min-width: 10rem;
+            padding: 0.5rem 0;
+            border-radius: 8px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .theme-item {
+            padding: 0.5rem 1rem;
+            color: var(--bs-text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-item:hover, .theme-item.active {
+            background: rgba(var(--bs-primary-rgb), 0.1);
+            color: var(--bs-primary);
+        }
+
+        /*--------------------------------------------------------------
+        Navigation
+        --------------------------------------------------------------*/
+
+
+        .search-container {
+            position: absolute;
+            width: 280px;
+            left: 1600px;
+            top: 10px;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 500px;
+            top: 40px;
+            transform: translateY(-50%);
+            color: var(--bs-text-color);
+            opacity: 0.5;
+        }
+
+        .search-container input {
+            padding-left: 35px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--bs-text-color);
+            border-radius: 20px;
+            width: 100%;
+        }
+
+        .search-container input:focus {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+            border-color: var(--bs-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 0;
+            color: var(--bs-text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--bs-primary);
+        }
+
+        .nav-link.active {
+            color: var(--bs-primary);
+            font-weight: 500;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--bs-primary);
+            bottom: -2px;
+            left: 0;
+        }
+
+        /*--------------------------------------------------------------
+        Main content card
+        --------------------------------------------------------------*/
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            margin-top: 120px;
+            margin-bottom: 100px;
+            flex: 1;
+        }
+        .settings-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .settings-header {
+            display: flex; align-items: center;
+            font-size: 1.8rem; font-weight: 600;
+            color: var(--bs-text-color);
+            margin-bottom: 1rem;
+        }
+        .settings-header::before {
+            content:""; width:40px; height:2px;
+            background: var(--bs-primary);
+            margin-right: 10px;
+        }
+        .company-title {
+            color: var(--bs-primary);
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /*--------------------------------------------------------------
+        Profile & form
+        --------------------------------------------------------------*/
+        .content {
+            display: flex; flex-wrap: wrap; gap: 2rem;
+            margin-top: 2rem;
+        }
+        .profile-section {
+            flex: 1; min-width: 250px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .pic-container {
+            position: relative; width: 180px; height: 180px; margin-bottom: 2rem;
+        }
+        .profile-pic {
+            width: 100%; height: 100%; border-radius: 50%;
+            background: var(--light-navy);
+            border: 2px solid var(--bs-primary);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--bs-primary); font-size: 3rem;
+            background-size: cover; background-position: center;
+        }
+        .edit-pic-btn {
+            position: absolute; bottom:10px; right:10px;
+            width:40px; height:40px; border-radius:50%;
+            background: var(--card-bg); border:1px solid var(--bs-primary);
+            display:flex; align-items:center; justify-content:center;
+            cursor:pointer; transition:0.25s;
+        }
+        .edit-pic-btn:hover { background: var(--card-hover); }
+        .edit-pic-btn i { color: var(--bs-primary); }
+
+        .form-section { flex: 2; min-width: 300px; }
+        .form-group { display:flex; flex-wrap:wrap; gap:1.5rem; margin-bottom:1.5rem; }
+        .form-control { flex:1; min-width:250px; }
+        .form-control label {
+            display:block; margin-bottom:0.5rem;
+            color: var(--bs-text-color); font-size:0.9rem;
+        }
+        .form-control input {
+            width:100%; padding:0.75rem 1rem;
+            background: var(--light-navy);
+            border:1px solid var(--light-navy);
+            border-radius:4px;
+            color: var(--white); font-size:1rem;
+            transition: all 0.25s;
+        }
+        .form-control input:focus {
+            outline:none;
+            border-color: var(--bs-primary);
+            box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb),0.25);
+            background: var(--lightest-navy);
+        }
+
+        /*--------------------------------------------------------------
+        Buttons & page indicator
+        --------------------------------------------------------------*/
+        .btn-group { display:flex; gap:1rem; margin-top:2rem; }
+        .btn {
+            flex:1; min-width:140px;
+            padding:0.75rem; border:1px solid var(--bs-primary);
+            border-radius:4px; background:transparent;
+            color: var(--bs-primary); cursor:pointer;
+            transition: all 0.25s;
+            text-align:center;
+        }
+        .btn:hover { background: var(--card-hover); color:#fff; }
+        .btn-logout {
+            margin-top:1rem;
+            border-color: #c95a64; color:#c95a64;
+            background: rgba(201,90,100,0.1);
+        }
+        .btn-logout:hover { background: rgba(201,90,100,0.2); }
+
+        .page-indicator {
+            text-align:right; margin-top:2rem;
+            color: var(--bs-primary);
+            font-style:italic; font-size:0.9rem;
+            font-family: 'SF Mono', monospace;
+        }
+
+        /*--------------------------------------------------------------
+        Footer
+        --------------------------------------------------------------*/
+        .footer {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0; text-align:center;
+            border-top:1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            transition: 0.3s;
+            color: var(--bs-text-color);
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: #fff;
+            transform: translateY(-5px);
+        }
+
+        .footer-title {
+            color: var(--bs-text-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--bs-text-color);
+            opacity: 0.8;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--bs-primary);
+            opacity: 1;
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--bs-text-color);
+            opacity: 0.7;
+        }
+        .nav-container > .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        /*--------------------------------------------------------------
+        Mobile adaptations
+        --------------------------------------------------------------*/
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 140px;
+            }
+
+            .content {
+                flex-direction: column;
+            }
+
+            .search-container {
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body data-bs-theme="dark">
+<!-- Theme Toggle -->
+<div class="theme-toggle">
+    <div class="dropdown">
+        <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <ul class="dropdown-menu theme-menu" aria-labelledby="themeToggle">
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="light"><i class="bi bi-sun-fill"></i>Light</button></li>
+            <li><button class="dropdown-item theme-item active" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i>Dark</button></li>
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i>Auto</button></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-container">
+    <div class="container py-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="logo-text m-0" style="position: relative;left: -200px;">Absolute Cinema</h1>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center mt-3">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+                <li><a href="/" class="nav-link px-2" style="position: relative;left: -200px;">Home</a></li>
+                <li><a href="/movies" class="nav-link px-2" style="position: relative;left: -200px;">Movies</a></li>
+                <li><a href="/bookings" class="nav-link px-2" style="position: relative;left: -200px;">Bookings</a></li>
+                <li><a href="/snacks" class="nav-link px-2" style="position: relative;left: -200px;">Snacks</a></li>
+                <li><a href="/snacks" class="nav-link px-2" style="position: relative;left: -200px;">Settings</a></li>
+                <li><a href="/loyalty" class="nav-link px-2" style="position: relative;left: -200px;">Loyalty Program</a></li>
+                <li><a href="/feedback" class="nav-link px-2" style="position: relative;left: -200px;">Feedback</a></li>
+                <li><a href="/contact" class="nav-link px-2" style="position: relative;left: -200px;">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container">
+    <div class="settings-card">
+        <div class="content">
+            <div class="profile-section">
+                <div class="pic-container">
+                    <div class="profile-pic"><i class="fas fa-user"></i></div>
+                    <div class="edit-pic-btn"><i class="fas fa-pencil-alt"></i></div>
+                </div>
+            </div>
+            <div class="form-section">
+                <div class="form-group">
+                    <div class="form-control">
+                        <label for="name-display">Name:</label>
+                        <span id="name-display">John</span>
+                        <input type="text" id="name-edit" value="John" style="display: none;">
+                    </div>
+                    <div class="form-control">
+                        <label for="username-display">Username:</label>
+                        <span id="username-display">abc</span>
+                        <input type="text" id="username-edit" value="abc" style="display: none;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-control">
+                        <label for="email-display">Email:</label>
+                        <span id="email-display">abc123@gmail.com</span>
+                        <input type="email" id="email-edit" value="abc123@gmail.com" style="display: none;">
+                    </div>
+                    <div class="form-control">
+                        <label for="password-display">Password:</label>
+                        <span id="password-display">********</span>
+                        <input type="password" id="password-edit" value="********" style="display: none;">
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn edit-btn" data-target="name">Edit Name</button>
+                    <button class="btn edit-btn" data-target="password">Edit Password</button>
+                </div>
+                <button class="btn btn-logout">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <h4 class="footer-title">Absolute Cinema</h4>
+                <p class="mb-2 opacity-75">Elevating your movie experience with premium comfort and state-of-the-art technology.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/movies">Movies</a></li>
+                    <li><a href="/bookings">Bookings</a></li>
+                    <li><a href="/snacks">Snacks</a></li>
+                    <li><a href="/loyalty">Loyalty Program</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3 mb-4">
+                <h4 class="footer-title">Information</h4>
+                <ul class="footer-links">
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                    <li><a href="/feedback">Feedback</a></li>
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <h4 class="footer-title">Contact</h4>
+                <ul class="footer-links">
+                    <li><i class="bi bi-geo-alt me-2"></i> 123 Cinema Street, Movie City</li>
+                    <li><i class="bi bi-telephone me-2"></i> (555) 123-4567</li>
+                    <li><i class="bi bi-envelope me-2"></i> info@absolutecinema.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 Absolute Cinema. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Theme toggle functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeButtons = document.querySelectorAll('.theme-item');
+
+        // Set theme from localStorage or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+
+        // Update active class
+        themeButtons.forEach(button => {
+            if (button.getAttribute('data-bs-theme-value') === savedTheme) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+
+        // Event listeners for theme buttons
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.getAttribute('data-bs-theme-value');
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                localStorage.setItem('theme', theme);
+
+                // Update active class
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+
+        document.querySelector('.edit-pic-btn').addEventListener('click', function() {
+            const input = document.createElement('input');
+            input.type = 'file'; input.accept = 'image/*';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = ev => {
+                        const pic = document.querySelector('.profile-pic');
+                        pic.innerHTML = '';
+                        pic.style.backgroundImage = `url(${ev.target.result})`; // Corrected template literal
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+
+        const editButtons = document.querySelectorAll('.edit-btn');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const target = this.dataset.target;
+                const displayElement = document.getElementById(`${target}-display`);
+                const editElement = document.getElementById(`${target}-edit`);
+
+                if (displayElement && editElement) {
+                    displayElement.style.display = 'none';
+                    editElement.style.display = 'inline-block';
+                    editElement.focus();
+                }
+            });
+        });
+
+        document.querySelectorAll('input[id$="-edit"]').forEach(input => {
+            input.addEventListener('blur', function() {
+                const target = this.id.replace('-edit', '');
+                const displayElement = document.getElementById(`${target}-display`);
+                const editElement = document.getElementById(`${target}-edit`);
+
+                if (displayElement && editElement) {
+                    displayElement.textContent = this.value; // Update displayed value
+                    displayElement.style.display = 'inline-block';
+                    editElement.style.display = 'none';
+                }
+            });
+
+            // Optional: Handle Enter key for saving
+            input.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    this.blur(); // Trigger the blur event to save
+                }
+            });
+        });
+
+        document.querySelector('.btn-logout').addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout?')) alert('Logged out successfully!');
+        });
+    });
+</script>
+</body>
+</html>
