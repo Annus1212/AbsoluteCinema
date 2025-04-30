@@ -32,6 +32,9 @@ public class Movie {
     @Column(nullable = false)
     private String releaseDate;
 
+    @Column(name = "ticketssold", nullable = false)
+    private int ticketssold;
+
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<Session> sessions;
 
@@ -107,5 +110,13 @@ public class Movie {
 
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    public int getTicketssold() {
+        return ticketssold;
+    }
+
+    public void setTicketssold(int ticketssold) {
+        this.ticketssold = ticketssold;
     }
 }
