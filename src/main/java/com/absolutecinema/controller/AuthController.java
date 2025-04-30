@@ -5,6 +5,9 @@ import com.absolutecinema.repository.UserRepository;
 import com.absolutecinema.service.AnalyticsService;
 import com.absolutecinema.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +36,14 @@ public class AuthController {
 
     @GetMapping("/auth/login")
     public String login() {
-        return "auth/signin";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "auth/signin";
+        }
+        if (((User)authentication.getPrincipal()).getUsername().equals("admin")) {
+            return "redirect:/admin/dashboard"; // Redirect to the dashboard if already authenticated
+        }
+            return "redirect:/user/dashboard"; // Show login page if not authenticated
     }
 
     // @PostMapping("/auth/login")
@@ -55,12 +65,19 @@ public class AuthController {
     ) {
         // Here you would typically save the user to the database and handle registration logic
         // For now, we'll just redirect to the login page
+
+        // Check if the username already exists
+        if (userRepository.findByUsername(username) != null) {
+            model.addAttribute("error", "Username already exists");
+            return "auth/signup"; // Return to the registration page with an error message
+        }
+
         User user = new User();
         user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password)); // In a real application, you should hash the password before saving it
         user.setEmail(email);
         userRepository.save(user); // Save the user to the database
-        model.addAttribute("successMessage", "Registration successful! Please log in.");
+
         return "redirect:/auth/login";
     }
 
