@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }} - Absolute Cinema</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/topbar/bar.css">
+    <style>
+        .movie-details-container {
+            padding: 2rem 0;
+        }
+        .movie-poster {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .movie-info {
+            margin-top: 1.5rem;
+        }
+        .movie-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .movie-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .movie-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .book-now-btn {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .book-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <div class="dropdown">
+            <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-moon-stars-fill"></i>
+            </button>
+            <ul class="dropdown-menu theme-menu" aria-labelledby="themeToggle">
+                <li><button class="dropdown-item theme-item" data-bs-theme-value="light"><i class="bi bi-sun-fill"></i>Light</button></li>
+                <li><button class="dropdown-item theme-item active" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i>Dark</button></li>
+                <li><button class="dropdown-item theme-item" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i>Auto</button></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-container">
+        <div class="container py-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="logo-text m-0">Absolute Cinema</h1>
+                <div class="search-container">
+                    <i class="bi bi-search search-icon"></i>
+                    <input id="searchInput" type="search" class="form-control" placeholder="Search movies..." aria-label="Search" autocomplete="off">
+                </div>
+            </div>
+
+            <div class="d-flex flex-wrap align-items-center mt-3">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+                    <li><a href="/" class="nav-link px-2">Home</a></li>
+                    <li><a href="/movies" class="nav-link px-2">Movies</a></li>
+                    <li><a href="/bookings/history" class="nav-link px-2">Bookings</a></li>
+                    <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
+                    <li><a href="/loyalty" class="nav-link px-2">Loyalty Program</a></li>
+                    <li><a href="/feedback" class="nav-link px-2">Feedback</a></li>
+                    <li><a href="/contact" class="nav-link px-2">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Movie Details -->
+    <div class="container movie-details-container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="/images/movies/default.jpg" alt="{{ movie.title }}" class="movie-poster">
+            </div>
+            <div class="col-md-8 movie-info">
+                <h1 class="movie-title">{{ movie.title }}</h1>
+                
+                <div class="movie-meta">
+                    <div class="meta-item">
+                        <i class="bi bi-clock"></i>
+                        <span>{{ movie.duration }} min</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="bi bi-calendar3"></i>
+                        <span>{{ movie.releasedate }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="bi bi-film"></i>
+                        <span>{{ movie.genre }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="bi bi-translate"></i>
+                        <span>{{ movie.language }}</span>
+                    </div>
+                </div>
+
+                <div class="movie-description">
+                    <h4>Description</h4>
+                    <p>{{ movie.description }}</p>
+                </div>
+
+                <div class="movie-director mb-4">
+                    <h4>Director</h4>
+                    <p>{{ movie.director }}</p>
+                </div>
+
+                <a href="/cart/booking" class="btn btn-primary book-now-btn">
+                    <i class="bi bi-ticket-perforated me-2"></i>Book Now
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/topbar/bar.js"></script>
+</body>
+</html> 

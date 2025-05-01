@@ -5,6 +5,8 @@ import com.absolutecinema.entity.Session;
 import com.absolutecinema.repository.BookingRepository;
 import com.absolutecinema.repository.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,5 +41,11 @@ public class BookingService {
 
     public List<Session> getAvailableSessions(Long movieId) {
         return sessionRepository.findByMovieId(movieId);
+    }
+
+    public List<Booking> getUserBookings() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        return bookingRepository.findByUserUsernameOrderByBookingTimeDesc(username);
     }
 }

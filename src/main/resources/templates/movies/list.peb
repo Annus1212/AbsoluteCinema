@@ -15,7 +15,7 @@
 
 
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel = "stylesheet" href = "/static/movies/styles.css">
+    <link rel="stylesheet" href="/static/movies/styles.css">
      <link rel="stylesheet" href="/topbar/bar.css">
 </head>
 <style>
@@ -141,7 +141,7 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
                 <li><a href="/" class="nav-link px-2">Home</a></li>
                 <li><a href="/movies" class="nav-link px-2">Movies</a></li>
-                <li><a href="/booking" class="nav-link px-2">Bookings</a></li>
+                <li><a href="/bookings/history" class="nav-link px-2">Bookings</a></li>
                 <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
                 <li><a href="/loyalty" class="nav-link px-2">Loyalty Program</a></li>
                 <li><a href="/feedback" class="nav-link px-2">Feedback</a></li>
@@ -153,10 +153,14 @@
 
   <div class="grid-container">
     {% for movie in movies %}
-    <div class="movie-card">
-      <img src="/images/movies/default.jpg" alt="{{ movie.title }}" class="movie-poster">
-      <div class="movie-title">{{ movie.title }}</div>
-    </div>
+    <a href="/movies/{{ movie.id }}" class="text-decoration-none">
+      <div class="movie-card">
+
+        <img src="/images/movies/default.jpg" alt="{{ movie.title }}" class="movie-poster">
+        <div class="movie-title">{{ movie.title }}</div>
+
+      </div>
+    </a>
     {% endfor %}
   </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>

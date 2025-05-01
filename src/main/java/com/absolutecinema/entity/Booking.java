@@ -19,6 +19,10 @@ public class Booking {
     @JoinColumn(name = "session_id", nullable = false) // Assuming the column should be session_id
     private Session session;
 
+    @ManyToOne
+    @JoinColumn(name = "movie_id", nullable = false)
+    private Movie movie;
+
     @Column(name = "booking_time", nullable = false)
     private LocalDateTime bookingTime;
 
@@ -52,6 +56,14 @@ public class Booking {
 
     public void setSession(Session session) {
         this.session = session;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
     public LocalDateTime getBookingTime() {
