@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/feedback")
@@ -37,5 +38,16 @@ public class FeedbackController {
     public ResponseEntity<Void> deleteFeedback(@PathVariable Long id) {
         feedbackService.deleteFeedback(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/statistics")
+    public ResponseEntity<Map<String, Object>> getFeedbackStatistics() {
+        Map<String, Object> stats = feedbackService.getFeedbackStatistics();
+        return ResponseEntity.ok(stats);
+    }
+
+    @GetMapping("/list")
+    public List<Map<String, Object>> getFeedbackList() {
+        return feedbackService.getFeedbackList();
     }
 }
