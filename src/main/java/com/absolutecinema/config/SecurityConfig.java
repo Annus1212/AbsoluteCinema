@@ -22,63 +22,68 @@ import com.absolutecinema.repository.UserRepository;
 @EnableWebSecurity
 public class SecurityConfig {
 
-        private final LoginSuccessHandler loginSuccessHandler;
+    private final LoginSuccessHandler loginSuccessHandler;
 
-        public SecurityConfig(LoginSuccessHandler loginSuccessHandler) {
-                this.loginSuccessHandler = loginSuccessHandler;
-        }
+    public SecurityConfig(LoginSuccessHandler loginSuccessHandler) {
+        this.loginSuccessHandler = loginSuccessHandler;
+    }
 
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-                return new BCryptPasswordEncoder();
-        }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-        @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
-                                .authorizeHttpRequests(auth -> auth
-                                                .requestMatchers("/auth/register",
-                                                                "/auth/login",
-                                                                "/auth/forgot-password",
-                                                                "/css/**",
-                                                                "/js/**",
-                                                                "/images/**",
-                                                                "/api/**")
-                                                .permitAll()
-                                                .anyRequest().authenticated())
-                                .formLogin(form -> form
-                                                .loginPage("/auth/login")
-                                                .loginProcessingUrl("/auth/login")
-                                                .successHandler(loginSuccessHandler)
-                                                .failureUrl("/auth/login?error=true")
-                                                .permitAll())
-                                .logout(logout -> logout
-                                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                                                .logoutSuccessUrl("/auth/login")
-                                                .invalidateHttpSession(true)
-                                                .deleteCookies("JSESSIONID")
-                                                .permitAll())
-                                .sessionManagement(session -> session
-                                                .maximumSessions(1)
-                                                .expiredUrl("/auth/login"));
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(
+                "/auth/register",
+                "/auth/login",
+                "/auth/forgot-password",
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/api/**")
+            .permitAll()
+            .anyRequest().authenticated())
+            .formLogin(form -> form
+            .loginPage("/auth/login")
+            .loginProcessingUrl("/auth/login")
+            .successHandler(loginSuccessHandler)
+            .failureUrl("/auth/login?error=true")
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+            .logoutSuccessUrl("/auth/login")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .permitAll()
+        )
+        .sessionManagement(session -> session
+            .maximumSessions(1)
+            .expiredUrl("/auth/login")
+        );
 
-                return http.build();
-        }
+        return http.build();
+    }
 
-        @Bean
-        public UserDetailsService userDetailsService(UserRepository repo) {
-                return username -> {
-                        User user = repo.findByUsername(username);
-                        if (user == null) {
-                                throw new UsernameNotFoundException("User not found: " + username);
-                        }
+    @Bean
+    public UserDetailsService userDetailsService(UserRepository repo) {
+        return username -> {
+            User user = repo.findByUsername(username);
+            if (user == null) {
+                throw new UsernameNotFoundException("User not found: " + username);
+            }
 
-                        List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
+            List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
 
-                        return new org.springframework.security.core.userdetails.User(
-                                        user.getUsername(),
-                                        user.getPassword(),
-                                        authorities);
-                };
-        }
+            return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                authorities
+            );
+        };
+    }
 }

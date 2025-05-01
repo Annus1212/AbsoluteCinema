@@ -28,12 +28,6 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    // @GetMapping("/")
-    // public String Home() {
-    // return "redirect:/auth/login";
-    // // return "admin/dashboard";
-    // }
-
     @GetMapping("/auth/login")
     public String login() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,12 +49,6 @@ public class AuthController {
         // If not authenticated, show login page
         return "auth/signin";
     }
-
-    // @PostMapping("/auth/login")
-    // public String login(@RequestParam String username, @RequestParam String
-    // password, Model model) {
-    // return "redirect:/admin/dashboard";
-    // }
 
     @GetMapping("/auth/register")
     public String register() {
@@ -84,10 +72,10 @@ public class AuthController {
             }
 
             // Find the next available ID (starting from 13)
-            Long nextId = userRepository.findMaxId().orElse(12L) + 1;
+            // Long nextId = userRepository.findMaxId().orElse(12L) + 1;
 
             User user = new User();
-            user.setId(nextId); // Set the ID manually
+            // user.setId(nextId); // Set the ID manually
             user.setUsername(username);
             user.setPassword(passwordEncoder.encode(password));
             user.setEmail(email);
