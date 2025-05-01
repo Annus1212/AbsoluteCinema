@@ -900,7 +900,7 @@
 </nav>
 
 <div class="container py-4">
-    <h1>Administration Settings <span class="staff-badge">Admin</span></h1>
+    <h1>Employee Settings <span class="staff-badge">Employee</span></h1>
 
     <div class="settings-container">
         <div class="settings-sidebar">
@@ -908,7 +908,7 @@
                 <li class="settings-menu-item">
                     <a href="#profile" class="settings-menu-link active" data-section="profile">
                         <i class="bi bi-person-fill settings-menu-icon"></i>
-                        Admin Profile
+                        Employee Profile
                     </a>
                 </li>
                 <li class="settings-menu-item">
@@ -944,7 +944,7 @@
                     <div class="settings-icon">
                         <i class="bi bi-person-fill"></i>
                     </div>
-                    <h2 class="settings-title">Admin Profile</h2>
+                    <h2 class="settings-title">Employee Profile</h2>
                 </div>
 
                 <div class="avatar-container">
@@ -981,7 +981,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="adminTitle" class="form-label">Admin Title</label>
+                    <label for="adminTitle" class="form-label">Employee Title</label>
                     <input type="text" id="adminTitle" class="form-control" value="General Manager">
                 </div>
 
