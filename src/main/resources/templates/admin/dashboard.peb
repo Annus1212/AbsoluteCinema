@@ -122,31 +122,28 @@
                 <i class="fas fa-film"></i>
             </div>
             <div class="stat-info">
-                <div class="label">Movies Sold</div>
-                <div class="value">100</div>
-                <small class="text-success">↑ 12% from last week</small>
+                <div class="label">Total Movies Sold</div>
+                <div class="value">{{ totalTicketsSold }}</div>
             </div>
         </div>
 
         <div class="stat-card success">
             <div class="icon">
-                <i class="fas fa-ticket-alt"></i>
+                <i class="fas fa-hamburger"></i>
             </div>
             <div class="stat-info">
-                <div class="label">Total Bookings</div>
-                <div class="value">245</div>
-                <small class="text-success">↑ 8% from last week</small>
+                <div class="label">Total Snacks Sold</div>
+                <div class="value">{{ totalSnacksSold }}</div>
             </div>
         </div>
 
         <div class="stat-card warning">
             <div class="icon">
-                <i class="fas fa-hamburger"></i>
+                <i class="fas fa-ticket-alt"></i>
             </div>
             <div class="stat-info">
-                <div class="label">Snacks Sold</div>
-                <div class="value">320</div>
-                <small class="text-success">↑ 5% from last week</small>
+                <div class="label">Current Bookings</div>
+                <div class="value">{{ totalBookings }}</div>
             </div>
         </div>
 
@@ -155,9 +152,8 @@
                 <i class="fas fa-user-friends"></i>
             </div>
             <div class="stat-info">
-                <div class="label">Loyalty Accounts</div>
-                <div class="value">58</div>
-                <small class="text-success">↑ 15% from last month</small>
+                <div class="label">Registered Loyalty Members</div>
+                <div class="value">{{ totalLoyaltyMembers }}</div>
             </div>
         </div>
     </div>
@@ -166,11 +162,6 @@
         <div class="chart-card">
             <div class="chart-header">
                 <h4>Revenue Analytics</h4>
-                <div class="chart-actions">
-                    <button class="btn-outline">Weekly</button>
-                    <button class="btn-outline">Monthly</button>
-                    <button class="btn-outline">Yearly</button>
-                </div>
             </div>
             <div class="chart-body">
                 <canvas id="revenueChart"></canvas>
@@ -180,24 +171,9 @@
         <div class="chart-card">
             <div class="chart-header">
                 <h4>Popular Movies</h4>
-                <div class="chart-actions">
-                    <button class="btn-outline">This Week</button>
-                </div>
             </div>
             <div class="chart-body">
                 <canvas id="moviesChart"></canvas>
-            </div>
-        </div>
-
-        <div class="chart-card-stats">
-            <div class="chart-header">
-                <h4>Audience Demographics</h4>
-                <div class="chart-actions">
-                    <button class="btn-outline">Filter</button>
-                </div>
-            </div>
-            <div class="chart-body">
-                <canvas id="demographicsChart"></canvas>
             </div>
         </div>
     </div>
@@ -205,34 +181,29 @@
     <div class="feedback-container">
         <div class="feedback-header">
             <h4>Recent Feedback</h4>
-            <button class="btn-custom">View All</button>
         </div>
         <div class="feedback-scrollable">
+            {% for feedback in recentFeedbacks %}
             <div class="feedback-item">
-                <div class="movie-title">Jumanji (2004)</div>
-                <div class="feedback-text">"This was an experience of a lifetime."</div>
-                <small class="text-muted">2 hours ago</small>
+                <div class="movie-title">{{ movieTitles[feedback.movieId] }}</div>
+                <div class="feedback-text">"{{ feedback.comments }}"</div>
+                <div class="feedback-meta">
+                    <div class="star-rating">
+                        <div class="stars">
+                            {% for i in 1..5 %}
+                                {% if i <= feedback.rating %}
+                                    ★
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span>{{ feedback.rating }}.0</span>
+                    </div>
+                    <small class="text-muted">{{ feedback.createdAt|date('MMM d, yyyy') }}</small>
+                </div>
             </div>
-            <div class="feedback-item">
-                <div class="movie-title">The Lord of the Rings</div>
-                <div class="feedback-text">"An adventure from start to finish."</div>
-                <small class="text-muted">5 hours ago</small>
-            </div>
-            <div class="feedback-item">
-                <div class="movie-title">Interstellar</div>
-                <div class="feedback-text">"A journey through time and space!"</div>
-                <small class="text-muted">Yesterday</small>
-            </div>
-            <div class="feedback-item">
-                <div class="movie-title">Inception</div>
-                <div class="feedback-text">"The story was a bit predictable but still enjoyable."</div>
-                <small class="text-muted">Yesterday</small>
-            </div>
-            <div class="feedback-item">
-                <div class="movie-title">The Pursuit of Happyness</div>
-                <div class="feedback-text">"A powerful and emotional narrative."</div>
-                <small class="text-muted">2 days ago</small>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
@@ -305,23 +276,21 @@
     // Revenue Chart
     const revenueCtx = document.getElementById('revenueChart').getContext('2d');
     const revenueChart = new Chart(revenueCtx, {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            labels: ['Tickets', 'Snacks'],
             datasets: [{
-                label: 'Tickets',
-                data: [65, 59, 80, 81, 56, 55, 72],
-                fill: true,
-                backgroundColor: 'rgba(52, 152, 219, 0.2)',
-                borderColor: 'rgba(52, 152, 219, 1)',
-                tension: 0.3
-            }, {
-                label: 'Snacks',
-                data: [28, 48, 40, 45, 46, 27, 40],
-                fill: true,
-                backgroundColor: 'rgba(46, 204, 113, 0.2)',
-                borderColor: 'rgba(46, 204, 113, 1)',
-                tension: 0.3
+                label: 'Items Sold Last Month',
+                data: [{{ monthlyTicketsSold }}, {{ monthlySnacksSold }}],
+                backgroundColor: [
+                    'rgba(52, 152, 219, 0.7)',
+                    'rgba(46, 204, 113, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(52, 152, 219, 1)',
+                    'rgba(46, 204, 113, 1)'
+                ],
+                borderWidth: 1
             }]
         },
         options: {
@@ -329,7 +298,7 @@
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    position: 'top',
+                    display: false
                 }
             },
             scales: {
@@ -341,7 +310,7 @@
                 },
                 x: {
                     grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
+                        display: false
                     }
                 }
             }
@@ -353,10 +322,18 @@
     const moviesChart = new Chart(moviesCtx, {
         type: 'bar',
         data: {
-            labels: ['Inception', 'The Matrix', 'Interstellar', 'Jumanji', 'Avatar'],
+            labels: [
+                {% for movie in topMovies %}
+                    '{{ movie.title }}'{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ],
             datasets: [{
                 label: 'Tickets Sold',
-                data: [65, 59, 80, 81, 56],
+                data: [
+                    {% for movie in topMovies %}
+                        {{ movie.ticketssold }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                ],
                 backgroundColor: [
                     'rgba(52, 152, 219, 0.7)',
                     'rgba(46, 204, 113, 0.7)',
@@ -397,57 +374,6 @@
             }
         }
     });
-
-   // Demographics Chart
-const demographicsCtx = document.getElementById('demographicsChart').getContext('2d');
-const demographicsChart = new Chart(demographicsCtx, {
-    type: 'doughnut',
-    data: {
-        labels: ['18-24', '25-34', '35-44', '45-54', '55+'],
-        datasets: [{
-            data: [15, 30, 25, 18, 12],
-            backgroundColor: [
-                'rgba(52, 152, 219, 0.7)',
-                'rgba(46, 204, 113, 0.7)',
-                'rgba(155, 89, 182, 0.7)',
-                'rgba(243, 156, 18, 0.7)',
-                'rgba(231, 76, 60, 0.7)'
-            ],
-            borderColor: [
-                'rgba(52, 152, 219, 1)',
-                'rgba(46, 204, 113, 1)',
-                'rgba(155, 89, 182, 1)',
-                'rgba(243, 156, 18, 1)',
-                'rgba(231, 76, 60, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                align: 'center',
-                labels: {
-                    boxWidth: 12,
-                    padding: 15
-                }
-            }
-        },
-        layout: {
-            padding: {
-                left: 10,
-                right: 10,
-                top: 0,
-                bottom: 10
-            }
-        },
-        cutout: '60%'
-    }
-});
-
 </script>
 </body>
 </html>

@@ -18,6 +18,9 @@ public class Snack {
     @Column(nullable = false)
     private int quantity;
 
+    @Column(name = "snackssold", nullable = false)
+    private int snackssold;
+
     public Snack() {
     }
 
@@ -57,5 +60,13 @@ public class Snack {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getSnackssold() {
+        return snackssold;
+    }
+
+    public void setSnackssold(int snackssold) {
+        this.snackssold = snackssold;
     }
 }

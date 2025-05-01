@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snack Selection - Absolute Cinema</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bs-primary: #8a2be2;
+            --bs-primary-rgb: 138, 43, 226;
+            --bs-link-color: #b38aff;
+            --bs-link-hover-color: #d5b8ff;
+            --gradient-start: #8a2be2;
+            --gradient-end: #4169e1;
+            --accent-color: #00c9a7;
+            --card-bg: rgba(30, 30, 40, 0.6);
+            --card-hover: rgba(40, 40, 55, 0.8);
+        }
+
+        [data-bs-theme="light"] {
+            --bs-body-bg: #f8f9fa;
+            --bs-body-bg-rgb: 248, 249, 250;
+            --bs-text-color: #212529;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-hover: rgba(240, 240, 240, 0.95);
+        }
+
+        [data-bs-theme="dark"] {
+            --bs-body-bg: #0a0a12;
+            --bs-body-bg-rgb: 10, 10, 18;
+            --bs-text-color: #e9ecef;
+        }
+
+        body {
+            background-color: var(--bs-body-bg);
+            color: var(--bs-text-color);
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            background-image:
+                    radial-gradient(circle at 100% 0%, rgba(var(--bs-primary-rgb), 0.15) 0%, transparent 25%),
+                    radial-gradient(circle at 0% 100%, rgba(65, 105, 225, 0.15) 0%, transparent 25%);
+            background-attachment: fixed;
+            display: flex; /* Enable flexbox for the main content */
+            flex-direction: column; /* Stack header, main, and footer */
+            min-height: 100vh; /* Ensure the body takes at least the full viewport height */
+        }
+
+        .container {
+            flex-grow: 1; /* Allow the container to grow and take available vertical space */
+        }
+
+        /* Logo Styles */
+        .logo-text {
+            font-weight: 800;
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .logo-text::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            bottom: 8px;
+            right: -12px;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background-color: rgba(var(--bs-body-bg-rgb), 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.2rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            background: rgba(var(--bs-primary-rgb), 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1001;
+        }
+
+        .theme-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(var(--bs-body-bg-rgb), 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .theme-btn:hover {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+        }
+
+        .theme-menu {
+            background: rgba(var(--bs-body-bg-rgb), 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .theme-item {
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .theme-item:hover {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: white !important;
+        }
+
+        .theme-item.active {
+            background: rgba(var(--bs-primary-rgb), 0.2);
+        }
+
+        /* Section Title */
+        .section-title {
+            position: relative;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 60%;
+            height: 4px;
+            bottom: -10px;
+            left: 0;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 2px;
+        }
+
+        /* Booking Progress */
+        .booking-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .booking-progress::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 50px;
+            z-index: 2;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .step-name {
+            font-size: 0.9rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .progress-step.active .step-number {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            box-shadow: 0 0 15px rgba(var(--bs-primary-rgb), 0.5);
+            border-color: transparent;
+        }
+
+        .progress-step.active .step-name {
+            color: white;
+            font-weight: 600;
+        }
+
+        .progress-step.completed .step-number {
+            background: var(--accent-color);
+            color: #000;
+            border-color: transparent;
+        }
+
+        /* Snack Items */
+        .snack-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            max-height: 600px; /* Adjust this value to your desired maximum height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            padding-bottom: 1rem; /* Optional: Add some padding at the bottom */
+        }
+
+        .snack-items-grid::-webkit-scrollbar {
+            width: 8px; /* Adjust the width of the scrollbar */
+            background-color: rgba(255, 255, 255, 0.05); /* Color of the scrollbar track */
+            border-radius: 4px;
+        }
+
+        .snack-items-grid::-webkit-scrollbar-thumb {
+            background-color: rgba(var(--bs-primary-rgb), 0.5); /* Color of the scrollbar thumb */
+            border-radius: 4px;
+        }
+
+        .snack-items-grid::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(var(--bs-primary-rgb), 0.7);
+        }
+
+        .snack-item {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .snack-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background: var(--card-hover);
+        }
+
+        .snack-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .snack-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .snack-price {
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .snack-quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .quantity-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--bs-text-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .quantity-input {
+            width: 40px;
+            padding: 0.25rem;
+            text-align: center;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            margin: 0 0.5rem;
+            color: var(--bs-text-color);
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .checkout-btn {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+            letter-spacing: 1px;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(138, 43, 226, 0.6);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(var(--bs-body-bg-rgb), 0.9);
+            backdrop-filter: blur(10px);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--bs-text-color);
+            opacity: 0.7;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--bs-primary);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Theme Toggle -->
+<div class="theme-toggle">
+    <div class="dropdown">
+        <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-moon-stars-fill"></i>
+        </button>
+        <ul class="dropdown-menu theme-menu" aria-labelledby="themeToggle">
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="light"><i class="bi bi-sun-fill"></i> Light</button></li>
+            <li><button class="dropdown-item theme-item active" data-bs-theme-value="dark"><i class="bi bi-moon-stars-fill"></i> Dark</button></li>
+            <li><button class="dropdown-item theme-item" data-bs-theme-value="auto"><i class="bi bi-circle-half"></i> Auto</button></li>
+        </ul>
+    </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-container">
+    <div class="container py-2">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="logo-text m-0">Absolute Cinema</h1>
+            <div class="search-container">
+                <i class="bi bi-search search-icon"></i>
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center mt-3">
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+                <li><a href="/" class="nav-link px-2">Home</a></li>
+                <li><a href="/movies" class="nav-link px-2">Movies</a></li>
+                <li><a href="/bookings" class="nav-link px-2">Bookings</a></li>
+                <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
+                <li><a href="/loyalty" class="nav-link px-2">Loyalty Program</a></li>
+                <li><a href="/feedback" class="nav-link px-2">Feedback</a></li>
+                <li><a href="/contact" class="nav-link px-2">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <section class="py-5">
+        <h2 class="section-title">Select Your Snacks</h2>
+        <div class="booking-progress fadeIn">
+            <div class="progress-step completed">
+                <div class="step-number">1</div>
+                <div class="step-name">Movie</div>
+            </div>
+            <div class="progress-step completed">
+                <div class="step-number">2</div>
+                <div class="step-name">Ticket</div>
+            </div>
+            <div class="progress-step completed">
+                <div class="step-number">3</div>
+                <div class="step-name">Seats</div>
+            </div>
+            <div class="progress-step active">
+                <div class="step-number">4</div>
+                <div class="step-name">Snacks</div>
+            </div>
+            <div class="progress-step">
+                <div class="step-number">5</div>
+                <div class="step-name">Payment</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="snack-items-grid">
+                    <div class="snack-item">
+                        <img src="https://via.placeholder.com/150/FFC107/000000?Text=Popcorn" alt="Popcorn">
+                        <h3 class="snack-title">Popcorn</h3>
+                        <p class="snack-price">$5.99</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="https://via.placeholder.com/150/F44336/FFFFFF?Text=Soda" alt="Soda">
+                        <h3 class="snack-title">Soda</h3>
+                        <p class="snack-price">$3.50</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="https://via.placeholder.com/150/4CAF50/FFFFFF?Text=Nachos" alt="Nachos">
+                        <h3 class="snack-title">Nachos</h3>
+                        <p class="snack-price">$7.25</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="0" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="https://via.placeholder.com/150/9C27B0/FFFFFF?Text=Candy" alt="Candy">
+                        <h3 class="snack-title">Candy</h3>
+                        <p class="snack-price">$2.75</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="https://via.placeholder.com/150/03A9F4/FFFFFF?Text=Hotdog" alt="Hotdog">
+                        <h3 class="snack-title">Hotdog</h3>
+                        <p class="snack-price">$6.50</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="0" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="https://via.placeholder.com/150/FF5722/FFFFFF?Text=Ice+Cream" alt="Ice Cream">
+                        <h3 class="snack-title">Ice Cream</h3>
+                        <p class="snack-price">$4.50</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="classic butter popcorn.jpg" alt="Classic Butter Popcorn">
+                        <h3 class="snack-title">Classic Butter Popcorn</h3>
+                        <p class="snack-price">$4.99</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="caramel popcorn.jpg" alt="Caramel Popcorn">
+                        <h3 class="snack-title">Caramel Popcorn</h3>
+                        <p class="snack-price">$5.99</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="cheese.jpg" alt="Cheese Popcorn">
+                        <h3 class="snack-title">Cheese Popcorn</h3>
+                        <p class="snack-price">$6.99</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="coca cola.jpg" alt="Classic Cola">
+                        <h3 class="snack-title">Classic Cola</h3>
+                        <p class="snack-price">$3.99</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="sparkling water.jpg" alt="Sparkling Water">
+                        <h3 class="snack-title">Sparkling Water</h3>
+                        <p class="snack-price">$2.99</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="fresh orange juice.jpg" alt="Fresh Orange Juice">
+                        <h3 class="snack-title">Fresh Orange Juice</h3>
+                        <p class="snack-price">$4.99</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="espresso.jpg" alt="Espresso">
+                        <h3 class="snack-title">Espresso</h3>
+                        <p class="snack-price">$3.49</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                    <div class="snack-item">
+                        <img src="capacinoo.jpg" alt="Cappuccino">
+                        <h3 class="snack-title">Cappuccino</h3>
+                        <p class="snack-price">$4.99</p>
+                        <div class="snack-quantity">
+                            <button class="quantity-btn">-</button>
+                            <input type="number" class="quantity-input" value="1" min="0">
+                            <button class="quantity-btn">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="order-item">
+                        <span>Popcorn (1)</span>
+                        <span>$5.99</span>
+                    </div>
+                    <div class="order-item">
+                        <span>Soda (1)</span>
+                        <span>$3.50</span>
+                    </div>
+                    <div class="order-item">
+                        <span>Candy (1)</span>
+                        <span>$2.75</span>
+                    </div>
+                    <div class="order-item">
+                        <span>Ice Cream (1)</span>
+                        <span>$4.50</span>
+                    </div>
+                    <div class="order-total">
+                        <span>Total</span>
+                        <span>$16.74</span>
+                    </div>
+                    <button class="checkout-btn">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const themeToggleButton = document.querySelector('.theme-btn');
+        const themeMenu = document.querySelector('.theme-menu');
+        const themeItems = document.querySelectorAll('.theme-item');
+
+        // Function to set the theme
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme); // Save theme preference
+
+            // Update active state in the dropdown
+            themeItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-bs-theme-value') === theme) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Event listener for the theme toggle button to show/hide the menu
+        themeToggleButton.addEventListener('click', function() {
+            themeMenu.classList.toggle('show');
+        });
+
+        // Event listeners for clicking on theme items
+        themeItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const selectedTheme = this.getAttribute('data-bs-theme-value');
+                setTheme(selectedTheme);
+                themeMenu.classList.remove('show'); // Hide the menu after selection
+            });
+        });
+
+        // Close the theme menu if clicking outside
+        document.addEventListener('click', function(event) {
+            if (themeMenu.classList.contains('show') && !themeToggleButton.contains(event.target) && !themeMenu.contains(event.target)) {
+                themeMenu.classList.remove('show');
+            }
+        });
+
+        // Initially set the theme based on local storage or default to 'auto'
+        const storedTheme = localStorage.getItem('theme');
+        const defaultTheme = 'auto';
+        setTheme(storedTheme || defaultTheme);
+    });
+
+    const quantityInputs = document.querySelectorAll('.snack-quantity input[type="number"]');
+    const quantityAddButtons = document.querySelectorAll('.snack-quantity .quantity-btn:last-child');
+    const quantitySubtractButtons = document.querySelectorAll('.snack-quantity .quantity-btn:first-child');
+    const orderSummary = document.querySelector('.order-summary');
+
+    function updateOrderSummary() {
+        let total = 0;
+        let itemsHtml = '<h2>Order Summary</h2>';
+        const snackItems = document.querySelectorAll('.snack-item');
+
+        snackItems.forEach(item => {
+            const title = item.querySelector('.snack-title').textContent;
+            const priceElement = item.querySelector('.snack-price');
+            const priceText = priceElement ? priceElement.textContent : '$0.00';
+            const price = parseFloat(priceText.substring(1));
+            const quantityInput = item.querySelector('.quantity-input');
+            const quantity = parseInt(quantityInput.value);
+
+            if (quantity > 0) {
+                const itemTotal = price * quantity;
+                total += itemTotal;
+                itemsHtml += `
+                        <div class="order-item">
+                            <span>${title} (${quantity})</span>
+                            <span>$${itemTotal.toFixed(2)}</span>
+                        </div>
+                    `;
+            }
+        });
+
+        itemsHtml += `
+                <div class="order-total">
+                    <span>Total</span>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+                <button class="checkout-btn">Proceed to Checkout</button>
+            `;
+
+        orderSummary.innerHTML = itemsHtml;
+
+        const newCheckoutButton = orderSummary.querySelector('.checkout-btn');
+        if (newCheckoutButton) {
+            newCheckoutButton.addEventListener('click', () => {
+                alert('Proceeding to checkout with your selected snacks!');
+                // In a real application, you would handle the checkout process here.
+            });
+        }
+    }
+
+    quantityAddButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const input = quantityInputs[index];
+            input.value = parseInt(input.value) + 1;
+            updateOrderSummary();
+        });
+    });
+
+    quantitySubtractButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const input = quantityInputs[index];
+            if (parseInt(input.value) > 0) {
+                input.value = parseInt(input.value) - 1;
+                updateOrderSummary();
+            }
+        });
+    });
+
+    quantityInputs.forEach(input => {
+        input.addEventListener('change', updateOrderSummary);
+    });
+
+    // Initial update of the order summary
+    updateOrderSummary();
+</script>
+</body>
+
+</html>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-3 mb-lg-0">
+                <h6 class="footer-title">Absolute Cinema</h6>
+                <p class="text-muted small">Bringing you the best cinematic experiences with comfort and style.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-3 mb-md-0">
+                <h6 class="footer-title">Explore</h6>
+                <ul class="footer-links">
+                    <li><a href="#">Movies</a></li>
+                    <li><a href="#">Schedule</a></li>
+                    <li><a href="#">Promotions</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-3 mb-md-0">
+                <h6 class="footer-title">Visit Us</h6>
+                <ul class="footer-links">
+                    <li><a href="#">Locations</a></li>
+                    <li><a href="#">Directions</a></li>
+                    <li><a href="#">Parking Info</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <h6 class="footer-title">Support</h6>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright mt-4">
+            <p>&copy; 2025 Absolute Cinema. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const themeButtons = document.querySelectorAll('.theme-item');
+
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const theme = button.getAttribute('data-bs-theme-value');
+                document.documentElement.setAttribute('data-bs-theme', theme);
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+            });
+        });
+    });
+
+    const quantityInputs = document.querySelectorAll('.snack-quantity input[type="number"]');
+    const quantityAddButtons = document.querySelectorAll('.snack-quantity .quantity-btn:last-child');
+    const quantitySubtractButtons = document.querySelectorAll('.snack-quantity .quantity-btn:first-child');
+    const orderSummary = document.querySelector('.order-summary');
+
+    function updateOrderSummary() {
+        let total = 0;
+        let itemsHtml = '<h2>Order Summary</h2>';
+        const snackItems = document.querySelectorAll('.snack-item');
+
+        snackItems.forEach(item => {
+            const title = item.querySelector('.snack-title').textContent;
+            const price = parseFloat(item.querySelector('.snack-price').textContent.substring(1));
+            const quantityInput = item.querySelector('.quantity-input');
+            const quantity = parseInt(quantityInput.value);
+
+            if (quantity > 0) {
+                const itemTotal = price * quantity;
+                total += itemTotal;
+                itemsHtml += `
+                        <div class="order-item">
+                            <span>${title} (${quantity})</span>
+                            <span>$${itemTotal.toFixed(2)}</span>
+                        </div>
+                    `;
+            }
+        });
+
+        itemsHtml += `
+                <div class="order-total">
+                    <span>Total</span>
+                    <span>$${total.toFixed(2)}</span>
+                </div>
+                <button class="checkout-btn">Proceed to Checkout</button>
+            `;
+
+        orderSummary.innerHTML = itemsHtml;
+
+        const newCheckoutButton = orderSummary.querySelector('.checkout-btn');
+        if (newCheckoutButton) {
+            newCheckoutButton.addEventListener('click', () => {
+                alert('Proceeding to checkout with your selected snacks!');
+                // In a real application, you would handle the checkout process here.
+            });
+        }
+    }
+
+    quantityAddButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const input = quantityInputs[index];
+            input.value = parseInt(input.value) + 1;
+            updateOrderSummary();
+        });
+    });
+
+    quantitySubtractButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            const input = quantityInputs[index];
+            if (parseInt(input.value) > 0) {
+                input.value = parseInt(input.value) - 1;
+                updateOrderSummary();
+            }
+        });
+    });
+
+    quantityInputs.forEach(input => {
+        input.addEventListener('change', updateOrderSummary);
+    });
+
+    // Initial update of the order summary
+    updateOrderSummary();
+</script>
+</body>
+
+</html>
