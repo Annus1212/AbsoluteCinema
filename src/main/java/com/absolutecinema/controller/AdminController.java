@@ -21,8 +21,8 @@ public class AdminController {
 
     @GetMapping("/admin/dashboard")
     public String showDashboard(Model model) {
-        model.addAttribute("movies", movieService.findAll());
-        model.addAttribute("movieCount", movieService.findAll().size());
+        model.addAttribute("movies", movieService.getAllMovies());
+        model.addAttribute("movieCount", movieService.getAllMovies().size());
         model.addAllAttributes(analyticsService.getAnalyticsData());
         return "admin/dashboard";
     }
@@ -57,6 +57,3 @@ public class AdminController {
         return "admin/managebooking";
     }
 }
-
-
-

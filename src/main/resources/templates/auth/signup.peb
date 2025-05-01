@@ -29,7 +29,7 @@
             height: 85vh;
             max-width: 1200px;
             max-height: 700px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 15px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 15px 30px rgba(0, 0, 0, 0.2); /* Shadow for 3D effect */
             border-radius: 20px;
             overflow: hidden;
             position: relative;
@@ -38,10 +38,10 @@
         .signup-form {
             flex: 1;
             background-color: #141620;
-            padding: 5% 8%;
+            padding: 10% 8%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
             position: relative;
             z-index: 1;
             text-align: center;
@@ -112,7 +112,7 @@
         }
         
         .logo {
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             font-size: 28px;
             font-weight: bold;
             background: linear-gradient(to right, #722ed1, #1677ff);
@@ -136,13 +136,13 @@
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             position: relative;
         }
         
         .form-control {
             width: 100%;
-            padding: 14px 20px 14px 45px;
+            padding: 18px 20px 18px 50px;
             border: 1px solid #32343e;
             border-radius: 10px;
             font-size: 16px;
@@ -150,21 +150,18 @@
             transition: all 0.3s;
             background-color: #1e2130;
             color: #e4e4e4;
-            height: 50px;
         }
         
         .form-icon {
             position: absolute;
-            left: 18px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
             color: #606273;
-            font-size: 16px;
         }
         
         .form-control::placeholder {
             color: #606273;
-            font-size: 16px;
         }
         
         .form-control:focus {
@@ -176,10 +173,28 @@
             color: #722ed1;
         }
         
+        .forgot-link {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .forgot-link a {
+            color: #8a8d99;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .forgot-link a:hover {
+            color: #722ed1;
+        }
+        
         .btn {
             width: 100%;
+            padding: 18px;
             border: none;
             border-radius: 50px;
+            font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -187,8 +202,6 @@
             letter-spacing: 2px;
             position: relative;
             overflow: hidden;
-            height: 54px;
-            font-size: 16px;
         }
         
         .btn-primary {
@@ -210,7 +223,7 @@
         }
         
         .welcome-content h2 {
-            font-size: 37px;
+            font-size: 48px;
             margin-bottom: 15px;
             color: #fff;
         }
@@ -235,7 +248,7 @@
         
         .signup-link {
             text-align: center;
-            margin-top: 18px;
+            margin-top: 25px;
             color: #6c7293;
             font-size: 15px;
         }
@@ -251,72 +264,6 @@
         .signup-link a:hover {
             color: #1677ff;
             text-decoration: underline;
-        }
-        
-        .form-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .form-footer {
-            margin-top: 20px;
-            margin-bottom: 15px;
-        }
-        
-        /* Step indicator styling */
-        .steps-indicator {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-        
-        .step {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: #32343e;
-            margin: 0 6px;
-            transition: all 0.3s;
-        }
-        
-        .step.active {
-            background: linear-gradient(to right, #722ed1, #1677ff);
-            width: 30px;
-            border-radius: 5px;
-        }
-        
-        /* Form step visibility */
-        .form-step {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-        
-        .form-step.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Error message styling */
-        #error-message {
-            color: #ff5a5a;
-            margin-bottom: 20px;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            background-color: rgba(255, 90, 90, 0.1);
-            display: none;
-        }
-
-        #prevBtn {
-            background: transparent;
-            border: 2px solid #722ed1;
-            color: #722ed1;
-            margin-top: 15px;
         }
 
         @media (max-width: 768px) {
@@ -345,7 +292,7 @@
             <div class="bubble"></div>
             
             <div class="welcome-content">
-                <h2>Join Absolute Cinema</h2> 
+                <h2 style="font-size: 37px;">Join Absolute Cinema</h2> 
                 <div class="cinema-quote">
                     "Cinema is a mirror by which we often see ourselves. Through the silver screen, we connect with our emotions, dreams, and the stories that shape our lives."
                 </div>
@@ -355,194 +302,78 @@
         </div>
         
         <!-- Signup Form (Black Part) -->
-        <div class="signup-form">
-            <div class="form-content">
-                <div class="logo">ABSOLUTE CINEMA</div>
-                
-                <!-- Step indicators -->
-                <div class="steps-indicator">
-                    <div class="step step-1 active"></div>
-                    <div class="step step-2"></div>
-                </div>
-                
-                <!-- Error message area -->
-                <div id="error-message"></div>
-                
-                <form id="signup-form" method="POST" action="/auth/register">
-                    <input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}" />
-                    
-                    <!-- Step 1: Basic Information -->
-                    <div class="form-step step-1 active">
-                        <div class="form-group">
-                            <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
-                            <i class="fas fa-user form-icon"></i>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First Name" required>
-                            <i class="fas fa-user form-icon"></i>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name" required>
-                            <i class="fas fa-user form-icon"></i>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
-                            <i class="fas fa-envelope form-icon"></i>
-                        </div>
-                    </div>
-                    
-                    <!-- Step 2: Password -->
-                    <div class="form-step step-2">
-                        <div class="form-group">
-                            <input type="password" name="password" id="password" class="form-control" placeholder="Create Password" required>
-                            <i class="fas fa-lock form-icon"></i>
-                        </div>
-                        
-                        <div class="form-group">
-                            <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" required>
-                            <i class="fas fa-lock form-icon"></i>
-                        </div>
-                    </div>
-                </form>
+        <form class="signup-form" method="POST" action="/auth/register">
+            <input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}" />
+            <div class="logo">ABSOLUTE CINEMA</div>
+            <br>
+            {% if error %}
+                <div class="error-message" style="color: red;">{{ error }}</div>
+            {% endif %}
+            <div class="form-group">
+                <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+                <i class="fas fa-user form-icon"></i>
             </div>
             
-            <div class="form-footer">
-                <!-- Navigation buttons -->
-                <button type="button" id="nextBtn" class="btn btn-primary">CONTINUE</button>
-                <button type="button" id="prevBtn" class="btn" style="display: none;">BACK</button>
-                <button type="button" id="submitBtn" class="btn btn-primary" style="display: none; margin-top: 15px;">SIGN UP</button>
-                
-                <div class="signup-link">
-                    Already have an account? <a href="signin.html">Sign In</a>
-                </div>
+            <div class="form-group">
+                <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First Name">
+                <i class="fas fa-user form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last Name">
+                <i class="fas fa-user form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+                <i class="fas fa-envelope form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password">
+                <i class="fas fa-lock form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password">
+                <i class="fas fa-lock form-icon"></i>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" id="submitBtn" style="position: absolute;top: 560px;left:100px;width: 300px;height: 40px;padding: 10px;">SIGN UP</button>
+            
+            <div class="signup-link" style="position: absolute;top: 590px;left:120px;">
+                Already have an account? <a href="login">Sign In</a>
             </div>
         </div>
     </div>
 
+
     <script>
-        // Elements
-        const form = document.getElementById('signup-form');
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const submitBtn = document.getElementById('submitBtn');
-        const errorMessage = document.getElementById('error-message');
-        
-        // Form steps
-        const step1 = document.querySelector('.form-step.step-1');
-        const step2 = document.querySelector('.form-step.step-2');
-        
-        // Step indicators
-        const stepIndicator1 = document.querySelector('.step.step-1');
-        const stepIndicator2 = document.querySelector('.step.step-2');
-        
-        // Form fields
-        const usernameField = document.getElementById('username');
-        const firstNameField = document.getElementById('firstName');
-        const lastNameField = document.getElementById('lastName');
-        const emailField = document.getElementById('email');
+        // Get form inputs
         const passwordField = document.getElementById('password');
         const confirmPasswordField = document.getElementById('confirmPassword');
+        const emailField = document.getElementById('email');
+        const submitBtn = document.getElementById('submitBtn');
         
-        // Move to step 2
-        nextBtn.addEventListener('click', function() {
-            // Validate step 1 fields
-            if (!validateStep1()) {
+        // Function to validate form
+        submitBtn.addEventListener('click', function(e) {
+            // Check if email contains '@'
+            if (!emailField.value.includes('@')) {
+                alert('Please enter a valid email address.');
+                e.preventDefault();
                 return;
             }
-            
-            // Move to step 2
-            step1.classList.remove('active');
-            step2.classList.add('active');
-            
-            // Update indicators
-            stepIndicator1.classList.remove('active');
-            stepIndicator2.classList.add('active');
-            
-            // Update buttons
-            nextBtn.style.display = 'none';
-            prevBtn.style.display = 'block';
-            submitBtn.style.display = 'block';
-        });
-        
-        // Move back to step 1
-        prevBtn.addEventListener('click', function() {
-            step2.classList.remove('active');
-            step1.classList.add('active');
-            
-            stepIndicator2.classList.remove('active');
-            stepIndicator1.classList.add('active');
-            
-            nextBtn.style.display = 'block';
-            prevBtn.style.display = 'none';
-            submitBtn.style.display = 'none';
-        });
-        
-        // Submit form
-        submitBtn.addEventListener('click', function(e) {
-            if (validateStep2()) {
-                form.submit();
-            }
-        });
-        
-        // Step 1 validation
-        function validateStep1() {
-            // Reset error message
-            errorMessage.style.display = 'none';
-            
-            // Check if fields are empty
-            if (!usernameField.value.trim()) {
-                showError('Please enter a username');
-                return false;
-            }
-            
-            if (!firstNameField.value.trim()) {
-                showError('Please enter your first name');
-                return false;
-            }
-            
-            if (!lastNameField.value.trim()) {
-                showError('Please enter your last name');
-                return false;
-            }
-            
-            // Validate email format
-            if (!emailField.value.trim() || !emailField.value.includes('@')) {
-                showError('Please enter a valid email address');
-                return false;
-            }
-            
-            return true;
-        }
-        
-        // Step 2 validation
-        function validateStep2() {
-            // Reset error
-            errorMessage.style.display = 'none';
-            
-            // Check if passwords are entered
-            if (!passwordField.value) {
-                showError('Please enter a password');
-                return false;
-            }
-            
+
             // Check if passwords match
             if (passwordField.value !== confirmPasswordField.value) {
-                showError('Passwords do not match');
-                return false;
+                alert('Passwords do not match!');
+                e.preventDefault();
+                return;
             }
-            
-            
-            return true;
-        }
-        
-        // Display error message
-        function showError(message) {
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-        }
+
+            // Optional: You can add more validation here if needed (e.g., password strength check)
+            // alert('Form Submitted Successfully!');
+        });
     </script>
 </body>
 </html>

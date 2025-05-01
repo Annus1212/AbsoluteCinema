@@ -12,6 +12,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByUsername(String username);
 
-    // @Query("SELECT MAX(u.id) FROM User u")
-    // Optional<Long> findMaxId();
+    @Query("SELECT MAX(u.id) FROM User u")
+    Optional<Long> findMaxId();
 }

@@ -1,49 +1,38 @@
 package com.absolutecinema.entity;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 @Entity
 @Table(name = "snack")
+@Data
 public class Snack {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "price", nullable = false)
+    @Column(nullable = false)
     private Double price;
 
-    @Column(name = "images", columnDefinition = "BYTEA")
-    @JsonIgnore
-    private byte[] images;
+    @Column(nullable = false)
+    private Integer quantity;
 
     @Column(name = "snackssold", nullable = false)
     private int snackssold;
 
-    @Column(name = "quantity", nullable = false)
-    private int quantity;
-
-    @JsonProperty("images")
-    public String getImagesBase64() {
-        if (images == null) return null;
-        return java.util.Base64.getEncoder().encodeToString(images);
+    public Snack() {
     }
 
-    @JsonProperty("images")
-    public void setImagesBase64(String base64) {
-        if (base64 == null) {
-            this.images = null;
-            return;
-        }
-        this.images = java.util.Base64.getDecoder().decode(base64);
+    public Snack(String name, double price, int quantity) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -60,28 +49,12 @@ public class Snack {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(double price) {
         this.price = price;
-    }
-
-    public byte[] getImages() {
-        return images;
-    }
-
-    public void setImages(byte[] images) {
-        this.images = images;
-    }
-
-    public int getSnackssold() {
-        return snackssold;
-    }
-
-    public void setSnackssold(int snackssold) {
-        this.snackssold = snackssold;
     }
 
     public int getQuantity() {
@@ -90,5 +63,13 @@ public class Snack {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getSnackssold() {
+        return snackssold;
+    }
+
+    public void setSnackssold(int snackssold) {
+        this.snackssold = snackssold;
     }
 }

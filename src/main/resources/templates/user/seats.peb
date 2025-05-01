@@ -686,6 +686,16 @@
     <div class="container">
         <h2 class="section-title mt-4">Seat Selection</h2>
         
+        <!-- Movie Info -->
+        <div class="movie-info mb-4">
+            <h3>{{ movie.title }}</h3>
+            <div class="d-flex gap-3">
+                <span><i class="bi bi-clock"></i> {{ movie.duration }} min</span>
+                <span><i class="bi bi-film"></i> {{ movie.genre }}</span>
+                <span><i class="bi bi-translate"></i> {{ movie.language }}</span>
+            </div>
+        </div>
+        
         <!-- Booking Progress -->
         <div class="booking-progress fadeIn">
         <div class="progress-step completed">
@@ -714,23 +724,36 @@
         <div class="col-lg-4 mb-4">
             <!-- Movie Info Box -->
             <div class="movie-info-box fadeIn">
-            <h3 class="movie-info-title">Cosmic Odyssey</h3>
-            <div class="movie-info-item">
-                <i class="bi bi-calendar3"></i>
-                <span>Today (Apr 28, 2025)</span>
-            </div>
-            <div class="movie-info-item">
-                <i class="bi bi-clock"></i>
-                <span>7:30 PM</span>
-            </div>
-            <div class="movie-info-item">
-                <i class="bi bi-ticket-perforated"></i>
-                <span>Gold (PKR 1500)</span>
-            </div>
-            <div class="movie-info-item">
-                <i class="bi bi-film"></i>
-                <span>Hall 3, Screen 2</span>
-            </div>
+                <h3 class="movie-info-title">{{ movie.title }}</h3>
+                <div class="movie-info-item">
+                    <i class="bi bi-calendar3"></i>
+                    <span>Today (Apr 28, 2025)</span>
+                </div>
+                <div class="movie-info-item">
+                    <i class="bi bi-clock"></i>
+                    <span>7:30 PM</span>
+                </div>
+                <div class="movie-info-item">
+                    <i class="bi bi-ticket-perforated"></i>
+                    <span>Gold (PKR 1500)</span>
+                </div>
+                <div class="movie-info-item">
+                    <i class="bi bi-film"></i>
+                    <span>Hall 3, Screen 2</span>
+                </div>
+                
+                <!-- Session Selection -->
+                <div class="mt-4">
+                    <label class="form-label">Select Show Time</label>
+                    <select class="form-select" id="sessionSelect">
+                        <option value="">Choose a show time...</option>
+                        {% for session in sessions %}
+                        <option value="{{ session.id }}" data-session-time="{{ session.sessionTime }}" data-available-seats="{{ session.availableSeats }}">
+                            {{ session.sessionTime }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
             
             <!-- Seat Info Panel -->
@@ -743,7 +766,7 @@
                 <span>Total</span>
                 <span class="total-price-value">PKR 0</span>
             </div>
-            <button class="continue-btn" id="continueBtn" disabled>Continue to Snacks</button>
+            <button id="continueBtn" class="continue-btn" disabled>Continue to Snacks</button>
             </div>
         </div>
         
@@ -984,6 +1007,47 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Move continueToSnacks function outside DOMContentLoaded
+    function continueToSnacks() {
+        // Collect selected seats as objects with row, seat, premium, price
+        const selectedSeats = Array.from(document.querySelectorAll('.seat.selected')).map(seat => ({
+            row: seat.getAttribute('data-row'),
+            seat: seat.getAttribute('data-seat'),
+            premium: seat.classList.contains('premium'),
+            price: 12 // PKR 12 per ticket for all seats (adjust if you want premium pricing)
+        }));
+        const numberOfTickets = selectedSeats.length;
+
+        // Get movie/session info (adjust selectors as needed)
+        const movieTitle = document.querySelector('.movie-info-title')?.textContent || '';
+        const movieId = document.getElementById('movie-id')?.value || null;
+        const sessionSelect = document.getElementById('sessionSelect');
+        const sessionId = sessionSelect.value;
+        const sessionTime = sessionId ? sessionSelect.options[sessionSelect.selectedIndex].text : '';
+
+        // Build orderDetails object
+        const orderDetails = {
+            movieTitle,
+            movieId,
+            sessionTime,
+            sessionId,
+            seats: selectedSeats,
+            numberOfTickets,
+            ticketPrice: 12,
+            snacks: [],
+            snacksTotal: 0,
+            totalAmount: (numberOfTickets * 12).toFixed(2)
+        };
+        sessionStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+        // Also store individual fields for compatibility
+        sessionStorage.setItem('movieTitle', movieTitle);
+        sessionStorage.setItem('movieId', movieId);
+        sessionStorage.setItem('sessionTime', sessionTime);
+        sessionStorage.setItem('sessionId', sessionId);
+        sessionStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+        window.location.href = '/user/snacks';
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
       // Animation on scroll
       const fadeElems = document.querySelectorAll('.fadeIn');
@@ -1082,13 +1146,12 @@
         }
       }
       
-      // Continue button functionality
-      continueBtn.addEventListener('click', () => {
-        alert('Redirecting to snacks selection...');
-        // In a real application, you would redirect or proceed to the next step
-        // window.location.href = '/snacks';
-      });
+      // Update continue button click handler
+      continueBtn.addEventListener('click', continueToSnacks);
     });
   </script>
+
+  <!-- Add hidden input for movieId -->
+  <input type="hidden" id="movie-id" value="{{ movie.id }}">
 </body>
 </html>

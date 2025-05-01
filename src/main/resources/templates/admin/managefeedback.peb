@@ -99,7 +99,7 @@
 
         <div class="d-flex flex-wrap align-items-center mt-3">
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
-                <li><a href="/" class="nav-link px-2">Home</a></li>
+                <li><a href="/admin/dashboard" class="nav-link px-2">Home</a></li>
                 <li><a href="/movies" class="nav-link px-2">Movies</a></li>
                 <li><a href="/employee/dashboard" class="nav-link px-2">Bookings</a></li>
                 <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
@@ -386,8 +386,14 @@
                             <div class="user-info">${userName} - ${formatDate(feedback.createdAt)}</div>
                         </div>
                         <div class="feedback-actions">
-                            <button class="btn-outline btn-sm delete-btn" data-feedback-id="${feedback.id}">
-                                <i class="bi bi-trash me-1"></i> Delete
+                            <button class="btn-outline btn-sm">
+                                <i class="bi bi-reply-fill me-1"></i> Reply
+                            </button>
+                            <button class="btn-outline btn-sm">
+                                <i class="bi bi-flag me-1"></i> Flag
+                            </button>
+                            <button class="btn-outline btn-sm">
+                                <i class="bi bi-archive me-1"></i> Archive
                             </button>
                         </div>
                     </div>
@@ -480,16 +486,6 @@
                 });
             });
 
-            // Add event delegation for delete buttons
-            document.querySelector('.feedback-scrollable').addEventListener('click', function(e) {
-                if (e.target.closest('.delete-btn')) {
-                    const feedbackId = e.target.closest('.delete-btn').getAttribute('data-feedback-id');
-                    if (confirm('Are you sure you want to delete this feedback?')) {
-                        deleteFeedback(feedbackId);
-                    }
-                }
-            });
-
             // Initialize the page
             updateFeedbackStats();
             loadFeedbackList();
@@ -538,32 +534,6 @@
                 }
             });
         });
-
-        // Function to handle feedback deletion
-        async function deleteFeedback(feedbackId) {
-            try {
-                const response = await fetch(`/api/feedback/${feedbackId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    // Remove the feedback item from the UI
-                    const feedbackItem = document.querySelector(`[data-feedback-id="${feedbackId}"]`).closest('.feedback-item');
-                    feedbackItem.remove();
-                    
-                    // Update statistics
-                    updateFeedbackStats();
-                } else {
-                    throw new Error('Failed to delete feedback');
-                }
-            } catch (error) {
-                console.error('Error deleting feedback:', error);
-                alert('Failed to delete feedback. Please try again.');
-            }
-        }
     </script>
 
 <style>

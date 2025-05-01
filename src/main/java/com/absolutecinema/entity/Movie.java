@@ -1,8 +1,6 @@
 package com.absolutecinema.entity;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 @Entity
@@ -31,34 +29,14 @@ public class Movie {
     @Column(nullable = false)
     private String language;
 
-    @Column(name = "releasedate", nullable = false)
+    @Column(nullable = false)
     private String releaseDate;
 
     @Column(name = "ticketssold", nullable = false)
     private int ticketssold;
 
-    @Column(name = "images", columnDefinition = "BYTEA")
-    @JsonIgnore
-    private byte[] images;
-
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    @JsonIgnore
     private List<Session> sessions;
-
-    @JsonProperty("images")
-    public String getImagesBase64() {
-        if (images == null) return null;
-        return java.util.Base64.getEncoder().encodeToString(images);
-    }
-
-    @JsonProperty("images")
-    public void setImagesBase64(String base64) {
-        if (base64 == null) {
-            this.images = null;
-            return;
-        }
-        this.images = java.util.Base64.getDecoder().decode(base64);
-    }
 
     // Getters and Setters
 
@@ -140,13 +118,5 @@ public class Movie {
 
     public void setTicketssold(int ticketssold) {
         this.ticketssold = ticketssold;
-    }
-
-    public byte[] getImages() {
-        return images;
-    }
-
-    public void setImages(byte[] images) {
-        this.images = images;
     }
 }

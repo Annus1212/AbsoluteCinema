@@ -467,6 +467,135 @@
             color: rgba(255, 255, 255, 0.5);
             font-size: 0.9rem;
         }
+
+        .snack-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .snack-card:hover {
+            transform: translateY(-5px);
+            background: var(--card-hover);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .snack-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .snack-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .snack-price {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(var(--bs-primary-rgb), 0.2);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quantity-btn:hover {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: white;
+            padding: 5px;
+        }
+
+        .continue-btn {
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+            letter-spacing: 1px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(138, 43, 226, 0.6);
+        }
+
+        .cart-summary {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .total-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .seats-list {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .cart-item:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 
@@ -497,7 +626,7 @@
 
         <div class="d-flex flex-wrap align-items-center mt-3">
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
-                <li><a href="/" class="nav-link px-2">Home</a></li>
+                <li><a href="/user/dashboard" class="nav-link px-2">Home</a></li>
                 <li><a href="/movies" class="nav-link px-2">Movies</a></li>
                 <li><a href="/bookings" class="nav-link px-2">Bookings</a></li>
                 <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
@@ -509,329 +638,210 @@
     </div>
 </div>
 
-<div class="container my-5">
-    <section class="py-5">
-        <h2 class="section-title">Select Your Snacks</h2>
-        <div class="booking-progress fadeIn">
-            <div class="progress-step completed">
-                <div class="step-number">1</div>
-                <div class="step-name">Movie</div>
-            </div>
-            <div class="progress-step completed">
-                <div class="step-number">2</div>
-                <div class="step-name">Ticket</div>
-            </div>
-            <div class="progress-step completed">
-                <div class="step-number">3</div>
-                <div class="step-name">Seats</div>
-            </div>
-            <div class="progress-step active">
-                <div class="step-number">4</div>
-                <div class="step-name">Snacks</div>
-            </div>
-            <div class="progress-step">
-                <div class="step-number">5</div>
-                <div class="step-name">Payment</div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-8">
-                <div class="snack-items-grid">
-                    <div class="snack-item">
-                        <img src="https://via.placeholder.com/150/FFC107/000000?Text=Popcorn" alt="Popcorn">
-                        <h3 class="snack-title">Popcorn</h3>
-                        <p class="snack-price">$5.99</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="https://via.placeholder.com/150/F44336/FFFFFF?Text=Soda" alt="Soda">
-                        <h3 class="snack-title">Soda</h3>
-                        <p class="snack-price">$3.50</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="https://via.placeholder.com/150/4CAF50/FFFFFF?Text=Nachos" alt="Nachos">
-                        <h3 class="snack-title">Nachos</h3>
-                        <p class="snack-price">$7.25</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="0" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="https://via.placeholder.com/150/9C27B0/FFFFFF?Text=Candy" alt="Candy">
-                        <h3 class="snack-title">Candy</h3>
-                        <p class="snack-price">$2.75</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="https://via.placeholder.com/150/03A9F4/FFFFFF?Text=Hotdog" alt="Hotdog">
-                        <h3 class="snack-title">Hotdog</h3>
-                        <p class="snack-price">$6.50</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="0" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="https://via.placeholder.com/150/FF5722/FFFFFF?Text=Ice+Cream" alt="Ice Cream">
-                        <h3 class="snack-title">Ice Cream</h3>
-                        <p class="snack-price">$4.50</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="classic butter popcorn.jpg" alt="Classic Butter Popcorn">
-                        <h3 class="snack-title">Classic Butter Popcorn</h3>
-                        <p class="snack-price">$4.99</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="caramel popcorn.jpg" alt="Caramel Popcorn">
-                        <h3 class="snack-title">Caramel Popcorn</h3>
-                        <p class="snack-price">$5.99</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="cheese.jpg" alt="Cheese Popcorn">
-                        <h3 class="snack-title">Cheese Popcorn</h3>
-                        <p class="snack-price">$6.99</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="coca cola.jpg" alt="Classic Cola">
-                        <h3 class="snack-title">Classic Cola</h3>
-                        <p class="snack-price">$3.99</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="sparkling water.jpg" alt="Sparkling Water">
-                        <h3 class="snack-title">Sparkling Water</h3>
-                        <p class="snack-price">$2.99</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="fresh orange juice.jpg" alt="Fresh Orange Juice">
-                        <h3 class="snack-title">Fresh Orange Juice</h3>
-                        <p class="snack-price">$4.99</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="espresso.jpg" alt="Espresso">
-                        <h3 class="snack-title">Espresso</h3>
-                        <p class="snack-price">$3.49</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
-                        </div>
-                    </div>
-                    <div class="snack-item">
-                        <img src="capacinoo.jpg" alt="Cappuccino">
-                        <h3 class="snack-title">Cappuccino</h3>
-                        <p class="snack-price">$4.99</p>
-                        <div class="snack-quantity">
-                            <button class="quantity-btn">-</button>
-                            <input type="number" class="quantity-input" value="1" min="0">
-                            <button class="quantity-btn">+</button>
+<div class="container py-5">
+    <h2 class="text-center mb-5">Select Your Snacks</h2>
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                {% for snack in snacks %}
+                <div class="col-md-6">
+                    <div class="snack-card" data-snack-id="{{ snack.id }}">
+                        <img src="/images/snacks/{{ snack.name|lower }}.jpg" alt="{{ snack.name }}" class="snack-image">
+                        <h3 class="snack-title">{{ snack.name }}</h3>
+                        <div class="snack-price">PKR {{ snack.price }}</div>
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="decrementQuantity('{{ snack.id }}')">-</button>
+                            <input type="number" id="quantity-{{ snack.id }}" class="quantity-input" value="0" min="0" max="{{ snack.quantity }}" onchange="updateQuantity('{{ snack.id }}')">
+                            <button class="quantity-btn" onclick="incrementQuantity('{{ snack.id }}')">+</button>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="order-summary">
-                    <h2>Order Summary</h2>
-                    <div class="order-item">
-                        <span>Popcorn (1)</span>
-                        <span>$5.99</span>
-                    </div>
-                    <div class="order-item">
-                        <span>Soda (1)</span>
-                        <span>$3.50</span>
-                    </div>
-                    <div class="order-item">
-                        <span>Candy (1)</span>
-                        <span>$2.75</span>
-                    </div>
-                    <div class="order-item">
-                        <span>Ice Cream (1)</span>
-                        <span>$4.50</span>
-                    </div>
-                    <div class="order-total">
-                        <span>Total</span>
-                        <span>$16.74</span>
-                    </div>
-                    <button class="checkout-btn">Proceed to Checkout</button>
-                </div>
+                {% endfor %}
             </div>
         </div>
-    </section>
+        
+        <div class="col-lg-4">
+            <div class="cart-summary">
+                <h4 class="mb-4">Order Summary</h4>
+                <div id="selected-seats" class="mb-3">
+                    <h6>Selected Seats</h6>
+                    <div id="seats-list" class="seats-list">
+                        <!-- Selected seats will be displayed here -->
+                    </div>
+                </div>
+                <div id="cart-items">
+                    <!-- Cart items will be dynamically added here -->
+                </div>
+                <div class="total-price">
+                    Total: <span id="total-price">PKR 0</span>
+                </div>
+                <button class="continue-btn" onclick="proceedToPayment()">Continue to Payment</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    let cart = {};
+    let selectedSeats = [];
+    let movieTitle = '';
+    let movieId = '';
+    let sessionTime = '';
+    let sessionId = '';
+    let ticketPrice = 12; // PKR 12 per seat
+    let numberOfTickets = 0;
+
+    // Load all order details from sessionStorage when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        const themeToggleButton = document.querySelector('.theme-btn');
-        const themeMenu = document.querySelector('.theme-menu');
-        const themeItems = document.querySelectorAll('.theme-item');
-
-        // Function to set the theme
-        function setTheme(theme) {
-            document.documentElement.setAttribute('data-bs-theme', theme);
-            localStorage.setItem('theme', theme); // Save theme preference
-
-            // Update active state in the dropdown
-            themeItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('data-bs-theme-value') === theme) {
-                    item.classList.add('active');
-                }
-            });
-        }
-
-        // Event listener for the theme toggle button to show/hide the menu
-        themeToggleButton.addEventListener('click', function() {
-            themeMenu.classList.toggle('show');
-        });
-
-        // Event listeners for clicking on theme items
-        themeItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const selectedTheme = this.getAttribute('data-bs-theme-value');
-                setTheme(selectedTheme);
-                themeMenu.classList.remove('show'); // Hide the menu after selection
-            });
-        });
-
-        // Close the theme menu if clicking outside
-        document.addEventListener('click', function(event) {
-            if (themeMenu.classList.contains('show') && !themeToggleButton.contains(event.target) && !themeMenu.contains(event.target)) {
-                themeMenu.classList.remove('show');
+        // Try to get orderDetails object
+        const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails') || '{}');
+        movieTitle = orderDetails.movieTitle || sessionStorage.getItem('movieTitle') || '';
+        movieId = orderDetails.movieId || sessionStorage.getItem('movieId') || '';
+        sessionTime = orderDetails.sessionTime || sessionStorage.getItem('sessionTime') || '';
+        sessionId = orderDetails.sessionId || sessionStorage.getItem('sessionId') || '';
+        ticketPrice = orderDetails.ticketPrice || 12;
+        selectedSeats = orderDetails.seats || JSON.parse(sessionStorage.getItem('selectedSeats') || '[]');
+        numberOfTickets = selectedSeats.length;
+        // If snacks exist in orderDetails, load them
+        if (orderDetails.snacks) {
+            cart = {};
+            if (Array.isArray(orderDetails.snacks)) {
+                orderDetails.snacks.forEach(snack => {
+                    cart[snack.id] = { name: snack.name, price: snack.price, quantity: snack.quantity };
+                });
+            } else if (typeof orderDetails.snacks === 'object') {
+                cart = orderDetails.snacks;
             }
-        });
-
-        // Initially set the theme based on local storage or default to 'auto'
-        const storedTheme = localStorage.getItem('theme');
-        const defaultTheme = 'auto';
-        setTheme(storedTheme || defaultTheme);
+        } else {
+            cart = JSON.parse(sessionStorage.getItem('selectedSnacks') || '{}');
+        }
+        updateSeatsList();
     });
 
-    const quantityInputs = document.querySelectorAll('.snack-quantity input[type="number"]');
-    const quantityAddButtons = document.querySelectorAll('.snack-quantity .quantity-btn:last-child');
-    const quantitySubtractButtons = document.querySelectorAll('.snack-quantity .quantity-btn:first-child');
-    const orderSummary = document.querySelector('.order-summary');
-
-    function updateOrderSummary() {
-        let total = 0;
-        let itemsHtml = '<h2>Order Summary</h2>';
-        const snackItems = document.querySelectorAll('.snack-item');
-
-        snackItems.forEach(item => {
-            const title = item.querySelector('.snack-title').textContent;
-            const priceElement = item.querySelector('.snack-price');
-            const priceText = priceElement ? priceElement.textContent : '$0.00';
-            const price = parseFloat(priceText.substring(1));
-            const quantityInput = item.querySelector('.quantity-input');
-            const quantity = parseInt(quantityInput.value);
-
-            if (quantity > 0) {
-                const itemTotal = price * quantity;
-                total += itemTotal;
-                itemsHtml += `
-                        <div class="order-item">
-                            <span>${title} (${quantity})</span>
-                            <span>$${itemTotal.toFixed(2)}</span>
-                        </div>
-                    `;
+    function updateSeatsList() {
+        const seatsList = document.getElementById('seats-list');
+        seatsList.innerHTML = '';
+        selectedSeats.forEach(seat => {
+            let seatLabel = '';
+            if (typeof seat === 'object' && seat !== null) {
+                seatLabel = `Row ${seat.row} Seat ${seat.seat}`;
+            } else {
+                seatLabel = seat;
             }
-        });
-
-        itemsHtml += `
-                <div class="order-total">
-                    <span>Total</span>
-                    <span>$${total.toFixed(2)}</span>
-                </div>
-                <button class="checkout-btn">Proceed to Checkout</button>
+            const seatElement = document.createElement('div');
+            seatElement.className = 'cart-item';
+            seatElement.innerHTML = `
+                <span>${seatLabel}</span>
+                <span>PKR ${ticketPrice}</span>
             `;
+            seatsList.appendChild(seatElement);
+        });
+        updateCartUI();
+    }
 
-        orderSummary.innerHTML = itemsHtml;
+    function updateQuantity(snackId) {
+        const input = document.getElementById(`quantity-${snackId}`);
+        const quantity = parseInt(input.value);
+        const maxQuantity = parseInt(input.max);
+        
+        if (quantity < 0) input.value = 0;
+        if (quantity > maxQuantity) input.value = maxQuantity;
+        
+        updateCart(snackId, parseInt(input.value));
+    }
 
-        const newCheckoutButton = orderSummary.querySelector('.checkout-btn');
-        if (newCheckoutButton) {
-            newCheckoutButton.addEventListener('click', () => {
-                alert('Proceeding to checkout with your selected snacks!');
-                // In a real application, you would handle the checkout process here.
-            });
+    function incrementQuantity(snackId) {
+        const input = document.getElementById(`quantity-${snackId}`);
+        const currentValue = parseInt(input.value);
+        const maxQuantity = parseInt(input.max);
+        
+        if (currentValue < maxQuantity) {
+            input.value = currentValue + 1;
+            updateCart(snackId, currentValue + 1);
         }
     }
 
-    quantityAddButtons.forEach((button, index) => {
-        button.addEventListener('click', () => {
-            const input = quantityInputs[index];
-            input.value = parseInt(input.value) + 1;
-            updateOrderSummary();
-        });
-    });
+    function decrementQuantity(snackId) {
+        const input = document.getElementById(`quantity-${snackId}`);
+        const currentValue = parseInt(input.value);
+        
+        if (currentValue > 0) {
+            input.value = currentValue - 1;
+            updateCart(snackId, currentValue - 1);
+        }
+    }
 
-    quantitySubtractButtons.forEach((button, index) => {
-        button.addEventListener('click', () => {
-            const input = quantityInputs[index];
-            if (parseInt(input.value) > 0) {
-                input.value = parseInt(input.value) - 1;
-                updateOrderSummary();
-            }
-        });
-    });
+    function updateCart(snackId, quantity) {
+        const snackCard = document.querySelector(`[data-snack-id="${snackId}"]`);
+        const snackName = snackCard.querySelector('.snack-title').textContent;
+        const snackPrice = parseFloat(snackCard.querySelector('.snack-price').textContent.replace('PKR ', ''));
+        if (quantity > 0) {
+            cart[snackId] = {
+                name: snackName,
+                price: snackPrice,
+                quantity: quantity
+            };
+        } else {
+            delete cart[snackId];
+        }
+        updateCartUI();
+    }
 
-    quantityInputs.forEach(input => {
-        input.addEventListener('change', updateOrderSummary);
-    });
+    function updateCartUI() {
+        const cartItems = document.getElementById('cart-items');
+        const totalPriceElement = document.getElementById('total-price');
+        let totalPrice = 0;
+        // Calculate seats total
+        totalPrice += selectedSeats.length * ticketPrice;
+        cartItems.innerHTML = '';
+        // Add snacks to cart display
+        for (const [snackId, item] of Object.entries(cart)) {
+            const itemTotal = item.price * item.quantity;
+            totalPrice += itemTotal;
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.innerHTML = `
+                <span>${item.name} x ${item.quantity}</span>
+                <span>PKR ${itemTotal}</span>
+            `;
+            cartItems.appendChild(cartItem);
+        }
+        totalPriceElement.textContent = `PKR ${totalPrice}`;
+    }
 
-    // Initial update of the order summary
-    updateOrderSummary();
+    function proceedToPayment() {
+        // Build full orderDetails object
+        const snacksArray = Object.entries(cart).map(([id, snack]) => ({
+            id,
+            name: snack.name,
+            price: snack.price,
+            quantity: snack.quantity
+        }));
+        const snacksTotal = snacksArray.reduce((sum, snack) => sum + snack.price * snack.quantity, 0);
+        const orderDetails = {
+            movieTitle,
+            movieId,
+            sessionTime,
+            sessionId,
+            seats: selectedSeats,
+            numberOfTickets: selectedSeats.length,
+            ticketPrice,
+            snacks: cart,
+            snacksTotal,
+            totalAmount: (selectedSeats.length * ticketPrice + snacksTotal).toFixed(2)
+        };
+        // Save all individual fields for backward compatibility
+        sessionStorage.setItem('movieTitle', movieTitle);
+        sessionStorage.setItem('movieId', movieId);
+        sessionStorage.setItem('sessionTime', sessionTime);
+        sessionStorage.setItem('sessionId', sessionId);
+        sessionStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+        sessionStorage.setItem('selectedSnacks', JSON.stringify(cart));
+        sessionStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+        // Redirect to payment page
+        window.location.href = '/user/payment';
+    }
 </script>
 </body>
 
@@ -971,3 +981,40 @@
 </body>
 
 </html>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Read order details from sessionStorage
+    const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails') || '{}');
+    // Populate summary fields (adjust selectors as needed)
+    document.getElementById('movie-title').textContent = orderDetails.movieTitle || '';
+    document.getElementById('session-time').textContent = orderDetails.sessionTime || '';
+    document.getElementById('selected-seats').textContent = (orderDetails.seats || []).map(seat => `${seat.row}${seat.seat}`).join(', ');
+    document.getElementById('ticket-count').textContent = orderDetails.numberOfTickets || '';
+    document.getElementById('ticket-price').textContent = orderDetails.ticketPrice || '';
+    document.getElementById('snacks-total').textContent = orderDetails.snacksTotal || '';
+    document.getElementById('total-amount').textContent = orderDetails.totalAmount || '';
+});
+
+function continueToPayment() {
+    const orderDetails = JSON.parse(sessionStorage.getItem('orderDetails') || '{}');
+    // Collect selected snacks (adjust selectors as needed)
+    const snackSelections = Array.from(document.querySelectorAll('.snack-card')).map(card => {
+        const id = card.getAttribute('data-snack-id');
+        const name = card.querySelector('.snack-title')?.textContent || '';
+        const price = parseFloat(card.querySelector('.snack-price')?.textContent.replace('$', '') || '0');
+        const quantity = parseInt(card.querySelector('.snack-quantity')?.value || '0', 10);
+        return quantity > 0 ? { id, name, price, quantity } : null;
+    }).filter(Boolean);
+
+    const snacksTotal = snackSelections.reduce((sum, snack) => sum + snack.price * snack.quantity, 0);
+
+    orderDetails.snacks = snackSelections;
+    orderDetails.snacksTotal = snacksTotal;
+    orderDetails.totalAmount = (orderDetails.numberOfTickets * orderDetails.ticketPrice + snacksTotal).toFixed(2);
+
+    sessionStorage.setItem('orderDetails', JSON.stringify(orderDetails));
+    window.location.href = '/user/payment';
+}
+document.getElementById('continueToPaymentBtn').addEventListener('click', continueToPayment);
+</script>

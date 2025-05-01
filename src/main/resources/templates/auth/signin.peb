@@ -271,12 +271,9 @@
         }
 
         .error-message {
-            color: #ff4d4f;
+            color: red;
             font-size: 14px;
             margin-top: 10px;
-            font-weight: 500;
-            padding: 8px;
-            display: none;
         }
 
         @media (max-width: 768px) {
@@ -336,30 +333,18 @@
                 <a href="forgot-password">Forgot your password?</a>
             </div>
 
-            <button class="btn btn-primary" type="submit">SIGN IN</button>
+            <button class="btn btn-primary" onclick="validateLogin()" type="submit">SIGN IN</button>
 
             <div class="signup-link">
                 New here? <a href="register">Create an account</a>
             </div>
 
-            <div id="error-message" class="error-message">Invalid Username or Password</div>
+            <div id="error-message" class="error-message">{{errorMessage}}</div>
         </form>
     </div>
 
-    <script>
-        // Function to check URL parameters
-        function checkForErrorParameter() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('error') === 'true') {
-                const errorElement = document.getElementById('error-message');
-                if (errorElement) {
-                    errorElement.style.display = 'block';
-                }
-            }
-        }
-        
-        // Run when the page loads
-        window.onload = checkForErrorParameter;
-    </script>
+
+    
 </body>
+
 </html>

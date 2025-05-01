@@ -7,4 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookingSnackRepository extends JpaRepository<BookingSnack, Long> {
     // Additional query methods can be defined here if needed
-} 
+}

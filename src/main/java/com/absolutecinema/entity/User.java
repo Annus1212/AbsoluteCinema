@@ -8,7 +8,6 @@ import java.util.Set;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -29,6 +28,9 @@ public class User {
 
     @Column(name = "acctyp", nullable = false)
     private String accountType = "user"; // Default to user if not specified
+
+    @Column(name = "points", nullable = false)
+    private int points = 0;
 
     @OneToMany(mappedBy = "user")
     private Set<Booking> bookings;
@@ -95,6 +97,14 @@ public class User {
 
     public void setAccountType(String accountType) {
         this.accountType = accountType;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public Set<Booking> getBookings() {
