@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SnackRepository extends JpaRepository<Snack, Long> {
-    // Additional query methods can be defined here if needed
+    // Additional query methods can be added here if needed
 }

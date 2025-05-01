@@ -74,7 +74,7 @@ public class SalaryService {
         salary.setYearMonth(yearMonth);
         salary.setHourlyRate(hourlyRate);
         salary.setTotalHours(totalHours);
-       // salary.setTotalSalary(totalSalary);
+        //salary.setTotalSalary(totalSalary);
 
         return salaryRepository.save(salary);
     }

@@ -57,6 +57,54 @@
          font-size: 0.8rem;
          color: #6c757d;
        }
+
+       /* Add these styles to make the table scrollable */
+       .table-responsive {
+         max-height: 500px;
+         overflow-y: auto;
+         margin-bottom: 20px;
+       }
+
+       .table-responsive table {
+         width: 100%;
+         border-collapse: collapse;
+       }
+
+       .table-responsive thead {
+         position: sticky;
+         top: 0;
+         background-color: var(--bs-body-bg);
+         z-index: 1;
+       }
+
+       .table-responsive th {
+         padding: 12px;
+         text-align: left;
+         border-bottom: 2px solid var(--bs-border-color);
+       }
+
+       .table-responsive td {
+         padding: 12px;
+         border-bottom: 1px solid var(--bs-border-color);
+       }
+
+       /* Custom scrollbar styles */
+       .table-responsive::-webkit-scrollbar {
+         width: 8px;
+       }
+
+       .table-responsive::-webkit-scrollbar-track {
+         background: var(--bs-body-bg);
+       }
+
+       .table-responsive::-webkit-scrollbar-thumb {
+         background: var(--bs-border-color);
+         border-radius: 4px;
+       }
+
+       .table-responsive::-webkit-scrollbar-thumb:hover {
+         background: var(--bs-secondary);
+       }
      </style>
 </head>
 <body>
@@ -162,6 +210,7 @@
       <div class="tabs-container">
         <button class="tab-btn active" data-tab="movies">Movies</button>
         <button class="tab-btn" data-tab="snacks">Snacks</button>
+        <button class="tab-btn" data-tab="sessions">Sessions</button>
       </div>
 
       <!-- Movies Tab -->
@@ -184,75 +233,16 @@
                   <th>Name</th>
                   <th>Genre</th>
                   <th>Release Date</th>
+                  <th>Duration</th>
+                  <th>Director</th>
+                  <th>Language</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>#M001</td>
-                  <td><img src="/api/placeholder/50/75" alt="Movie Poster" width="50"></td>
-                  <td>The Last Journey</td>
-                  <td>Action/Adventure</td>
-                  <td>15 Jan 2025</td>
-                  <td>
-                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#M002</td>
-                  <td><img src="/api/placeholder/50/75" alt="Movie Poster" width="50"></td>
-                  <td>Whispers in the Dark</td>
-                  <td>Horror/Thriller</td>
-                  <td>22 Feb 2025</td>
-                  <td>
-                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#M003</td>
-                  <td><img src="/api/placeholder/50/75" alt="Movie Poster" width="50"></td>
-                  <td>Love in Paris</td>
-                  <td>Romance/Comedy</td>
-                  <td>14 Feb 2025</td>
-                  <td>
-                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#M004</td>
-                  <td><img src="/api/placeholder/50/75" alt="Movie Poster" width="50"></td>
-                  <td>Quantum Paradox</td>
-                  <td>Sci-Fi</td>
-                  <td>10 Mar 2025</td>
-                  <td>
-                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>#M005</td>
-                  <td><img src="/api/placeholder/50/75" alt="Movie Poster" width="50"></td>
-                  <td>The Hidden Truth</td>
-                  <td>Mystery/Drama</td>
-                  <td>05 Apr 2025</td>
-                  <td>
-                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                  </td>
-                </tr>
+                <!-- Movies will be loaded dynamically -->
               </tbody>
             </table>
-          </div>
-
-          <div class="pagination">
-            <button>Previous</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>Next</button>
           </div>
         </div>
 
@@ -331,13 +321,88 @@
               </tbody>
             </table>
           </div>
+        </div>
 
-          <div class="pagination">
-            <button>Previous</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>Next</button>
+        <!-- Sessions Tab -->
+        <div class="tab-panel" id="sessions-panel">
+          <div class="top-actions">
+            <div class="search-bar">
+              <input type="text" placeholder="Search sessions...">
+              <button><i class="fas fa-search"></i></button>
+            </div>
+            <button class="add-new-btn" id="addSessionBtn"><i class="fas fa-plus"></i> Add Session</button>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Session ID</th>
+                  <th>Movie</th>
+                  <th>Date & Time</th>
+                  <th>Available Seats</th>
+                  <th>Total Seats</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#SE001</td>
+                  <td>The Last Journey</td>
+                  <td>15 Jan 2025, 14:00</td>
+                  <td>120</td>
+                  <td>96</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-session-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#SE002</td>
+                  <td>Whispers in the Dark</td>
+                  <td>15 Jan 2025, 17:30</td>
+                  <td>145</td>
+                  <td>96</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-session-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#SE003</td>
+                  <td>Love in Paris</td>
+                  <td>15 Jan 2025, 20:00</td>
+                  <td>100</td>
+                  <td>96</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-session-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#SE004</td>
+                  <td>Quantum Paradox</td>
+                  <td>16 Jan 2025, 14:00</td>
+                  <td>150</td>
+                  <td>96</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-session-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#SE005</td>
+                  <td>The Hidden Truth</td>
+                  <td>16 Jan 2025, 17:30</td>
+                  <td>130</td>
+                  <td>96</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-session-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -362,6 +427,22 @@
           <label class="form-label">Release Date</label>
           <input type="date" class="form-control" id="movieReleaseDate">
         </div>
+        <div class="form-group">
+          <label class="form-label">Duration (minutes)</label>
+          <input type="number" class="form-control" id="movieDuration" placeholder="Enter duration in minutes" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-control" id="movieDescription" placeholder="Enter movie description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Director</label>
+          <input type="text" class="form-control" id="movieDirector" placeholder="Enter director name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Language</label>
+          <input type="text" class="form-control" id="movieLanguage" placeholder="Enter language">
+        </div>
 
         <!-- Add Image Upload Field -->
         <div class="form-group">
@@ -370,7 +451,7 @@
             <img id="movieImagePreview" class="image-preview" src="#" alt="Preview">
             <div class="file-input-container">
               <div class="file-input-button">Choose Image</div>
-              <input type="file" id="movieImage" name="movieImage" accept="image/*">
+              <input type="file" id="movieImage" name="movieImage" accept=".jpg,.jpeg,.png,.webp,.jfif" max-size="5MB">
             </div>
             <div id="movieFileName" class="file-name"></div>
             <input type="hidden" id="movieImageUrl" name="movieImageUrl">
@@ -421,6 +502,44 @@
       </form>
     </div>
   </div>
+
+  <!-- Add/Edit Session Modal -->
+  <div id="sessionModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3 id="sessionModalTitle">Add New Session</h3>
+      <form id="sessionForm">
+        <div class="form-group">
+          <label class="form-label">Movie</label>
+          <select class="form-control" id="sessionMovie">
+            <option value="">Select a movie</option>
+            <option value="1">The Last Journey</option>
+            <option value="2">Whispers in the Dark</option>
+            <option value="3">Love in Paris</option>
+            <option value="4">Quantum Paradox</option>
+            <option value="5">The Hidden Truth</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-control" id="sessionDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Time</label>
+          <input type="time" class="form-control" id="sessionTime">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Available Seats</label>
+          <input type="number" class="form-control" id="availableSeats" min="1" value="96">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="cancel-btn" id="cancelSessionBtn">Cancel</button>
+          <button type="submit" class="save-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/topbar/bar.js"></script>
   <script>
@@ -448,6 +567,22 @@
       input.addEventListener('change', function() {
         if (this.files && this.files[0]) {
           const file = this.files[0];
+          
+          // Check file size (5MB limit)
+          if (file.size > 5 * 1024 * 1024) {
+            alert('Image size should be less than 5MB');
+            this.value = '';
+            return;
+          }
+
+          // Check file type
+          const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jfif'];
+          if (!allowedTypes.includes(file.type)) {
+            alert('Please upload a valid image file (JPG, JPEG, JFIF, PNG, or WebP)');
+            this.value = '';
+            return;
+          }
+
           const reader = new FileReader();
 
           reader.onload = function(e) {
@@ -468,33 +603,44 @@
     setupImagePreview('movieImage', 'movieImagePreview', 'movieFileName');
     setupImagePreview('snackImage', 'snackImagePreview', 'snackFileName');
 
+    // Function to fetch and display movies for the movies tab
+    async function fetchAndDisplayMovies() {
+      try {
+        const response = await fetch('/api/movies');
+        if (!response.ok) throw new Error('Failed to fetch movies');
+        const movies = await response.json();
+        displayMovies(movies);
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+        alert('Failed to load movies. Please try again.');
+      }
+    }
+
+    // Function to fetch movies for the session dropdown
+    async function fetchMoviesForDropdown() {
+      try {
+        const response = await fetch('/api/movies');
+        if (!response.ok) throw new Error('Failed to fetch movies');
+        const movies = await response.json();
+        populateMovieDropdown(movies);
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+        alert('Failed to load movies. Please try again.');
+      }
+    }
+
     // Function to upload image
     async function uploadImage(fileInput) {
       const file = fileInput.files[0];
       if (!file) return null;
 
-      // Create FormData object
-      const formData = new FormData();
-      formData.append('image', file);
-
-      try {
-        // In a real application, you'd replace this URL with your actual upload endpoint
-        const response = await fetch('/api/upload-image', {
-          method: 'POST',
-          body: formData
-        });
-
-        if (!response.ok) {
-          throw new Error('Image upload failed');
-        }
-
-        const data = await response.json();
-        return data.imageUrl; // URL to the uploaded image
-      } catch (error) {
-        console.error('Error uploading image:', error);
-        alert('Failed to upload image. Please try again.');
-        return null;
-      }
+      // Convert file to base64
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]); // Get base64 data
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
     }
 
     // Movie Modal
@@ -506,37 +652,132 @@
     const movieModalTitle = document.getElementById('movieModalTitle');
     const movieImageUrl = document.getElementById('movieImageUrl');
 
+    // Function to display movies in the table
+    function displayMovies(movies) {
+      const tbody = document.querySelector('#movies-panel table tbody');
+      if (!tbody) {
+        console.error('Movie table body not found');
+        return;
+      }
+      
+      tbody.innerHTML = '';
+      
+      if (!movies || movies.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td colspan="9" style="text-align: center; padding: 20px;">
+            No movies found. Click "Add Movie" to create a new movie.
+          </td>
+        `;
+        tbody.appendChild(tr);
+        return;
+      }
+      
+      movies.forEach(movie => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>#M${String(movie.id).padStart(3, '0')}</td>
+          <td>
+            ${movie.images 
+              ? `<img src="data:image/jpeg;base64,${movie.images}" alt="${movie.title}" width="50">`
+              : `<div class="no-image" style="width: 50px; height: 75px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border: 1px solid #dee2e6;">
+                  <i class="fas fa-image" style="color: #6c757d; font-size: 24px;"></i>
+                </div>`
+            }
+          </td>
+          <td>${movie.title}</td>
+          <td>${movie.genre}</td>
+          <td>${movie.releaseDate}</td>
+          <td>${movie.duration} min</td>
+          <td>${movie.director}</td>
+          <td>${movie.language}</td>
+          <td>
+            <button class="action-btn edit-btn edit-movie-btn" data-movie-id="${movie.id}"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete-btn" data-movie-id="${movie.id}"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Add event listeners to new buttons
+      addEventListenersToMovieButtons();
+    }
+
+    // Function to add event listeners to movie buttons
+    function addEventListenersToMovieButtons() {
+      // Edit buttons
+      document.querySelectorAll('.edit-movie-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const movieId = btn.getAttribute('data-movie-id');
+          try {
+            const response = await fetch(`/api/movies/${movieId}`);
+            if (!response.ok) throw new Error('Failed to fetch movie');
+            const movie = await response.json();
+            
+            movieModalTitle.textContent = 'Edit Movie';
+            document.getElementById('movieName').value = movie.title;
+            document.getElementById('movieGenre').value = movie.genre;
+            document.getElementById('movieReleaseDate').value = movie.releaseDate;
+            document.getElementById('movieDuration').value = movie.duration;
+            document.getElementById('movieDescription').value = movie.description;
+            document.getElementById('movieDirector').value = movie.director;
+            document.getElementById('movieLanguage').value = movie.language;
+            
+            const preview = document.getElementById('movieImagePreview');
+            if (movie.images) {
+              preview.src = `data:image/jpeg;base64,${movie.images}`;
+              preview.style.display = 'block';
+            } else {
+              preview.style.display = 'none';
+            }
+            
+            document.getElementById('movieFileName').textContent = movie.images ? 'Current image' : '';
+            movieImageUrl.value = movie.images || '';
+            movieModal.style.display = 'block';
+            
+            // Store movie ID for update
+            movieModal.setAttribute('data-movie-id', movieId);
+          } catch (error) {
+            console.error('Error fetching movie:', error);
+            alert('Failed to load movie details. Please try again.');
+          }
+        });
+      });
+
+      // Delete buttons
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const movieId = btn.getAttribute('data-movie-id');
+          if (confirm('Are you sure you want to delete this movie?')) {
+            try {
+              const response = await fetch(`/api/movies/${movieId}`, {
+                method: 'DELETE'
+              });
+              if (!response.ok) throw new Error('Failed to delete movie');
+              await fetchAndDisplayMovies(); // Refresh the list
+            } catch (error) {
+              console.error('Error deleting movie:', error);
+              alert('Failed to delete movie. Please try again.');
+            }
+          }
+        });
+      });
+    }
+
     // Open Add Movie Modal
     addMovieBtn.addEventListener('click', () => {
       movieModalTitle.textContent = 'Add New Movie';
       document.getElementById('movieName').value = '';
       document.getElementById('movieGenre').value = '';
       document.getElementById('movieReleaseDate').value = '';
+      document.getElementById('movieDuration').value = '';
+      document.getElementById('movieDescription').value = '';
+      document.getElementById('movieDirector').value = '';
+      document.getElementById('movieLanguage').value = '';
       document.getElementById('movieImagePreview').style.display = 'none';
       document.getElementById('movieFileName').textContent = '';
       movieImageUrl.value = '';
       movieModal.style.display = 'block';
-    });
-
-    // Open Edit Movie Modal
-    editMovieBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        movieModalTitle.textContent = 'Edit Movie';
-        // In a real application, you would fetch the movie data
-        // Here we're just populating with example data
-        document.getElementById('movieName').value = 'The Last Journey';
-        document.getElementById('movieGenre').value = 'Action/Adventure';
-        document.getElementById('movieReleaseDate').value = '2025-01-15';
-
-        // Set example image for edit mode
-        const preview = document.getElementById('movieImagePreview');
-        preview.src = '/api/placeholder/200/300';
-        preview.style.display = 'block';
-        document.getElementById('movieFileName').textContent = 'last_journey_poster.jpg';
-        movieImageUrl.value = '/images/movies/last_journey_poster.jpg';
-
-        movieModal.style.display = 'block';
-      });
     });
 
     // Close Movie Modal
@@ -548,6 +789,98 @@
       movieModal.style.display = 'none';
     });
 
+    // Movie Form submission
+    document.getElementById('movieForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const saveBtn = e.target.querySelector('.save-btn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      try {
+        // Validate required fields
+        const requiredFields = {
+          movieName: 'Movie Name',
+          movieGenre: 'Genre',
+          movieReleaseDate: 'Release Date',
+          movieDuration: 'Duration',
+          movieDescription: 'Description',
+          movieDirector: 'Director',
+          movieLanguage: 'Language'
+        };
+
+        for (const [fieldId, fieldName] of Object.entries(requiredFields)) {
+          const value = document.getElementById(fieldId).value.trim();
+          if (!value) {
+            throw new Error(`Please fill in the ${fieldName} field`);
+          }
+        }
+
+        // Validate duration is a positive number
+        const duration = parseInt(document.getElementById('movieDuration').value);
+        if (isNaN(duration) || duration <= 0) {
+          throw new Error('Duration must be a positive number');
+        }
+
+        // Handle image upload
+        const movieImageInput = document.getElementById('movieImage');
+        let imageData = null;
+        
+        if (movieImageInput.files.length > 0) {
+          imageData = await uploadImage(movieImageInput);
+        }
+
+        const movieData = {
+          title: document.getElementById('movieName').value.trim(),
+          genre: document.getElementById('movieGenre').value.trim(),
+          releaseDate: document.getElementById('movieReleaseDate').value,
+          duration: duration,
+          description: document.getElementById('movieDescription').value.trim(),
+          director: document.getElementById('movieDirector').value.trim(),
+          language: document.getElementById('movieLanguage').value.trim(),
+          images: imageData,
+          ticketssold: 0
+        };
+
+        const movieId = movieModal.getAttribute('data-movie-id');
+        const url = movieId ? `/api/movies/${movieId}` : '/api/movies';
+        const method = movieId ? 'PUT' : 'POST';
+
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(movieData)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `Failed to save movie: ${response.status} ${response.statusText}`);
+        }
+
+        movieModal.style.display = 'none';
+        await fetchAndDisplayMovies(); // Refresh the list
+        alert('Movie saved successfully!');
+      } catch (error) {
+        console.error('Error saving movie:', error);
+        alert(`Error saving movie: ${error.message}`);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
+      }
+    });
+
+    // Initial fetch of movies
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchAndDisplayMovies();
+    });
+
+    // Also fetch movies when switching to the movies tab
+    document.querySelector('.tab-btn[data-tab="movies"]').addEventListener('click', () => {
+      fetchAndDisplayMovies();
+    });
+
     // Snack Modal
     const snackModal = document.getElementById('snackModal');
     const addSnackBtn = document.getElementById('addSnackBtn');
@@ -556,6 +889,106 @@
     const closeSnackBtn = snackModal.querySelector('.close-btn');
     const snackModalTitle = document.getElementById('snackModalTitle');
     const snackImageUrl = document.getElementById('snackImageUrl');
+
+    // Function to fetch and display snacks
+    async function fetchSnacks() {
+      try {
+        const response = await fetch('/api/snacks');
+        if (!response.ok) throw new Error('Failed to fetch snacks');
+        const snacks = await response.json();
+        displaySnacks(snacks);
+      } catch (error) {
+        console.error('Error fetching snacks:', error);
+        alert('Failed to load snacks. Please try again.');
+      }
+    }
+
+    // Function to display snacks in the table
+    function displaySnacks(snacks) {
+      const tbody = document.querySelector('#snacks-panel table tbody');
+      tbody.innerHTML = '';
+      
+      snacks.forEach(snack => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>#S${String(snack.id).padStart(3, '0')}</td>
+          <td>
+            ${snack.images 
+              ? `<img src="data:image/jpeg;base64,${snack.images}" alt="${snack.name}" width="50">`
+              : `<div class="no-image" style="width: 50px; height: 50px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border: 1px solid #dee2e6;">
+                  <i class="fas fa-image" style="color: #6c757d; font-size: 24px;"></i>
+                </div>`
+            }
+          </td>
+          <td>${snack.name}</td>
+          <td>$${snack.price.toFixed(2)}</td>
+          <td>
+            <button class="action-btn edit-btn edit-snack-btn" data-snack-id="${snack.id}"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete-btn" data-snack-id="${snack.id}"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Add event listeners to new buttons
+      addEventListenersToSnackButtons();
+    }
+
+    // Function to add event listeners to snack buttons
+    function addEventListenersToSnackButtons() {
+      // Edit buttons
+      document.querySelectorAll('.edit-snack-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const snackId = btn.getAttribute('data-snack-id');
+          try {
+            const response = await fetch(`/api/snacks/${snackId}`);
+            if (!response.ok) throw new Error('Failed to fetch snack');
+            const snack = await response.json();
+            
+            snackModalTitle.textContent = 'Edit Snack';
+            document.getElementById('snackName').value = snack.name;
+            document.getElementById('snackPrice').value = snack.price;
+            
+            const preview = document.getElementById('snackImagePreview');
+            if (snack.images) {
+              preview.src = `data:image/jpeg;base64,${snack.images}`;
+              preview.style.display = 'block';
+            } else {
+              preview.style.display = 'none';
+            }
+            
+            document.getElementById('snackFileName').textContent = snack.images ? 'Current image' : '';
+            snackImageUrl.value = snack.images || '';
+            snackModal.style.display = 'block';
+            
+            // Store snack ID for update
+            snackModal.setAttribute('data-snack-id', snackId);
+          } catch (error) {
+            console.error('Error fetching snack:', error);
+            alert('Failed to load snack details. Please try again.');
+          }
+        });
+      });
+
+      // Delete buttons
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const snackId = btn.getAttribute('data-snack-id');
+          if (confirm('Are you sure you want to delete this snack?')) {
+            try {
+              const response = await fetch(`/api/snacks/${snackId}`, {
+                method: 'DELETE'
+              });
+              if (!response.ok) throw new Error('Failed to delete snack');
+              await fetchSnacks(); // Refresh the list
+            } catch (error) {
+              console.error('Error deleting snack:', error);
+              alert('Failed to delete snack. Please try again.');
+            }
+          }
+        });
+      });
+    }
 
     // Open Add Snack Modal
     addSnackBtn.addEventListener('click', () => {
@@ -568,26 +1001,6 @@
       snackModal.style.display = 'block';
     });
 
-    // Open Edit Snack Modal
-    editSnackBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        snackModalTitle.textContent = 'Edit Snack';
-        // In a real application, you would fetch the snack data
-        // Here we're just populating with example data
-        document.getElementById('snackName').value = 'Small Popcorn';
-        document.getElementById('snackPrice').value = '$4.99';
-
-        // Set example image for edit mode
-        const preview = document.getElementById('snackImagePreview');
-        preview.src = '/api/placeholder/200/200';
-        preview.style.display = 'block';
-        document.getElementById('snackFileName').textContent = 'small_popcorn.jpg';
-        snackImageUrl.value = '/images/snacks/small_popcorn.jpg';
-
-        snackModal.style.display = 'block';
-      });
-    });
-
     // Close Snack Modal
     cancelSnackBtn.addEventListener('click', () => {
       snackModal.style.display = 'none';
@@ -597,84 +1010,291 @@
       snackModal.style.display = 'none';
     });
 
-    // Form submission with image upload
-    document.getElementById('movieForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Show loading state (you could add a spinner here)
-      const saveBtn = e.target.querySelector('.save-btn');
-      saveBtn.disabled = true;
-      saveBtn.textContent = 'Saving...';
-
-      try {
-        // Upload image if a new one is selected
-        const movieImageInput = document.getElementById('movieImage');
-        if (movieImageInput.files.length > 0) {
-          const imageUrl = await uploadImage(movieImageInput);
-          if (imageUrl) {
-            movieImageUrl.value = imageUrl;
-          }
-        }
-
-        // In a real application, you'd collect all form data and submit to your backend
-        // For demo purposes, we'll simulate success and close the modal
-
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        // Handle success
-        movieModal.style.display = 'none';
-        alert('Movie saved successfully!');
-
-        // In a real app, you would refresh the table data here or add the new row
-      } catch (error) {
-        console.error('Error saving movie:', error);
-        alert('Error saving movie. Please try again.');
-      } finally {
-        // Reset button state
-        saveBtn.disabled = false;
-        saveBtn.textContent = 'Save';
-      }
-    });
-
+    // Snack Form submission
     document.getElementById('snackForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Show loading state
       const saveBtn = e.target.querySelector('.save-btn');
       saveBtn.disabled = true;
       saveBtn.textContent = 'Saving...';
 
       try {
-        // Upload image if a new one is selected
-        const snackImageInput = document.getElementById('snackImage');
-        if (snackImageInput.files.length > 0) {
-          const imageUrl = await uploadImage(snackImageInput);
-          if (imageUrl) {
-            snackImageUrl.value = imageUrl;
+        // Validate required fields
+        const requiredFields = {
+          snackName: 'Snack Name',
+          snackPrice: 'Price'
+        };
+
+        for (const [fieldId, fieldName] of Object.entries(requiredFields)) {
+          const value = document.getElementById(fieldId).value.trim();
+          if (!value) {
+            throw new Error(`Please fill in the ${fieldName} field`);
           }
         }
 
-        // In a real application, you'd collect all form data and submit to your backend
-        // For demo purposes, we'll simulate success and close the modal
+        // Validate price is a positive number
+        const price = parseFloat(document.getElementById('snackPrice').value);
+        if (isNaN(price) || price <= 0) {
+          throw new Error('Price must be a positive number');
+        }
 
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Handle image upload
+        const snackImageInput = document.getElementById('snackImage');
+        let imageData = null;
+        
+        if (snackImageInput.files.length > 0) {
+          imageData = await uploadImage(snackImageInput);
+        }
 
-        // Handle success
+        const snackData = {
+          name: document.getElementById('snackName').value.trim(),
+          price: price,
+          images: imageData,
+          snackssold: 0,
+          quantity: 0
+        };
+
+        const snackId = snackModal.getAttribute('data-snack-id');
+        const url = snackId ? `/api/snacks/${snackId}` : '/api/snacks';
+        const method = snackId ? 'PUT' : 'POST';
+
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(snackData)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `Failed to save snack: ${response.status} ${response.statusText}`);
+        }
+
         snackModal.style.display = 'none';
+        await fetchSnacks(); // Refresh the list
         alert('Snack saved successfully!');
-
-        // In a real app, you would refresh the table data here or add the new row
       } catch (error) {
         console.error('Error saving snack:', error);
-        alert('Error saving snack. Please try again.');
+        alert(`Error saving snack: ${error.message}`);
       } finally {
-        // Reset button state
         saveBtn.disabled = false;
         saveBtn.textContent = 'Save';
       }
     });
+
+    // Initial fetch of snacks
+    fetchSnacks();
+
+    // Session Modal
+    const sessionModal = document.getElementById('sessionModal');
+    const addSessionBtn = document.getElementById('addSessionBtn');
+    const editSessionBtns = document.querySelectorAll('.edit-session-btn');
+    const cancelSessionBtn = document.getElementById('cancelSessionBtn');
+    const closeSessionBtn = sessionModal.querySelector('.close-btn');
+    const sessionModalTitle = document.getElementById('sessionModalTitle');
+
+    // Function to fetch and display sessions
+    async function fetchSessions() {
+      try {
+        const response = await fetch('/api/sessions');
+        if (!response.ok) throw new Error('Failed to fetch sessions');
+        const sessions = await response.json();
+        displaySessions(sessions);
+      } catch (error) {
+        console.error('Error fetching sessions:', error);
+        alert('Failed to load sessions. Please try again.');
+      }
+    }
+
+    // Function to populate movie dropdown
+    function populateMovieDropdown(movies) {
+      const movieSelect = document.getElementById('sessionMovie');
+      movieSelect.innerHTML = '<option value="">Select a movie</option>';
+      movies.forEach(movie => {
+        const option = document.createElement('option');
+        option.value = movie.id;
+        option.textContent = movie.title;
+        movieSelect.appendChild(option);
+      });
+    }
+
+    // Function to display sessions in the table
+    function displaySessions(sessions) {
+      const tbody = document.querySelector('#sessions-panel table tbody');
+      tbody.innerHTML = '';
+      
+      sessions.forEach(session => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>#SE${String(session.id).padStart(3, '0')}</td>
+          <td>${session.movie?.title || 'Not Assigned'}</td>
+          <td>${new Date(session.sessionTime).toLocaleString()}</td>
+          <td>${session.availableSeats}</td>
+          <td>96</td>
+          <td>
+            <button class="action-btn edit-btn edit-session-btn" data-session-id="${session.id}"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete-btn" data-session-id="${session.id}"><i class="fas fa-trash"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Add event listeners to new buttons
+      addEventListenersToSessionButtons();
+    }
+
+    // Function to add event listeners to session buttons
+    function addEventListenersToSessionButtons() {
+      // Edit buttons
+      document.querySelectorAll('.edit-session-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const sessionId = btn.getAttribute('data-session-id');
+          console.log('Attempting to edit session with ID:', sessionId); // Add logging
+          try {
+            const response = await fetch(`/api/sessions/${sessionId}`);
+            if (response.status === 404) {
+              alert('Session not found. It may have been deleted.');
+              await fetchSessions(); // Refresh the list
+              return;
+            }
+            if (!response.ok) throw new Error('Failed to fetch session');
+            const session = await response.json();
+            console.log('Retrieved session:', session); // Add logging
+            
+            sessionModalTitle.textContent = 'Edit Session';
+            document.getElementById('sessionMovie').value = session.movie?.id || '';
+            document.getElementById('sessionDate').value = session.sessionTime.split('T')[0];
+            document.getElementById('sessionTime').value = session.sessionTime.split('T')[1].substring(0, 5);
+            document.getElementById('availableSeats').value = session.availableSeats;
+            sessionModal.style.display = 'block';
+            
+            // Store session ID for update
+            sessionModal.setAttribute('data-session-id', sessionId);
+          } catch (error) {
+            console.error('Error fetching session:', error);
+            alert('Failed to load session details. Please try again.');
+            await fetchSessions(); // Refresh the list
+          }
+        });
+      });
+
+      // Delete buttons
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const sessionId = btn.getAttribute('data-session-id');
+          if (confirm('Are you sure you want to delete this session?')) {
+            try {
+              const response = await fetch(`/api/sessions/${sessionId}`, {
+                method: 'DELETE'
+              });
+              if (response.status === 404) {
+                alert('Session not found. It may have already been deleted.');
+                await fetchSessions(); // Refresh the list
+                return;
+              }
+              if (!response.ok) throw new Error('Failed to delete session');
+              await fetchSessions(); // Refresh the list
+            } catch (error) {
+              console.error('Error deleting session:', error);
+              alert('Failed to delete session. Please try again.');
+              await fetchSessions(); // Refresh the list
+            }
+          }
+        });
+      });
+    }
+
+    // Open Add Session Modal
+    addSessionBtn.addEventListener('click', () => {
+      sessionModalTitle.textContent = 'Add New Session';
+      document.getElementById('sessionMovie').value = '';
+      document.getElementById('sessionDate').value = '';
+      document.getElementById('sessionTime').value = '';
+      document.getElementById('availableSeats').value = '96'; // Start with all seats available
+      sessionModal.style.display = 'block';
+    });
+
+    // Close Session Modal
+    cancelSessionBtn.addEventListener('click', () => {
+      sessionModal.style.display = 'none';
+    });
+
+    closeSessionBtn.addEventListener('click', () => {
+      sessionModal.style.display = 'none';
+    });
+
+    // Session Form submission
+    document.getElementById('sessionForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const saveBtn = e.target.querySelector('.save-btn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      try {
+        // Validate required fields
+        const requiredFields = {
+          sessionMovie: 'Movie',
+          sessionDate: 'Date',
+          sessionTime: 'Time',
+          availableSeats: 'Available Seats'
+        };
+
+        for (const [fieldId, fieldName] of Object.entries(requiredFields)) {
+          const value = document.getElementById(fieldId).value.trim();
+          if (!value) {
+            throw new Error(`Please fill in the ${fieldName} field`);
+          }
+        }
+
+        // Validate available seats is a positive number and not more than 96
+        const availableSeats = parseInt(document.getElementById('availableSeats').value);
+        if (isNaN(availableSeats) || availableSeats <= 0) {
+          throw new Error('Available seats must be a positive number');
+        }
+        if (availableSeats > 96) {
+          throw new Error('Available seats cannot be more than 96');
+        }
+
+        const sessionData = {
+          movie: { id: parseInt(document.getElementById('sessionMovie').value) },
+          sessionTime: `${document.getElementById('sessionDate').value}T${document.getElementById('sessionTime').value}:00`,
+          availableSeats: availableSeats
+        };
+
+        const sessionId = sessionModal.getAttribute('data-session-id');
+        const url = sessionId ? `/api/sessions/${sessionId}` : '/api/sessions';
+        const method = sessionId ? 'PUT' : 'POST';
+
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(sessionData)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || `Failed to save session: ${response.status} ${response.statusText}`);
+        }
+
+        sessionModal.style.display = 'none';
+        await fetchSessions(); // Refresh the list
+        alert('Session saved successfully!');
+      } catch (error) {
+        console.error('Error saving session:', error);
+        alert(`Error saving session: ${error.message}`);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
+      }
+    });
+
+    // Initial fetch of sessions and movies
+    fetchSessions();
+    fetchMoviesForDropdown();
 
     // Close modals when clicking outside
     window.addEventListener('click', (e) => {
@@ -683,6 +1303,9 @@
       }
       if (e.target === snackModal) {
         snackModal.style.display = 'none';
+      }
+      if (e.target === sessionModal) {
+        sessionModal.style.display = 'none';
       }
     });
   </script>
