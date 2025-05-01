@@ -32,10 +32,6 @@ public class EmployeeService {
         return employeeRepository.findByEmail(email);
     }
 
-    public Optional<Employee> findByUsername(String username) {
-        return employeeRepository.findByUsername(username);
-    }
-
     public Optional<Employee> findById(Long id) {
         return employeeRepository.findById(id);
     }
@@ -51,12 +47,12 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        employee.setFirstName(employeeDetails.getFirstName());
-        employee.setLastName(employeeDetails.getLastName());
+        // employee.setFirstName(employeeDetails.getFirstName());
+        // employee.setLastName(employeeDetails.getLastName());
         employee.setEmail(employeeDetails.getEmail());
         employee.setPosition(employeeDetails.getPosition());
         employee.setDepartment(employeeDetails.getDepartment());
-        employee.setPhoneNumber(employeeDetails.getPhoneNumber());
+        // employee.setPhoneNumber(employeeDetails.getPhoneNumber());
 
         return employeeRepository.save(employee);
     }
