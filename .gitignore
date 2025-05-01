@@ -33,6 +33,7 @@ gradlew.bat
 
 # Build output
 build
+bin/
 .env
 
 # VS Code settings
