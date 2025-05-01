@@ -15,7 +15,10 @@
 <!-- Theme Toggle -->
 <div class="theme-toggle">
     <div class="dropdown">
-        <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="theme-btn" style="display:inline-block; margin-right:8px;"  onclick="window.location.href='settings';">
+            <i class="bi bi-gear"></i>
+        </button>
+        <button class="theme-btn" type="button" id="themeToggle" data-bs-toggle="dropdown" aria-expanded="false" style="display:inline-block;">
             <i class="bi bi-moon-stars-fill"></i>
         </button>
         <ul class="dropdown-menu theme-menu" aria-labelledby="themeToggle">

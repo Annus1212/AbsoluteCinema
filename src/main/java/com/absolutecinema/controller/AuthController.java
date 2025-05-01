@@ -28,11 +28,10 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    // @GetMapping("/")
-    // public String Home() {
-    // return "redirect:/auth/login";
-    // // return "admin/dashboard";
-    // }
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/auth/login"; // Redirect to movies page
+    }
 
     @GetMapping("/auth/login")
     public String login() {
@@ -56,12 +55,6 @@ public class AuthController {
         return "auth/signin";
     }
 
-    // @PostMapping("/auth/login")
-    // public String login(@RequestParam String username, @RequestParam String
-    // password, Model model) {
-    // return "redirect:/admin/dashboard";
-    // }
-
     @GetMapping("/auth/register")
     public String register() {
         return "auth/signup";
@@ -84,16 +77,22 @@ public class AuthController {
             }
 
             // Find the next available ID (starting from 13)
-            Long nextId = userRepository.findMaxId().orElse(12L) + 1;
+            // Long nextId = userRepository.findMaxId().orElse(12L) + 1;
 
             User user = new User();
-            user.setId(nextId); // Set the ID manually
+            // user.setId(nextId); // Set the ID manually
             user.setUsername(username);
             user.setPassword(passwordEncoder.encode(password));
             user.setEmail(email);
             user.setFirstName(firstName);
             user.setLastName(lastName);
-            user.setAccountType("user"); // Default to user account type
+            if (username == "admin") {
+                user.setAccountType("admin"); // Set account type to admin
+            } else if (username == "employee") {
+                user.setAccountType("employee"); // Set account type to employee
+            } else {
+                user.setAccountType("user"); // Default to user account type
+            }
 
             // Save and flush to ensure immediate persistence
             userRepository.saveAndFlush(user);
