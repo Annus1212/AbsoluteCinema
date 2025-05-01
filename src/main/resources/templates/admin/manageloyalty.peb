@@ -118,7 +118,6 @@
         <div class="stat-info">
           <div class="label">Total Members</div>
           <div class="value">1,245</div>
-          <small class="text-success">↑ 15% from last month</small>
         </div>
       </div>
 
@@ -129,29 +128,6 @@
         <div class="stat-info">
           <div class="label">Avg. Points</div>
           <div class="value">348</div>
-          <small class="text-success">↑ 5% from last month</small>
-        </div>
-      </div>
-
-      <div class="stat-card warning">
-        <div class="icon">
-          <i class="fas fa-ticket-alt"></i>
-        </div>
-        <div class="stat-info">
-          <div class="label">Points Earned (Month)</div>
-          <div class="value">42,650</div>
-          <small class="text-success">↑ 8% from last month</small>
-        </div>
-      </div>
-
-      <div class="stat-card danger">
-        <div class="icon">
-          <i class="fas fa-gift"></i>
-        </div>
-        <div class="stat-info">
-          <div class="label">Rewards Redeemed</div>
-          <div class="value">586</div>
-          <small class="text-success">↑ 12% from last month</small>
         </div>
       </div>
     </div>
@@ -174,15 +150,12 @@
             <button class="add-new-btn" id="addMemberBtn"><i class="fas fa-plus"></i> Add Member</button>
           </div>
 
-          <div class="table-responsive">
+          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table>
               <thead>
                 <tr>
                   <th>Member</th>
-                  <th>Email</th>
-                  <th>Join Date</th>
                   <th>Points</th>
-                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -190,17 +163,12 @@
                 <tr>
                   <td>
                     <div class="d-flex align-items-center">
-
                       <div>
                         <div>Sarah Johnson</div>
-                        <small class="text--dark">#M10234</small>
                       </div>
                     </div>
                   </td>
-                  <td>sarah.j@example.com</td>
-                  <td>12 Jan 2025</td>
                   <td>652</td>
-                  <td><span class="badge badge-active">Active</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-member-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -209,17 +177,12 @@
                 <tr>
                   <td>
                     <div class="d-flex align-items-center">
-
                       <div>
                         <div>Mike Thompson</div>
-                        <small class="text--dark">#M10235</small>
                       </div>
                     </div>
                   </td>
-                  <td>mike.t@example.com</td>
-                  <td>15 Jan 2025</td>
                   <td>427</td>
-                  <td><span class="badge badge-active">Active</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-member-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -228,17 +191,12 @@
                 <tr>
                   <td>
                     <div class="d-flex align-items-center">
-
                       <div>
                         <div>Lisa Wong</div>
-                        <small class="text--dark">#M10236</small>
                       </div>
                     </div>
                   </td>
-                  <td>lisa.w@example.com</td>
-                  <td>20 Jan 2025</td>
                   <td>189</td>
-                  <td><span class="badge badge-active">Active</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-member-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -247,17 +205,12 @@
                 <tr>
                   <td>
                     <div class="d-flex align-items-center">
-
                       <div>
                         <div>David Clark</div>
-                        <small class="text--dark">#M10237</small>
                       </div>
                     </div>
                   </td>
-                  <td>david.c@example.com</td>
-                  <td>25 Jan 2025</td>
                   <td>302</td>
-                  <td><span class="badge badge-inactive">Inactive</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-member-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -266,17 +219,12 @@
                 <tr>
                   <td>
                     <div class="d-flex align-items-center">
-
                       <div>
                         <div>Emma Davis</div>
-                        <small class="text--dark">#M10238</small>
                       </div>
                     </div>
                   </td>
-                  <td>emma.d@example.com</td>
-                  <td>28 Jan 2025</td>
                   <td>170</td>
-                  <td><span class="badge badge-active">Active</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-member-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -284,14 +232,6 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-
-          <div class="pagination">
-            <button>Previous</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>Next</button>
           </div>
         </div>
 
@@ -305,14 +245,12 @@
             <button class="add-new-btn" id="addRewardBtn"><i class="fas fa-plus"></i> Add Reward</button>
           </div>
 
-          <div class="table-responsive">
+          <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table>
               <thead>
                 <tr>
                   <th>Reward Name</th>
-                  <th>Type</th>
                   <th>Points Required</th>
-                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -321,12 +259,9 @@
                   <td>
                     <div>
                       <div>Free Small Popcorn</div>
-                      <small class="text--dark">Free snack item</small>
                     </div>
                   </td>
-                  <td>Snack Item</td>
                   <td>150</td>
-                  <td><span class="badge badge-active">Active</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-reward-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -336,12 +271,9 @@
                   <td>
                     <div>
                       <div>Free Medium Drink</div>
-                      <small class="text--dark">Free snack item</small>
                     </div>
                   </td>
-                  <td>Snack Item</td>
                   <td>150</td>
-                  <td><span class="badge badge-active">Active</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-reward-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -351,12 +283,9 @@
                   <td>
                     <div>
                       <div>15% Off Ticket</div>
-                      <small class="text--dark">Discount on ticket purchase</small>
                     </div>
                   </td>
-                  <td>Discount</td>
                   <td>200</td>
-                  <td><span class="badge badge-active">Active</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-reward-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -366,12 +295,9 @@
                   <td>
                     <div>
                       <div>Free Nachos</div>
-                      <small class="text--dark">Free snack item</small>
                     </div>
                   </td>
-                  <td>Snack Item</td>
                   <td>250</td>
-                  <td><span class="badge badge-inactive">Inactive</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-reward-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -381,12 +307,9 @@
                   <td>
                     <div>
                       <div>25% Off Snacks</div>
-                      <small class="text--dark">Discount on all snacks</small>
                     </div>
                   </td>
-                  <td>Discount</td>
                   <td>350</td>
-                  <td><span class="badge badge-active">Active</span></td>
                   <td>
                     <button class="action-btn edit-btn edit-reward-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
@@ -394,14 +317,6 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-
-          <div class="pagination">
-            <button>Previous</button>
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>Next</button>
           </div>
         </div>
       </div>
@@ -419,23 +334,12 @@
           <input type="text" class="form-control" id="memberName" placeholder="Enter member name">
         </div>
         <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-control" id="memberEmail" placeholder="Enter email address">
-        </div>
-        <div class="form-group">
           <label class="form-label">Phone Number</label>
           <input type="tel" class="form-control" id="memberPhone" placeholder="Enter phone number">
         </div>
         <div class="form-group">
           <label class="form-label">Points</label>
           <input type="number" class="form-control" id="memberPoints" placeholder="Enter points">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Status</label>
-          <select class="form-control" id="memberStatus">
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
         </div>
         <div class="modal-footer">
           <button type="button" class="cancel-btn" id="cancelMemberBtn">Cancel</button>
@@ -456,28 +360,12 @@
           <input type="text" class="form-control" id="rewardName" placeholder="Enter reward name">
         </div>
         <div class="form-group">
-          <label class="form-label">Reward Type</label>
-          <select class="form-control" id="rewardType">
-            <option value="snack">Snack Item</option>
-            <option value="discount">Discount</option>
-            <option value="ticket">Ticket</option>
-            <option value="merchandise">Merchandise</option>
-          </select>
-        </div>
-        <div class="form-group">
           <label class="form-label">Description</label>
           <textarea class="form-control" id="rewardDescription" placeholder="Enter description" rows="3"></textarea>
         </div>
         <div class="form-group">
           <label class="form-label">Points Required</label>
           <input type="number" class="form-control" id="rewardPoints" placeholder="Enter points required">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Status</label>
-          <select class="form-control" id="rewardStatus">
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
         </div>
         <div class="modal-footer">
           <button type="button" class="cancel-btn" id="cancelRewardBtn">Cancel</button>
@@ -516,10 +404,8 @@
     addMemberBtn.addEventListener('click', () => {
       memberModalTitle.textContent = 'Add New Member';
       document.getElementById('memberName').value = '';
-      document.getElementById('memberEmail').value = '';
-    document.getElementById('memberPhone').value = '';
+      document.getElementById('memberPhone').value = '';
       document.getElementById('memberPoints').value = '';
-      document.getElementById('memberStatus').value = 'active';
       memberModal.style.display = 'block';
     });
 
@@ -530,10 +416,8 @@
         // In a real application, you would fetch the member data
         // Here we're just populating with example data
         document.getElementById('memberName').value = 'Sarah Johnson';
-        document.getElementById('memberEmail').value = 'sarah.j@example.com';
         document.getElementById('memberPhone').value = '555-123-4567';
         document.getElementById('memberPoints').value = '652';
-        document.getElementById('memberStatus').value = 'active';
         memberModal.style.display = 'block';
       });
     });
@@ -559,10 +443,8 @@
     addRewardBtn.addEventListener('click', () => {
       rewardModalTitle.textContent = 'Add New Reward';
       document.getElementById('rewardName').value = '';
-      document.getElementById('rewardType').value = 'snack';
       document.getElementById('rewardDescription').value = '';
       document.getElementById('rewardPoints').value = '';
-      document.getElementById('rewardStatus').value = 'active';
       rewardModal.style.display = 'block';
     });
 
@@ -573,10 +455,8 @@
         // In a real application, you would fetch the reward data
         // Here we're just populating with example data
         document.getElementById('rewardName').value = 'Free Small Popcorn';
-        document.getElementById('rewardType').value = 'snack';
         document.getElementById('rewardDescription').value = 'Free snack item';
         document.getElementById('rewardPoints').value = '150';
-        document.getElementById('rewardStatus').value = 'active';
         rewardModal.style.display = 'block';
       });
     });

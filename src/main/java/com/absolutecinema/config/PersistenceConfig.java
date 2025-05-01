@@ -32,6 +32,9 @@ public class PersistenceConfig {
         // WARNING: This will delete all data on application startup!
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        // Add sequence configuration
+        properties.setProperty("hibernate.id.new_generator_mappings", "true");
+        properties.setProperty("hibernate.jdbc.use_get_generated_keys", "true");
         em.setJpaProperties(properties);
 
         return em;
