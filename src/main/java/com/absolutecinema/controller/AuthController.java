@@ -28,6 +28,11 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/auth/login"; // Redirect to movies page
+    }
+
     @GetMapping("/auth/login")
     public String login() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
