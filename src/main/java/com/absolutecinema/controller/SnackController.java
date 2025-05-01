@@ -12,37 +12,55 @@ import java.util.List;
 @RequestMapping("/api/snacks")
 public class SnackController {
 
+    private final SnackService snackService;
+
     @Autowired
-    private SnackService snackService;
+    public SnackController(SnackService snackService) {
+        this.snackService = snackService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Snack>> getAllSnacks() {
-        List<Snack> snacks = snackService.getAllSnacks();
-        return ResponseEntity.ok(snacks);
+        return ResponseEntity.ok(snackService.getAllSnacks());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Snack> getSnackById(@PathVariable Long id) {
-        return snackService.getSnackById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Snack snack = snackService.getSnackById(id);
+        if (snack != null) {
+            return ResponseEntity.ok(snack);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
     public ResponseEntity<Snack> createSnack(@RequestBody Snack snack) {
-        Snack createdSnack = snackService.save(snack);
-        return ResponseEntity.status(201).body(createdSnack);
+        return ResponseEntity.ok(snackService.addSnack(snack));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Snack> updateSnack(@PathVariable Long id, @RequestBody Snack snack) {
-        Snack updatedSnack = snackService.updateSnack(id, snack);
-        return updatedSnack != null ? ResponseEntity.ok(updatedSnack) : ResponseEntity.notFound().build();
+    public ResponseEntity<Snack> updateSnack(@PathVariable Long id, @RequestBody Snack snackDetails) {
+        try {
+            Snack updatedSnack = snackService.updateSnack(id, snackDetails);
+            return ResponseEntity.ok(updatedSnack);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSnack(@PathVariable Long id) {
         snackService.deleteSnack(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/quantity")
+    public ResponseEntity<Snack> updateSnackQuantity(@PathVariable Long id, @RequestParam int quantity) {
+        Snack snack = snackService.getSnackById(id);
+        if (snack != null) {
+            snackService.updateSnackQuantity(id, quantity);
+            return ResponseEntity.ok(snack);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

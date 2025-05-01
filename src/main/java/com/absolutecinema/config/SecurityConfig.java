@@ -63,7 +63,9 @@ public class SecurityConfig {
                                                 .permitAll())
                                 .sessionManagement(session -> session
                                                 .maximumSessions(1)
-                                                .expiredUrl("/auth/login"));
+                                                .expiredUrl("/auth/login"))
+                                .csrf(csrf -> csrf.ignoringRequestMatchers(
+                                                new AntPathRequestMatcher("/user/payment/process")));
 
                 return http.build();
         }

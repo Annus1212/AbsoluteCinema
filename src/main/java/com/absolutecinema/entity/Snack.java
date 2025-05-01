@@ -1,8 +1,11 @@
 package com.absolutecinema.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Table(name = "snack")
+@Data
 public class Snack {
 
     @Id
@@ -13,10 +16,10 @@ public class Snack {
     private String name;
 
     @Column(nullable = false)
-    private double price;
+    private Double price;
 
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "snackssold", nullable = false)
     private int snackssold;

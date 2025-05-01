@@ -13,14 +13,12 @@ import com.absolutecinema.entity.Movie;
 import com.absolutecinema.entity.Snack;
 import com.absolutecinema.entity.BookingSnack;
 import com.absolutecinema.entity.Booking;
-import com.absolutecinema.entity.Session;
 import com.absolutecinema.entity.Feedback;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.time.LocalDateTime;
 
 @Service
 public class AnalyticsService {

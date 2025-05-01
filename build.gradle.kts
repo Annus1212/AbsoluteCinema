@@ -40,6 +40,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    implementation("com.stripe:stripe-java:22.0.0")
 }
 
 tasks.withType<KotlinCompile> {

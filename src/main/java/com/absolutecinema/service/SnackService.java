@@ -11,19 +11,19 @@ import java.util.Optional;
 @Service
 public class SnackService {
 
-    @Autowired
     private final SnackRepository snackRepository;
 
+    @Autowired
     public SnackService(SnackRepository snackRepository) {
         this.snackRepository = snackRepository;
     }
 
     public List<Snack> getAllSnacks() {
-        return snackRepository.findAll();
+        return snackRepository.findByQuantityGreaterThan(0);
     }
 
-    public Optional<Snack> getSnackById(Long id) {
-        return snackRepository.findById(id);
+    public Snack getSnackById(Long id) {
+        return snackRepository.findById(id).orElse(null);
     }
 
     public Snack addSnack(Snack snack) {
@@ -45,5 +45,13 @@ public class SnackService {
     // Save Snack
     public Snack save(Snack snack) {
         return snackRepository.save(snack);
+    }
+
+    public void updateSnackQuantity(Long id, int quantity) {
+        Snack snack = getSnackById(id);
+        if (snack != null) {
+            snack.setQuantity(snack.getQuantity() - quantity);
+            snackRepository.save(snack);
+        }
     }
 }

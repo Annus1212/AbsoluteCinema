@@ -1,0 +1,151 @@
+package com.absolutecinema.service;
+
+import com.absolutecinema.entity.Booking;
+import com.absolutecinema.entity.BookingSnack;
+import com.absolutecinema.entity.Snack;
+import com.absolutecinema.entity.User;
+import com.absolutecinema.repository.BookingRepository;
+import com.absolutecinema.repository.BookingSnackRepository;
+import com.absolutecinema.repository.SnackRepository;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service
+public class PaymentService {
+    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    private final BookingRepository bookingRepository;
+    private final BookingSnackRepository bookingSnackRepository;
+    private final SnackRepository snackRepository;
+
+    @Value("${stripe.secret.key}")
+    private String stripeSecretKey;
+
+    public PaymentService(BookingRepository bookingRepository,
+            BookingSnackRepository bookingSnackRepository,
+            SnackRepository snackRepository) {
+        this.bookingRepository = bookingRepository;
+        this.bookingSnackRepository = bookingSnackRepository;
+        this.snackRepository = snackRepository;
+    }
+
+    @Transactional
+    public void processPayment(String paymentMethodId, double amount, List<Object> seats,
+            Map<String, Object> snacks, User user, Long movieId, Long sessionId) {
+        try {
+            // Set Stripe API key here to ensure it's always set
+            Stripe.apiKey = stripeSecretKey;
+
+            logger.info("Processing payment for user: {}, amount: {}, movieId: {}, sessionId: {}",
+                    user.getUsername(), amount, movieId, sessionId);
+
+            // Validate input
+            if (paymentMethodId == null || paymentMethodId.trim().isEmpty()) {
+                throw new IllegalArgumentException("Payment method ID is required");
+            }
+            if (amount <= 0) {
+                throw new IllegalArgumentException("Amount must be greater than 0");
+            }
+            if (user == null) {
+                throw new IllegalArgumentException("User is required");
+            }
+            if (movieId == null || sessionId == null) {
+                throw new IllegalArgumentException("Movie ID and Session ID are required");
+            }
+
+            // Create payment intent
+            Map<String, Object> params = new HashMap<>();
+            params.put("amount", (int) (amount * 100)); // Convert to cents
+            params.put("currency", "pkr");
+            params.put("payment_method", paymentMethodId);
+            params.put("confirm", true);
+            params.put("return_url", "http://localhost:8080/user/payment/success");
+
+            PaymentIntent paymentIntent = PaymentIntent.create(params);
+
+            if ("succeeded".equals(paymentIntent.getStatus())) {
+                // Create booking
+                Booking booking = new Booking();
+                booking.setUser(user);
+                booking.setMovieId(movieId);
+                booking.setSessionId(sessionId);
+                booking.setNumberOfTickets(seats != null ? seats.size() : 0);
+                booking.setTotalPrice(amount);
+                booking.setBookingTime(java.time.LocalDateTime.now());
+                booking = bookingRepository.save(booking);
+
+                // Process snacks if any
+                if (snacks != null && !snacks.isEmpty()) {
+                    for (Map.Entry<String, Object> entry : snacks.entrySet()) {
+                        Object snackObj = entry.getValue();
+                        if (snackObj instanceof Map) {
+                            Map<String, Object> snackMap = (Map<String, Object>) snackObj;
+                            Object idObj = snackMap.get("id");
+                            Object quantityObj = snackMap.get("quantity");
+
+                            if (idObj == null || quantityObj == null) {
+                                logger.warn("Skipping snack with missing id or quantity: {}", snackMap);
+                                continue;
+                            }
+
+                            try {
+                                Long snackId = Long.parseLong(idObj.toString());
+                                Integer quantity = Integer.parseInt(quantityObj.toString());
+
+                                if (quantity <= 0) {
+                                    logger.warn("Skipping snack with invalid quantity: {}", quantity);
+                                    continue;
+                                }
+
+                                Snack snack = snackRepository.findById(snackId)
+                                        .orElseThrow(() -> new RuntimeException("Snack not found with ID: " + snackId));
+
+                                // Update snack quantity
+                                snack.setQuantity(snack.getQuantity() - quantity);
+                                snackRepository.save(snack);
+
+                                // Create booking snack
+                                BookingSnack bookingSnack = new BookingSnack();
+                                bookingSnack.setBooking(booking);
+                                bookingSnack.setSnack(snack);
+                                bookingSnack.setQuantity(quantity);
+                                bookingSnackRepository.save(bookingSnack);
+
+                                logger.info("Processed snack: {} x {}", snack.getName(), quantity);
+                            } catch (NumberFormatException e) {
+                                logger.error("Error parsing snack ID or quantity: {}", e.getMessage());
+                                throw new RuntimeException("Invalid snack ID or quantity format");
+                            }
+                        } else {
+                            logger.warn("Skipping invalid snack object: {}", snackObj);
+                        }
+                    }
+                }
+
+                logger.info("Payment processed successfully for booking ID: {}", booking.getId());
+            } else {
+                String errorMessage = paymentIntent.getLastPaymentError() != null
+                        ? paymentIntent.getLastPaymentError().getMessage()
+                        : "Unknown payment error";
+                logger.error("Payment failed: {}", errorMessage);
+                throw new RuntimeException("Payment failed: " + errorMessage);
+            }
+        } catch (StripeException e) {
+            logger.error("Stripe payment processing failed: {}", e.getMessage());
+            throw new RuntimeException("Payment processing failed: " + e.getMessage());
+        } catch (Exception e) {
+            logger.error("Unexpected error during payment processing: {}", e.getMessage());
+            throw new RuntimeException("Payment processing failed: " + e.getMessage());
+        }
+    }
+}
