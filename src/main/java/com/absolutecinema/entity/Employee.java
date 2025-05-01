@@ -2,6 +2,8 @@ package com.absolutecinema.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @Entity
@@ -11,23 +13,36 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String firstName;
+    @Column(name = "firstname", nullable = false)
+    private String firstname;
 
-    @Column(nullable = false)
-    private String lastName;
+    @Column(name = "lastname", nullable = false)
+    private String lastname;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "position", nullable = false)
     private String position;
 
-    @Column(nullable = false)
+    @Column(name = "department", nullable = false)
     private String department;
 
-    private String phoneNumber;
+    @Column(name = "phonenumber")
+    private String phonenumber;
 
-    @Column(nullable = false)
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "hiredate")
+    private LocalDate hiredate;
+
+    @Column(name = "salary")
+    private Double salary;
+
+    @Column(name = "active", nullable = false)
     private boolean active = true;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<Shift> shifts;
 }

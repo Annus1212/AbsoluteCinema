@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+     <link rel="stylesheet" href="/admin/manageloyalty.css">
+</head>
+<body>
+    <!-- Management Section -->
+    <div class="management-container">
+      <div class="tabs-container">
+        <button class="tab-btn active" data-tab="movies">Movies</button>
+        <button class="tab-btn" data-tab="snacks">Snacks</button>
+      </div>
+
+      <!-- Movies Tab -->
+      <div class="tab-content">
+        <div class="tab-panel active" id="movies-panel">
+          <div class="top-actions">
+            <div class="search-bar">
+              <input type="text" placeholder="Search movies...">
+              <button><i class="fas fa-search"></i></button>
+            </div>
+            <button class="add-new-btn" id="addMovieBtn"><i class="fas fa-plus"></i> Add Movie</button>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Movie ID</th>
+                  <th>Name</th>
+                  <th>Genre</th>
+                  <th>Release Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#M001</td>
+                  <td>The Last Journey</td>
+                  <td>Action/Adventure</td>
+                  <td>15 Jan 2025</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#M002</td>
+                  <td>Whispers in the Dark</td>
+                  <td>Horror/Thriller</td>
+                  <td>22 Feb 2025</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#M003</td>
+                  <td>Love in Paris</td>
+                  <td>Romance/Comedy</td>
+                  <td>14 Feb 2025</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#M004</td>
+                  <td>Quantum Paradox</td>
+                  <td>Sci-Fi</td>
+                  <td>10 Mar 2025</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#M005</td>
+                  <td>The Hidden Truth</td>
+                  <td>Mystery/Drama</td>
+                  <td>05 Apr 2025</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-movie-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button>Previous</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>Next</button>
+          </div>
+        </div>
+
+        <!-- Snacks Tab -->
+        <div class="tab-panel" id="snacks-panel">
+          <div class="top-actions">
+            <div class="search-bar">
+              <input type="text" placeholder="Search snacks...">
+              <button><i class="fas fa-search"></i></button>
+            </div>
+            <button class="add-new-btn" id="addSnackBtn"><i class="fas fa-plus"></i> Add Snack</button>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Snack ID</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>#S001</td>
+                  <td>Small Popcorn</td>
+                  <td>$4.99</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-snack-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#S002</td>
+                  <td>Large Popcorn</td>
+                  <td>$6.99</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-snack-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#S003</td>
+                  <td>Nachos with Cheese</td>
+                  <td>$5.99</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-snack-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#S004</td>
+                  <td>Small Soda</td>
+                  <td>$3.99</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-snack-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>#S005</td>
+                  <td>Large Soda</td>
+                  <td>$5.49</td>
+                  <td>
+                    <button class="action-btn edit-btn edit-snack-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination">
+            <button>Previous</button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Movie Modal -->
+  <div id="movieModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3 id="movieModalTitle">Add New Movie</h3>
+      <form id="movieForm">
+        <div class="form-group">
+          <label class="form-label">Movie Name</label>
+          <input type="text" class="form-control" id="movieName" placeholder="Enter movie name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Genre</label>
+          <input type="text" class="form-control" id="movieGenre" placeholder="Enter genre">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Release Date</label>
+          <input type="date" class="form-control" id="movieReleaseDate">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cancel-btn" id="cancelMovieBtn">Cancel</button>
+          <button type="submit" class="save-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add/Edit Snack Modal -->
+  <div id="snackModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3 id="snackModalTitle">Add New Snack</h3>
+      <form id="snackForm">
+        <div class="form-group">
+          <label class="form-label">Snack Name</label>
+          <input type="text" class="form-control" id="snackName" placeholder="Enter snack name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Price</label>
+          <input type="text" class="form-control" id="snackPrice" placeholder="Enter price">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="cancel-btn" id="cancelSnackBtn">Cancel</button>
+          <button type="submit" class="save-btn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script>
+    // Tab switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active class from all tabs
+        tabBtns.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+        // Add active class to clicked tab
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab');
+        document.getElementById(`${tabId}-panel`).classList.add('active');
+      });
+    });
+
+    // Movie Modal
+    const movieModal = document.getElementById('movieModal');
+    const addMovieBtn = document.getElementById('addMovieBtn');
+    const editMovieBtns = document.querySelectorAll('.edit-movie-btn');
+    const cancelMovieBtn = document.getElementById('cancelMovieBtn');
+    const closeMovieBtn = movieModal.querySelector('.close-btn');
+    const movieModalTitle = document.getElementById('movieModalTitle');
+
+    // Open Add Movie Modal
+    addMovieBtn.addEventListener('click', () => {
+      movieModalTitle.textContent = 'Add New Movie';
+      document.getElementById('movieName').value = '';
+      document.getElementById('movieGenre').value = '';
+      document.getElementById('movieReleaseDate').value = '';
+      movieModal.style.display = 'block';
+    });
+
+    // Open Edit Movie Modal
+    editMovieBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        movieModalTitle.textContent = 'Edit Movie';
+        // In a real application, you would fetch the movie data
+        // Here we're just populating with example data
+        document.getElementById('movieName').value = 'The Last Journey';
+        document.getElementById('movieGenre').value = 'Action/Adventure';
+        document.getElementById('movieReleaseDate').value = '2025-01-15';
+        movieModal.style.display = 'block';
+      });
+    });
+
+    // Close Movie Modal
+    cancelMovieBtn.addEventListener('click', () => {
+      movieModal.style.display = 'none';
+    });
+
+    closeMovieBtn.addEventListener('click', () => {
+      movieModal.style.display = 'none';
+    });
+
+    // Snack Modal
+    const snackModal = document.getElementById('snackModal');
+    const addSnackBtn = document.getElementById('addSnackBtn');
+    const editSnackBtns = document.querySelectorAll('.edit-snack-btn');
+    const cancelSnackBtn = document.getElementById('cancelSnackBtn');
+    const closeSnackBtn = snackModal.querySelector('.close-btn');
+    const snackModalTitle = document.getElementById('snackModalTitle');
+
+    // Open Add Snack Modal
+    addSnackBtn.addEventListener('click', () => {
+      snackModalTitle.textContent = 'Add New Snack';
+      document.getElementById('snackName').value = '';
+      document.getElementById('snackPrice').value = '';
+      snackModal.style.display = 'block';
+    });
+
+    // Open Edit Snack Modal
+    editSnackBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        snackModalTitle.textContent = 'Edit Snack';
+        // In a real application, you would fetch the snack data
+        // Here we're just populating with example data
+        document.getElementById('snackName').value = 'Small Popcorn';
+        document.getElementById('snackPrice').value = '$4.99';
+        snackModal.style.display = 'block';
+      });
+    });
+
+    // Close Snack Modal
+    cancelSnackBtn.addEventListener('click', () => {
+      snackModal.style.display = 'none';
+    });
+
+    closeSnackBtn.addEventListener('click', () => {
+      snackModal.style.display = 'none';
+    });
+
+    // Form submission (prevent default for demo)
+    document.getElementById('movieForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Here you would handle the form submission
+      // For demo purposes, we'll just close the modal
+      movieModal.style.display = 'none';
+      // You could add a success message or refresh the table data
+    });
+
+    document.getElementById('snackForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Here you would handle the form submission
+      // For demo purposes, we'll just close the modal
+      snackModal.style.display = 'none';
+      // You could add a success message or refresh the table data
+    });
+
+    // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === movieModal) {
+        movieModal.style.display = 'none';
+      }
+      if (e.target === snackModal) {
+        snackModal.style.display = 'none';
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+</body>
+</html>

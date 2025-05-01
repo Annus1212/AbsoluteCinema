@@ -28,6 +28,18 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
+    public Optional<Employee> findByEmail(String email) {
+        return employeeRepository.findByEmail(email);
+    }
+
+    public Optional<Employee> findByUsername(String username) {
+        return employeeRepository.findByUsername(username);
+    }
+
+    public Optional<Employee> findById(Long id) {
+        return employeeRepository.findById(id);
+    }
+
     public Employee createEmployee(Employee employee) {
         if (employeeRepository.existsByEmail(employee.getEmail())) {
             throw new RuntimeException("Email already exists");
