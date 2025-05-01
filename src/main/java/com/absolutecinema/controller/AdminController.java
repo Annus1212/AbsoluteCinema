@@ -57,6 +57,3 @@ public class AdminController {
         return "admin/managebooking";
     }
 }
-
-
-

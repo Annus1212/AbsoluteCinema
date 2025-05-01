@@ -54,4 +54,16 @@ public class SnackService {
             snackRepository.save(snack);
         }
     }
+
+    public List<Snack> findAll() {
+        return snackRepository.findAll();
+    }
+
+    public Optional<Snack> findById(Long id) {
+        return snackRepository.findById(id);
+    }
+
+    public void deleteById(Long id) {
+        snackRepository.deleteById(id);
+    }
 }
