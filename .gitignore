@@ -40,3 +40,6 @@ build
 
 # Gradle wrapper files
 gradle/wrapper/
+
+# Bin folder
+bin/
