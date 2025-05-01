@@ -114,47 +114,35 @@
     <div class="main-content">
         <div class="page-header d-flex justify-content-between align-items-center">
             <h2>Feedback Management</h2>
-            <button class="btn-custom" data-bs-toggle="modal" data-bs-target="#exportModal">
-                <i class="bi bi-download me-2"></i> Export Data
-            </button>
         </div>
 
         <!-- Stats Cards -->
         <div class="dashboard-stats">
-            <div class="stat-card">
+            <div class="stat-card loading">
                 <div class="icon">
                     <i class="bi bi-chat-square-text"></i>
                 </div>
                 <div class="stat-info">
                     <div class="label">Total Feedback</div>
-                    <div class="value">3,247</div>
+                    <div class="value">Loading...</div>
                 </div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card loading">
                 <div class="icon">
                     <i class="bi bi-emoji-smile"></i>
                 </div>
                 <div class="stat-info">
                     <div class="label">Positive Feedback</div>
-                    <div class="value">2,183</div>
+                    <div class="value">Loading...</div>
                 </div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card loading">
                 <div class="icon">
                     <i class="bi bi-emoji-frown"></i>
                 </div>
                 <div class="stat-info">
                     <div class="label">Negative Feedback</div>
-                    <div class="value">524</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="icon">
-                    <i class="bi bi-reply"></i>
-                </div>
-                <div class="stat-info">
-                    <div class="label">Response Rate</div>
-                    <div class="value">92%</div>
+                    <div class="value">Loading...</div>
                 </div>
             </div>
         </div>
@@ -163,89 +151,44 @@
         <div class="charts-container">
             <div class="chart-card">
                 <div class="chart-header">
-                    <h4>Feedback Sentiment Trend</h4>
-                    <div class="chart-actions">
-                        <button class="btn-outline">Weekly</button>
-                        <button class="btn-outline">Monthly</button>
-                        <button class="btn-outline active">Yearly</button>
-                    </div>
+                    <h4>Average Rating Trend (Last 30 Days)</h4>
                 </div>
                 <div class="chart-body">
-                    <canvas id="sentimentChart"></canvas>
-                </div>
-            </div>
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h4>Top Feedback Categories</h4>
-                    <div class="chart-actions">
-                        <button class="btn-outline" id="refreshCategories">
-                            <i class="bi bi-arrow-clockwise"></i>
-                        </button>
+                    <div class="chart-loading">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
-                </div>
-                <div class="chart-body">
-                    <canvas id="categoriesChart"></canvas>
+                    <canvas id="sentimentChart" style="display: none;"></canvas>
                 </div>
             </div>
         </div>
 
         <!-- Filters -->
         <div class="filter-container">
-            <div class="filter-dropdown">
-                <button class="filter-btn" onclick="toggleFilterMenu('sentimentFilter')">
+            <div class="dropdown">
+                <button class="filter-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span>Sentiment</span>
                     <i class="bi bi-chevron-down"></i>
                 </button>
-                <div id="sentimentFilter" class="filter-menu">
-                    <div class="filter-item active">All Sentiments</div>
-                    <div class="filter-item">Positive</div>
-                    <div class="filter-item">Neutral</div>
-                    <div class="filter-item">Negative</div>
-                </div>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item active" href="#" data-sentiment="all">All Sentiments</a></li>
+                    <li><a class="dropdown-item" href="#" data-sentiment="positive">Positive (≥3)</a></li>
+                    <li><a class="dropdown-item" href="#" data-sentiment="negative">Negative (<3)</a></li>
+                </ul>
             </div>
-            <div class="filter-dropdown">
-                <button class="filter-btn" onclick="toggleFilterMenu('dateFilter')">
+            <div class="dropdown">
+                <button class="filter-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span>Date Range</span>
                     <i class="bi bi-chevron-down"></i>
                 </button>
-                <div id="dateFilter" class="filter-menu">
-                    <div class="filter-item active">All Time</div>
-                    <div class="filter-item">Today</div>
-                    <div class="filter-item">This Week</div>
-                    <div class="filter-item">This Month</div>
-                    <div class="filter-item">Last 3 Months</div>
-                </div>
-            </div>
-            <div class="filter-dropdown">
-                <button class="filter-btn" onclick="toggleFilterMenu('statusFilter')">
-                    <span>Status</span>
-                    <i class="bi bi-chevron-down"></i>
-                </button>
-                <div id="statusFilter" class="filter-menu">
-                    <div class="filter-item active">All Status</div>
-                    <div class="filter-item">Responded</div>
-                    <div class="filter-item">Pending</div>
-                    <div class="filter-item">Flagged</div>
-                </div>
-            </div>
-            <div class="filter-dropdown">
-                <button class="filter-btn" onclick="toggleFilterMenu('categoryFilter')">
-                    <span>Category</span>
-                    <i class="bi bi-chevron-down"></i>
-                </button>
-                <div id="categoryFilter" class="filter-menu">
-                    <div class="filter-item active">All Categories</div>
-                    <div class="filter-item">Movie Quality</div>
-                    <div class="filter-item">App Experience</div>
-                    <div class="filter-item">Customer Service</div>
-                    <div class="filter-item">Booking Experience</div>
-                    <div class="filter-item">Pricing</div>
-                </div>
-            </div>
-            <div class="ms-auto">
-                <button class="btn-outline" onclick="resetFilters()">
-                    <i class="bi bi-x-circle me-1"></i> Reset Filters
-                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item active" href="#" data-range="all">All Time</a></li>
+                    <li><a class="dropdown-item" href="#" data-range="today">Today</a></li>
+                    <li><a class="dropdown-item" href="#" data-range="week">This Week</a></li>
+                    <li><a class="dropdown-item" href="#" data-range="month">This Month</a></li>
+                    <li><a class="dropdown-item" href="#" data-range="3months">Last 3 Months</a></li>
+                </ul>
             </div>
         </div>
 
@@ -253,213 +196,13 @@
         <div class="feedback-container">
             <div class="feedback-header">
                 <h4>User Feedback</h4>
-                <div class="d-flex align-items-center">
-                    <div class="form-check form-switch me-3">
-                        <input class="form-check-input" type="checkbox" id="showUnreadOnly">
-                        <label class="form-check-label" for="showUnreadOnly">Show Unread Only</label>
-                    </div>
-                    <div class="dropdown">
-                        <button class="btn-outline dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-    <i class="bi bi-sort-down me-1"></i> Sort By
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                            <li><a class="dropdown-item" href="#">Newest First</a></li>
-                            <li><a class="dropdown-item" href="#">Oldest First</a></li>
-                            <li><a class="dropdown-item" href="#">Highest Rating</a></li>
-                            <li><a class="dropdown-item" href="#">Lowest Rating</a></li>
-                        </ul>
-                    </div>
-                </div>
             </div>
             <div class="feedback-scrollable">
-                <!-- Feedback Items -->
-                <div class="feedback-item">
-                    <span class="badge badge-positive mb-2">Positive</span>
-                    <div class="movie-title">Interstellar: Beyond the Stars</div>
-                    <div class="feedback-text">"Absolutely loved the IMAX experience for this film! The visual effects were stunning and the surround sound made me feel like I was in space. Best cinema experience I've had in years."</div>
-                    <div class="feedback-meta">
-                        <div class="star-rating">
-                            <div class="stars">★★★★★</div>
-                            <span>5.0</span>
-                        </div>
-                        <div class="user-info">John D. - 2 days ago</div>
+                <div class="feedback-loading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
-                    <div class="feedback-actions">
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-reply-fill me-1"></i> Reply
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-flag me-1"></i> Flag
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-archive me-1"></i> Archive
-                        </button>
-                    </div>
-                </div>
-                <div class="feedback-item">
-                    <span class="badge badge-negative mb-2">Negative</span>
-                    <div class="movie-title">Midnight Chronicles</div>
-                    <div class="feedback-text">"The booking process was frustrating. The app crashed twice when I tried to select seats, and I ended up with worse seats than I wanted. Please improve your booking system."</div>
-                    <div class="feedback-meta">
-                        <div class="star-rating">
-                            <div class="stars">★★</div>
-                            <span>2.0</span>
-                        </div>
-                        <div class="user-info">Sarah M. - 1 week ago</div>
-                    </div>
-                    <div class="feedback-actions">
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-reply-fill me-1"></i> Reply
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-flag me-1"></i> Flag
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-archive me-1"></i> Archive
-                        </button>
-                    </div>
-                </div>
-                <div class="feedback-item">
-                    <span class="badge badge-neutral mb-2">Neutral</span>
-                    <div class="movie-title">Echoes of Tomorrow</div>
-                    <div class="feedback-text">"The movie was good, but the temperature in the theater was too cold. I had to put on my jacket during the show. The staff was helpful though and apologized for the inconvenience."</div>
-                    <div class="feedback-meta">
-                        <div class="star-rating">
-                            <div class="stars">★★★</div>
-                            <span>3.0</span>
-                        </div>
-                        <div class="user-info">Michael T. - 3 days ago</div>
-                    </div>
-                    <div class="feedback-actions">
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-reply-fill me-1"></i> Reply
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-flag me-1"></i> Flag
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-archive me-1"></i> Archive
-                        </button>
-                    </div>
-                </div>
-                <div class="feedback-item">
-                    <span class="badge badge-positive mb-2">Positive</span>
-                    <div class="movie-title">Galactic Warriors: Final Battle</div>
-                    <div class="feedback-text">"Great customer service! I accidentally booked for the wrong day and the staff helped me change my tickets without any fees. The movie was excellent too!"</div>
-                    <div class="feedback-meta">
-                        <div class="star-rating">
-                            <div class="stars">★★★★★</div>
-                            <span>5.0</span>
-                        </div>
-                        <div class="user-info">Emma R. - 1 day ago</div>
-                    </div>
-                    <div class="feedback-actions">
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-reply-fill me-1"></i> Reply
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-flag me-1"></i> Flag
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-archive me-1"></i> Archive
-                        </button>
-                    </div>
-                </div>
-                <div class="feedback-item">
-                    <span class="badge badge-negative mb-2">Negative</span>
-                    <div class="movie-title">The Lost Kingdom</div>
-                    <div class="feedback-text">"The snack prices are ridiculous! $8 for a small popcorn is highway robbery. I love your theaters but I'm going to start bringing my own snacks."</div>
-                    <div class="feedback-meta">
-                        <div class="star-rating">
-                            <div class="stars">★★</div>
-                            <span>2.0</span>
-                        </div>
-                        <div class="user-info">David K. - 5 days ago</div>
-                    </div>
-                    <div class="feedback-actions">
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-reply-fill me-1"></i> Reply
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-flag me-1"></i> Flag
-                        </button>
-                        <button class="btn-outline btn-sm">
-                            <i class="bi bi-archive me-1"></i> Archive
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- Pagination -->
-            <nav class="custom-pagination">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                            <i class="bi bi-chevron-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="bi bi-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-
-    <!-- Export Modal -->
-    <div class="modal fade custom-modal" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exportModalLabel">Export Feedback Data</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Date Range</label>
-                        <div class="d-flex gap-2">
-                            <input type="date" class="form-control" placeholder="Start Date">
-                            <input type="date" class="form-control" placeholder="End Date">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Format</label>
-                        <select class="form-select">
-                            <option selected>CSV</option>
-                            <option>Excel</option>
-                            <option>PDF</option>
-                            <option>JSON</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Data to Include</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="includeRatings" checked>
-                            <label class="form-check-label" for="includeRatings">Ratings</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="includeComments" checked>
-                            <label class="form-check-label" for="includeComments">Comments</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="includeUser" checked>
-                            <label class="form-check-label" for="includeUser">User Information</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="includeSentiment" checked>
-                            <label class="form-check-label" for="includeSentiment">Sentiment Analysis</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn-outline" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn-custom">
-                        <i class="bi bi-download me-1"></i> Export
-                    </button>
+                    <p class="mt-2">Loading feedback...</p>
                 </div>
             </div>
         </div>
@@ -468,6 +211,286 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/topbar/bar.js"></script>
     <script>
+        // Fetch and update feedback statistics
+        async function updateFeedbackStats() {
+            try {
+                // Show loading states
+                document.querySelectorAll('.stat-card').forEach(card => card.classList.add('loading'));
+                document.querySelector('.chart-loading').style.display = 'flex';
+                document.getElementById('sentimentChart').style.display = 'none';
+                document.querySelector('.feedback-loading').style.display = 'flex';
+                document.querySelector('.feedback-scrollable').innerHTML = '';
+
+                const response = await fetch('/api/feedback/statistics');
+                const stats = await response.json();
+                
+                // Update the stat cards
+                document.querySelectorAll('.stat-card').forEach(card => card.classList.remove('loading'));
+                document.querySelector('.stat-card:nth-child(1) .value').textContent = stats.totalFeedback;
+                document.querySelector('.stat-card:nth-child(2) .value').textContent = stats.positiveFeedback;
+                document.querySelector('.stat-card:nth-child(3) .value').textContent = stats.negativeFeedback;
+
+                // Update the chart with real data
+                updateChart(stats.chartData);
+                document.querySelector('.chart-loading').style.display = 'none';
+                document.getElementById('sentimentChart').style.display = 'block';
+            } catch (error) {
+                console.error('Error fetching feedback statistics:', error);
+                // Handle error state
+                document.querySelectorAll('.stat-card').forEach(card => {
+                    card.classList.remove('loading');
+                    card.querySelector('.value').textContent = 'Error';
+                });
+            }
+        }
+
+        function updateChart(chartData) {
+            const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+            const sentimentChart = new Chart(sentimentCtx, {
+                type: 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [
+                        {
+                            label: 'Average Rating',
+                            data: chartData.averageRatings,
+                            borderColor: '#36d1b7',
+                            backgroundColor: 'rgba(54, 209, 183, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                color: '#8a8d99'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(50, 52, 62, 0.5)'
+                            },
+                            ticks: {
+                                color: '#8a8d99'
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 5,
+                            grid: {
+                                color: 'rgba(50, 52, 62, 0.5)'
+                            },
+                            ticks: {
+                                color: '#8a8d99',
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Function to format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+            const diffMinutes = Math.floor(diffTime / (1000 * 60));
+
+            if (diffDays > 0) {
+                return `${diffDays} ${diffDays === 1 ? 'day' : 'days'} ago`;
+            } else if (diffHours > 0) {
+                return `${diffHours} ${diffHours === 1 ? 'hour' : 'hours'} ago`;
+            } else {
+                return `${diffMinutes} ${diffMinutes === 1 ? 'minute' : 'minutes'} ago`;
+            }
+        }
+
+        // Function to generate star rating
+        function generateStars(rating) {
+            const fullStars = '★'.repeat(Math.floor(rating));
+            const halfStar = rating % 1 >= 0.5 ? '½' : '';
+            const emptyStars = '☆'.repeat(5 - Math.ceil(rating));
+            return fullStars + halfStar + emptyStars;
+        }
+
+        let currentFeedback = [];
+        let currentSentiment = 'all';
+        let currentDateRange = 'all';
+
+        // Function to filter feedback based on current filters
+        function filterFeedback() {
+            const feedbackContainer = document.querySelector('.feedback-scrollable');
+            if (!feedbackContainer) return;
+
+            let filteredFeedback = [...currentFeedback];
+
+            // Apply sentiment filter
+            if (currentSentiment !== 'all') {
+                filteredFeedback = filteredFeedback.filter(feedback => {
+                    const isPositive = feedback.rating >= 3;
+                    return currentSentiment === 'positive' ? isPositive : !isPositive;
+                });
+            }
+
+            // Apply date range filter
+            const now = new Date();
+            if (currentDateRange !== 'all') {
+                filteredFeedback = filteredFeedback.filter(feedback => {
+                    const feedbackDate = new Date(feedback.createdAt);
+                    const diffTime = now - feedbackDate;
+                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                    switch (currentDateRange) {
+                        case 'today':
+                            return diffDays === 0;
+                        case 'week':
+                            return diffDays <= 7;
+                        case 'month':
+                            return diffDays <= 30;
+                        case '3months':
+                            return diffDays <= 90;
+                        default:
+                            return true;
+                    }
+                });
+            }
+
+            // Render filtered feedback
+            feedbackContainer.innerHTML = filteredFeedback.map(feedback => {
+                let userName = "~anonymous";
+                if (feedback.userName && feedback.userName.trim() !== "null null") {
+                    userName = feedback.userName;
+                }
+                
+                return `
+                    <div class="feedback-item">
+                        <span class="badge badge-${feedback.rating >= 3 ? 'positive' : 'negative'} mb-2">${feedback.rating >= 3 ? 'Positive' : 'Negative'}</span>
+                        <div class="movie-title">${feedback.movieTitle}</div>
+                        <div class="feedback-text">"${feedback.comment}"</div>
+                        <div class="feedback-meta">
+                            <div class="star-rating">
+                                <div class="stars">${generateStars(feedback.rating)}</div>
+                                <span>${feedback.rating.toFixed(1)}</span>
+                            </div>
+                            <div class="user-info">${userName} - ${formatDate(feedback.createdAt)}</div>
+                        </div>
+                        <div class="feedback-actions">
+                            <button class="btn-outline btn-sm">
+                                <i class="bi bi-reply-fill me-1"></i> Reply
+                            </button>
+                            <button class="btn-outline btn-sm">
+                                <i class="bi bi-flag me-1"></i> Flag
+                            </button>
+                            <button class="btn-outline btn-sm">
+                                <i class="bi bi-archive me-1"></i> Archive
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Function to load feedback list
+        async function loadFeedbackList() {
+            try {
+                console.log('Loading feedback list...');
+                const response = await fetch('/api/feedback/list');
+                console.log('Response received:', response);
+                const feedbacks = await response.json();
+                console.log('Feedback data:', feedbacks);
+                
+                const feedbackContainer = document.querySelector('.feedback-scrollable');
+                const loadingSpinner = document.querySelector('.feedback-loading');
+                
+                if (loadingSpinner) {
+                    loadingSpinner.style.display = 'none';
+                }
+                
+                // Store the feedback data
+                currentFeedback = feedbacks;
+                
+                // Apply initial filtering
+                filterFeedback();
+                
+                console.log('Feedback list rendered');
+            } catch (error) {
+                console.error('Error loading feedback list:', error);
+                const loadingSpinner = document.querySelector('.feedback-loading');
+                const feedbackContainer = document.querySelector('.feedback-scrollable');
+                
+                if (loadingSpinner) {
+                    loadingSpinner.style.display = 'none';
+                }
+                
+                if (feedbackContainer) {
+                    feedbackContainer.innerHTML = `
+                        <div class="error-message">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            <p>Failed to load feedback. Please try again later.</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Add event listeners for filter dropdowns
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sentiment filter
+            document.querySelectorAll('[data-sentiment]').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentSentiment = this.getAttribute('data-sentiment');
+                    
+                    // Update active state
+                    document.querySelectorAll('[data-sentiment]').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update button text
+                    const button = this.closest('.dropdown').querySelector('.filter-btn span');
+                    if (button) {
+                        button.textContent = this.textContent;
+                    }
+                    
+                    filterFeedback();
+                });
+            });
+
+            // Date range filter
+            document.querySelectorAll('[data-range]').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    currentDateRange = this.getAttribute('data-range');
+                    
+                    // Update active state
+                    document.querySelectorAll('[data-range]').forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update button text
+                    const button = this.closest('.dropdown').querySelector('.filter-btn span');
+                    if (button) {
+                        button.textContent = this.textContent;
+                    }
+                    
+                    filterFeedback();
+                });
+            });
+
+            // Initialize the page
+            updateFeedbackStats();
+            loadFeedbackList();
+        });
+
         // Toggle Filter Menus
         function toggleFilterMenu(id) {
             document.getElementById(id).classList.toggle('show');
@@ -478,26 +501,6 @@
                 }
             });
         }
-
-        // Reset Filters
-        function resetFilters() {
-            document.querySelectorAll('.filter-item').forEach(item => {
-                item.classList.remove('active');
-            });
-
-            document.querySelectorAll('.filter-item:first-child').forEach(item => {
-                item.classList.add('active');
-            });
-        }
-
-        // Close filter menus when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.filter-dropdown')) {
-                document.querySelectorAll('.filter-menu').forEach(menu => {
-                    menu.classList.remove('show');
-                });
-            }
-        });
 
         // Theme Toggling
         document.querySelectorAll('.theme-item').forEach(button => {
@@ -531,122 +534,60 @@
                 }
             });
         });
-
-        // Initialize Charts
-        document.addEventListener('DOMContentLoaded', function() {
-            // Sentiment Trend Chart
-            const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
-            const sentimentChart = new Chart(sentimentCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                    datasets: [
-                        {
-                            label: 'Positive',
-                            data: [65, 72, 78, 84, 82, 90, 95, 98, 105, 112, 120, 125],
-                            borderColor: '#36d1b7',
-                            backgroundColor: 'rgba(54, 209, 183, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Neutral',
-                            data: [40, 45, 48, 42, 38, 35, 40, 42, 45, 50, 55, 60],
-                            borderColor: '#ffb74d',
-                            backgroundColor: 'rgba(255, 183, 77, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        },
-                        {
-                            label: 'Negative',
-                            data: [25, 28, 30, 27, 25, 22, 20, 18, 15, 20, 22, 25],
-                            borderColor: '#ff5252',
-                            backgroundColor: 'rgba(255, 82, 82, 0.1)',
-                            tension: 0.4,
-                            fill: true
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                usePointStyle: true,
-                                color: '#8a8d99'
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: {
-                                color: 'rgba(50, 52, 62, 0.5)'
-                            },
-                            ticks: {
-                                color: '#8a8d99'
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: 'rgba(50, 52, 62, 0.5)'
-                            },
-                            ticks: {
-                                color: '#8a8d99'
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Categories Chart
-            const categoriesCtx = document.getElementById('categoriesChart').getContext('2d');
-            const categoriesChart = new Chart(categoriesCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Movie Quality', 'App Experience', 'Customer Service', 'Booking Experience', 'Pricing'],
-                    datasets: [{
-                        data: [35, 25, 20, 15, 5],
-                        backgroundColor: [
-                            '#722ed1',
-                            '#1677ff',
-                            '#36d1b7',
-                            '#ffb74d',
-                            '#ff5252'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                usePointStyle: true,
-                                color: '#8a8d99'
-                            }
-                        }
-                    },
-                    cutout: '70%'
-                }
-            });
-
-            // Refresh button for Categories
-            document.getElementById('refreshCategories').addEventListener('click', function() {
-                // Simulate data refresh with animation
-                categoriesChart.data.datasets[0].data = [
-                    Math.floor(Math.random() * 40) + 20,
-                    Math.floor(Math.random() * 30) + 15,
-                    Math.floor(Math.random() * 25) + 10,
-                    Math.floor(Math.random() * 20) + 5,
-                    Math.floor(Math.random() * 15) + 5
-                ];
-                categoriesChart.update();
-            });
-        });
     </script>
+
+<style>
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.chart-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.feedback-loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: var(--bs-body-color);
+}
+
+.feedback-loading p {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.25rem;
+}
+</style>
 </body>
 </html>
