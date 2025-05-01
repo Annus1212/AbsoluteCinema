@@ -33,37 +33,37 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/register", 
-                "/auth/login", 
-                "/auth/forgot-password", 
-                "/css/**", 
-                "/js/**", 
-                "/images/**",
-                "/api/**" // Allow API access without authentication
-                ).permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/user/**").hasRole("USER")
-                .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                .loginPage("/auth/login")
-                .loginProcessingUrl("/login")
-                // .failureHandler((request, response, exception) -> {
-                //     exception.printStackTrace(); // Or log it
-                //     response.sendRedirect("/login?error=true");
-                // })
-                // .defaultSuccessUrl("/auth/dashboard", true)
-                .permitAll()
-            )
-            .logout(logout -> logout
-                // Allow GET requests for logout for simplicity, although POST is recommended for CSRF protection.
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) 
-                .logoutSuccessUrl("/auth/login")
-                .invalidateHttpSession(true) // Default is true
-                .deleteCookies("JSESSIONID") // Default is true
-                .permitAll()
-            );
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/register",
+                                "/auth/login",
+                                "/auth/forgot-password",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/api/**" // Allow API access without authentication
+                        ).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasRole("USER")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/auth/login")
+                        .loginProcessingUrl("/login")
+                        // .failureHandler((request, response, exception) -> {
+                        //     exception.printStackTrace(); // Or log it
+                        //     response.sendRedirect("/login?error=true");
+                        // })
+                        // .defaultSuccessUrl("/auth/dashboard", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        // Allow GET requests for logout for simplicity, although POST is recommended for CSRF protection.
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                        .logoutSuccessUrl("/auth/login")
+                        .invalidateHttpSession(true) // Default is true
+                        .deleteCookies("JSESSIONID") // Default is true
+                        .permitAll()
+                );
 
         return http.build();
     }
@@ -86,9 +86,9 @@ public class SecurityConfig {
             }
 
             return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                authorities
+                    user.getUsername(),
+                    user.getPassword(),
+                    authorities
             );
         };
     }

@@ -16,7 +16,7 @@ public class Feedback {
     private User user;
 
     @Column(name = "movie_id", nullable = false)
-    private String movieId;
+    private Long movieId;
 
     @Column(name = "comments", nullable = false)
     private String comments;
@@ -47,11 +47,11 @@ public class Feedback {
         this.user = user;
     }
 
-    public String getMovieId() {
+    public Long getMovieId() {
         return movieId;
     }
 
-    public void setMovieId(String movieId) {
+    public void setMovieId(Long movieId) {
         this.movieId = movieId;
     }
 
