@@ -1,7 +1,7 @@
-# Compiled class file
+# Compiled class files
 *.class
 
-# Log file
+# Log files
 *.log
 
 # BlueJ files
@@ -10,7 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.nar
@@ -19,7 +19,7 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Virtual machine crash logs
 hs_err_pid*
 replay_pid*
 
@@ -31,7 +31,15 @@ replay_pid*
 gradlew
 gradlew.bat
 
+# Build output
 build
 .env
 
-.vscode
+# VS Code settings
+.vscode/
+
+# Gradle wrapper files
+gradle/wrapper/
+
+# Bin folder
+bin/

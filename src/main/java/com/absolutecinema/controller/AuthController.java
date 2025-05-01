@@ -14,41 +14,52 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.transaction.annotation.Transactional;
 
 @Controller
 public class AuthController {
 
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    public AuthController(PasswordEncoder passwordEncoder) {
+    public AuthController(PasswordEncoder passwordEncoder, UserRepository userRepository) {
         this.passwordEncoder = passwordEncoder;
-
+        this.userRepository = userRepository;
     }
 
     // @GetMapping("/")
     // public String Home() {
-    //     return "redirect:/auth/login";
-    //     // return "admin/dashboard";
+    // return "redirect:/auth/login";
+    // // return "admin/dashboard";
     // }
 
     @GetMapping("/auth/login")
     public String login() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-            return "auth/signin";
+
+        // If user is already authenticated, redirect to appropriate dashboard
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            User user = userRepository.findByUsername(authentication.getName());
+            if (user != null) {
+                if ("admin".equalsIgnoreCase(user.getAccountType())) {
+                    return "redirect:/admin/dashboard";
+                } else if ("employee".equalsIgnoreCase(user.getAccountType())) {
+                    return "redirect:/employee/dashboard";
+                } else {
+                    return "redirect:/user/dashboard";
+                }
+            }
         }
-        if (((User)authentication.getPrincipal()).getUsername().equals("admin")) {
-            return "redirect:/admin/dashboard"; // Redirect to the dashboard if already authenticated
-        }
-            return "redirect:/user/dashboard"; // Show login page if not authenticated
+
+        // If not authenticated, show login page
+        return "auth/signin";
     }
 
     // @PostMapping("/auth/login")
-    // public String login(@RequestParam String username, @RequestParam String password, Model model) {
-    //     return "redirect:/admin/dashboard";
+    // public String login(@RequestParam String username, @RequestParam String
+    // password, Model model) {
+    // return "redirect:/admin/dashboard";
     // }
 
     @GetMapping("/auth/register")
@@ -57,28 +68,41 @@ public class AuthController {
     }
 
     @PostMapping("/auth/register")
+    @Transactional
     public String register(
-        @RequestParam String username, 
-        @RequestParam String password,
-        @RequestParam String email, 
-        Model model
-    ) {
-        // Here you would typically save the user to the database and handle registration logic
-        // For now, we'll just redirect to the login page
+            @RequestParam(name = "username") String username,
+            @RequestParam(name = "password") String password,
+            @RequestParam(name = "email") String email,
+            @RequestParam(name = "firstName") String firstName,
+            @RequestParam(name = "lastName") String lastName,
+            Model model) {
+        try {
+            // Check if the username already exists
+            if (userRepository.findByUsername(username) != null) {
+                model.addAttribute("error", "Username already exists");
+                return "auth/signup";
+            }
 
-        // Check if the username already exists
-        if (userRepository.findByUsername(username) != null) {
-            model.addAttribute("error", "Username already exists");
-            return "auth/signup"; // Return to the registration page with an error message
+            // Find the next available ID (starting from 13)
+            Long nextId = userRepository.findMaxId().orElse(12L) + 1;
+
+            User user = new User();
+            user.setId(nextId); // Set the ID manually
+            user.setUsername(username);
+            user.setPassword(passwordEncoder.encode(password));
+            user.setEmail(email);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setAccountType("user"); // Default to user account type
+
+            // Save and flush to ensure immediate persistence
+            userRepository.saveAndFlush(user);
+
+            return "redirect:/auth/login";
+        } catch (Exception e) {
+            model.addAttribute("error", "Registration failed: " + e.getMessage());
+            return "auth/signup";
         }
-
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password)); // In a real application, you should hash the password before saving it
-        user.setEmail(email);
-        userRepository.save(user); // Save the user to the database
-
-        return "redirect:/auth/login";
     }
 
     @GetMapping("/auth/forgot-password")

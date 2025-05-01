@@ -315,7 +315,7 @@
         </div>
 
         <!-- Login Form (Black Part) -->
-        <form class="login-form" method="POST" action="/login" id="login-form">
+        <form class="login-form" method="POST" action="/auth/login" id="login-form">
             <input type="hidden" name="{{_csrf.parameterName}}" value="{{_csrf.token}}" />
             <div class="logo">ABSOLUTE CINEMA</div>
             <br>
