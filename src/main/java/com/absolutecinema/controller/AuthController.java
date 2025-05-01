@@ -86,7 +86,13 @@ public class AuthController {
             user.setEmail(email);
             user.setFirstName(firstName);
             user.setLastName(lastName);
-            user.setAccountType("user"); // Default to user account type
+            if (username == "admin") {
+                user.setAccountType("admin"); // Set account type to admin
+            } else if (username == "employee") {
+                user.setAccountType("employee"); // Set account type to employee
+            } else {
+                user.setAccountType("user"); // Default to user account type
+            }
 
             // Save and flush to ensure immediate persistence
             userRepository.saveAndFlush(user);
