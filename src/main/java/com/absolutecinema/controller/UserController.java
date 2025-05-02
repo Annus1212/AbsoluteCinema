@@ -22,11 +22,6 @@ public class UserController {
         this.snackService = snackService;
     }
 
-    @GetMapping("/user/dashboard")
-    public String getUserDashboard() {
-        return "user/dashboard";
-    }
-
     @GetMapping("/user/seats")
     public String getSeatsPage(@RequestParam Long movieId, Model model) {
         var movie = movieService.findById(movieId);

@@ -21,6 +21,8 @@ import java.util.Map;
 @RequestMapping("/user/payment")
 public class PaymentController {
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+    private static final double TICKET_PRICE = 12.0;
+    private static final double SNACK_PRICE = 5.0;
 
     private final PaymentService paymentService;
     private final UserService userService;
@@ -36,7 +38,15 @@ public class PaymentController {
 
     @GetMapping
     public String getPaymentPage(Model model) {
+        // Get authenticated user
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+
         model.addAttribute("stripePublicKey", stripePublicKey);
+        model.addAttribute("user", user);
+        model.addAttribute("ticketPrice", TICKET_PRICE);
+        model.addAttribute("snackPrice", SNACK_PRICE);
+
         return "user/payment";
     }
 
@@ -76,8 +86,8 @@ public class PaymentController {
             Double amount;
             try {
                 amount = Double.parseDouble(amountObj.toString());
-                if (amount <= 0) {
-                    throw new IllegalArgumentException("Amount must be greater than 0");
+                if (amount < 0) {
+                    throw new IllegalArgumentException("Amount cannot be negative");
                 }
             } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("Invalid amount format");
@@ -111,11 +121,16 @@ public class PaymentController {
             List<Object> seats = (List<Object>) paymentRequest.get("seats");
             Map<String, Object> snacks = (Map<String, Object>) paymentRequest.get("snacks");
 
-            logger.info("Processing payment request - User: {}, Amount: {}, Movie: {}, Session: {}",
-                    user.getUsername(), amount, movieId, sessionId);
+            // Check if loyalty points redemption is requested
+            boolean applyRedemption = Boolean.TRUE.equals(paymentRequest.get("applyRedemption"));
+
+            logger.info(
+                    "Processing payment request - User: {}, Amount: {}, Movie: {}, Session: {}, Apply Redemption: {}",
+                    user.getUsername(), amount, movieId, sessionId, applyRedemption);
 
             // Process payment
-            paymentService.processPayment(paymentMethodId, amount, seats, snacks, user, movieId, sessionId);
+            paymentService.processPayment(paymentMethodId, amount, seats, snacks, user, movieId, sessionId,
+                    applyRedemption);
 
             response.put("success", true);
             response.put("redirectUrl", "/user/dashboard");

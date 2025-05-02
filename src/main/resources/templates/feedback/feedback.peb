@@ -160,7 +160,9 @@
         }
         
         .search-bar {
-            flex-grow: 0.4;
+            position: relative !important;
+            left: auto !important;
+            width: auto !important;
             max-width: 400px;
         }
         
@@ -180,6 +182,8 @@
             gap: 2rem;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            position: relative;
+            z-index: 3;
         }
         
         .nav a {
@@ -222,6 +226,8 @@
             padding: 30px;
             margin-bottom: 30px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
         }
 
         .feedback-section {
@@ -268,10 +274,14 @@
         .feedback-form-container {
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
         }
 
         .form-group {
             margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
         }
 
         .form-group label {
@@ -288,6 +298,8 @@
             background-color: var(--input-bg);
             color: var(--bs-text-color);
             font-size: 16px;
+            position: relative;
+            z-index: 2;
         }
 
         textarea.form-control {
@@ -389,6 +401,26 @@
                 padding: 20px;
             }
         }
+
+        .movie-select {
+            margin-bottom: 20px;
+        }
+        
+        .movie-select select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--bs-text-color);
+            font-size: 16px;
+        }
+        
+        .movie-select select:focus {
+            outline: none;
+            border-color: var(--gradient-start);
+            box-shadow: 0 0 0 2px rgba(166, 77, 255, 0.2);
+        }
     </style>
 </head>
 <body data-bs-theme="dark">
@@ -426,52 +458,37 @@
         <h1>Share Your Feedback</h1>
         
         <div class="feedback-card">
-            <div class="feedback-section">
-                <h2>How would you rate your experience?</h2>
-                <div class="rating">
-                    <input type="radio" name="rating" id="star5" value="5">
-                    <label for="star5" class="fas fa-star"></label>
-                    <input type="radio" name="rating" id="star4" value="4">
-                    <label for="star4" class="fas fa-star"></label>
-                    <input type="radio" name="rating" id="star3" value="3">
-                    <label for="star3" class="fas fa-star"></label>
-                    <input type="radio" name="rating" id="star2" value="2">
-                    <label for="star2" class="fas fa-star"></label>
-                    <input type="radio" name="rating" id="star1" value="1">
-                    <label for="star1" class="fas fa-star"></label>
+            <form id="feedbackForm" class="feedback-form-container">
+                <div class="movie-select">
+                    <h2>Select Movie</h2>
+                    <select id="movieId" name="movieId" required>
+                        <option value="">Select a movie...</option>
+                        {% for movie in movies %}
+                        <option value="{{ movie.id }}">{{ movie.title }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <!-- Added rating text display -->
-                <div class="rating-text" id="ratingText">No rating selected</div>
-            </div>
-            
-            <div class="feedback-section">
-                <h2>What aspects are you providing feedback on?</h2>
-                <div class="category-badges">
-                    <div class="category-badge">Movie Selection</div>
-                    <div class="category-badge">Booking Experience</div>
-                    <div class="category-badge">Cinema Facilities</div>
-                    <div class="category-badge">Staff Service</div>
-                    <div class="category-badge">Food & Beverages</div>
-                    <div class="category-badge">Ticket Pricing</div>
-                    <div class="category-badge">Theater Comfort</div>
-                    <div class="category-badge">Mobile App</div>
-                </div>
-            </div>
-            
-            <div class="feedback-form-container">
-                <div class="form-group">
-                    <label for="feedback">Tell us about your experience:</label>
-                    <textarea class="form-control" id="feedback" rows="5" placeholder="Share your thoughts, suggestions, or concerns..."></textarea>
+
+                <div class="feedback-section">
+                    <h2>Rate the Movie</h2>
+                    <div class="rating">
+                        <input type="radio" name="rating" id="star5" value="5" required>
+                        <label for="star5" class="fas fa-star"></label>
+                        <input type="radio" name="rating" id="star4" value="4">
+                        <label for="star4" class="fas fa-star"></label>
+                        <input type="radio" name="rating" id="star3" value="3">
+                        <label for="star3" class="fas fa-star"></label>
+                        <input type="radio" name="rating" id="star2" value="2">
+                        <label for="star2" class="fas fa-star"></label>
+                        <input type="radio" name="rating" id="star1" value="1">
+                        <label for="star1" class="fas fa-star"></label>
+                    </div>
+                    <div class="rating-text" id="ratingText">No rating selected</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="name">Name (optional):</label>
-                    <input type="text" class="form-control" id="name" placeholder="Your name">
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email (optional):</label>
-                    <input type="email" class="form-control" id="email" placeholder="Your email address">
+                    <label for="comments">Your Comments:</label>
+                    <textarea class="form-control" id="comments" name="comments" rows="5" placeholder="Share your thoughts about the movie..." required></textarea>
                 </div>
                 
                 <div class="form-group">
@@ -479,9 +496,9 @@
                 </div>
                 
                 <div class="success-message" id="successMessage">
-                    Thank you for your feedback! We appreciate your input and will use it to improve our services.
+                    Thank you for your feedback! We appreciate your input.
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -493,14 +510,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Category badge selection
-        const categoryBadges = document.querySelectorAll('.category-badge');
-        categoryBadges.forEach(badge => {
-            badge.addEventListener('click', () => {
-                badge.classList.toggle('selected');
-            });
-        });
-        
         // Star rating functionality
         const ratingInputs = document.querySelectorAll('input[name="rating"]');
         const ratingText = document.getElementById('ratingText');
@@ -520,43 +529,45 @@
         });
         
         // Form submission
+        const form = document.getElementById('feedbackForm');
         const submitButton = document.getElementById('submitFeedback');
         const successMessage = document.getElementById('successMessage');
         
-        submitButton.addEventListener('click', () => {
-            // Simulate form submission
-            submitButton.disabled = true;
-            submitButton.textContent = 'Submitting...';
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            // Show success message after a short delay
-            setTimeout(() => {
-                successMessage.style.display = 'block';
-                submitButton.disabled = false;
-                submitButton.textContent = 'Submit Feedback';
-                
-                // Reset form
-                document.getElementById('feedback').value = '';
-                document.getElementById('name').value = '';
-                document.getElementById('email').value = '';
-                
-                // Uncheck all stars
-                ratingInputs.forEach(input => {
-                    input.checked = false;
+            const movieId = document.getElementById('movieId').value;
+            const rating = document.querySelector('input[name="rating"]:checked').value;
+            const comments = document.getElementById('comments').value;
+            
+            try {
+                const response = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        movieId: movieId,
+                        rating: rating,
+                        comments: comments
+                    })
                 });
                 
-                // Reset rating text
-                ratingText.textContent = "No rating selected";
-                
-                // Unselect all categories
-                categoryBadges.forEach(badge => {
-                    badge.classList.remove('selected');
-                });
-                
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    successMessage.style.display = 'none';
-                }, 5000);
-            }, 1000);
+                if (response.ok) {
+                    successMessage.style.display = 'block';
+                    form.reset();
+                    ratingText.textContent = "No rating selected";
+                    
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
+                } else {
+                    throw new Error('Failed to submit feedback');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error submitting feedback. Please try again.');
+            }
         });
 
         // Theme toggle functionality
