@@ -114,7 +114,7 @@ h2 {
 
 /* Footer Styles */
 .footer {
-    background-color: var(--bs-footer-bg, var(--bs-body-bg));
+    background-color:black;
     border-top: 1px solid var(--bs-border-color, #e9ecef);
     margin-top: 50px;
     color: var(--bs-footer-color, var(--bs-body-color));
@@ -147,7 +147,6 @@ h2 {
                     <li><a href="/" class="nav-link px-2">Home</a></li>
                     <li><a href="/movies" class="nav-link px-2">Movies</a></li>
                     <li><a href="/bookings/history" class="nav-link px-2">Bookings</a></li>
-                    <li><a href="/snacks" class="nav-link px-2">Snacks</a></li>
                     <li><a href="/loyalty" class="nav-link px-2">Loyalty Program</a></li>
                     <li><a href="/feedback" class="nav-link px-2">Feedback</a></li>
                     <li><a href="/contact" class="nav-link px-2">Contact</a></li>
@@ -187,7 +186,7 @@ h2 {
         {% endif %}
     </div>
 
-    <footer class="footer mt-auto py-3 bg-light">
+    <footer class="footer mt-auto py-3 bg-color:black">
         <div class="container text-center">
             <p class="text-muted">&copy; 2024 Absolute Cinema. All rights reserved.</p>
         </div>
