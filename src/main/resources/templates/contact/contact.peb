@@ -412,19 +412,25 @@
 
     <header class="header">
         <a href="#" class="logo">Absolute Cinema<span class="dot">.</span></a>
-        <div class="search-bar" style="position: absolute;left: 1000px;width: 600px;">
+        <div class="search-bar" style="position: absolute;left: 1350px;width: 600px;">
             <input type="text" class="search-input" placeholder="Search movies...">
         </div>
     </header>
     
-    <nav class="nav">
-        <a href="#">Home</a>
-        <a href="#">Movies</a>
-        <a href="#">Bookings</a>
-        <a href="#">Loyalty Program</a>
-        <a href="#">Feedback</a>
-        <a href="#" class="active">Contact</a>
-    </nav>
+   <div class="nav-container">
+        <div class="container py-2">
+            <div class="d-flex flex-wrap align-items-center mt-3">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 mb-md-0">
+                    <li><a href="/" class="nav-link px-2">Home</a></li>
+                    <li><a href="/movies" class="nav-link px-2">Movies</a></li>
+                    <li><a href="/bookings/history" class="nav-link px-2">Bookings</a></li>
+                    <li><a href="/loyalty" class="nav-link px-2">Loyalty Program</a></li>
+                    <li><a href="/feedback" class="nav-link px-2">Feedback</a></li>
+                    <li><a href="/contact" class="nav-link px-2">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
     
     <div class="container">
         <h1>Contact Us</h1>
