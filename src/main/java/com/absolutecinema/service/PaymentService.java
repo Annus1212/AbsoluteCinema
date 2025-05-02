@@ -7,6 +7,7 @@ import com.absolutecinema.entity.User;
 import com.absolutecinema.repository.BookingRepository;
 import com.absolutecinema.repository.BookingSnackRepository;
 import com.absolutecinema.repository.SnackRepository;
+import com.absolutecinema.repository.UserRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
@@ -24,24 +25,43 @@ import java.util.Map;
 @Service
 public class PaymentService {
     private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    private static final int POINTS_REQUIRED_FOR_REDEMPTION = 250;
+    private static final double TICKET_PRICE = 12.0; // Base ticket price
+    private static final double SNACK_PRICE = 5.0; // Base snack price
+
     private final BookingRepository bookingRepository;
     private final BookingSnackRepository bookingSnackRepository;
     private final SnackRepository snackRepository;
+    private final UserRepository userRepository;
 
     @Value("${stripe.secret.key}")
     private String stripeSecretKey;
 
     public PaymentService(BookingRepository bookingRepository,
             BookingSnackRepository bookingSnackRepository,
-            SnackRepository snackRepository) {
+            SnackRepository snackRepository,
+            UserRepository userRepository) {
         this.bookingRepository = bookingRepository;
         this.bookingSnackRepository = bookingSnackRepository;
         this.snackRepository = snackRepository;
+        this.userRepository = userRepository;
+    }
+
+    public boolean canRedeemPoints(User user) {
+        return user.getPoints() >= POINTS_REQUIRED_FOR_REDEMPTION;
+    }
+
+    public double calculateDiscount(User user, boolean applyRedemption) {
+        if (applyRedemption && canRedeemPoints(user)) {
+            return TICKET_PRICE + SNACK_PRICE; // Free movie ticket + snack
+        }
+        return 0.0;
     }
 
     @Transactional
     public void processPayment(String paymentMethodId, double amount, List<Object> seats,
-            Map<String, Object> snacks, User user, Long movieId, Long sessionId) {
+            Map<String, Object> snacks, User user, Long movieId, Long sessionId, boolean applyRedemption)
+            throws RuntimeException {
         try {
             // Set Stripe API key here to ensure it's always set
             Stripe.apiKey = stripeSecretKey;
@@ -53,8 +73,8 @@ public class PaymentService {
             if (paymentMethodId == null || paymentMethodId.trim().isEmpty()) {
                 throw new IllegalArgumentException("Payment method ID is required");
             }
-            if (amount <= 0) {
-                throw new IllegalArgumentException("Amount must be greater than 0");
+            if (amount < 0) {
+                throw new IllegalArgumentException("Amount cannot be negative");
             }
             if (user == null) {
                 throw new IllegalArgumentException("User is required");
@@ -63,9 +83,25 @@ public class PaymentService {
                 throw new IllegalArgumentException("Movie ID and Session ID are required");
             }
 
-            // Create payment intent
+            // Apply loyalty points discount if requested
+            double finalAmount = amount;
+            if (applyRedemption) {
+                if (!canRedeemPoints(user)) {
+                    throw new IllegalArgumentException("Insufficient loyalty points for redemption");
+                }
+                double discount = calculateDiscount(user, true);
+                finalAmount = Math.max(0, amount - discount);
+
+                // Deduct points from user
+                user.setPoints(user.getPoints() - POINTS_REQUIRED_FOR_REDEMPTION);
+                userRepository.save(user);
+                logger.info("Applied loyalty points redemption for user: {}, discount: {}", user.getUsername(),
+                        discount);
+            }
+
+            // Create payment intent with final amount
             Map<String, Object> params = new HashMap<>();
-            params.put("amount", (int) (amount * 100)); // Convert to cents
+            params.put("amount", (int) (finalAmount * 100)); // Convert to cents
             params.put("currency", "pkr");
             params.put("payment_method", paymentMethodId);
             params.put("confirm", true);
@@ -80,7 +116,7 @@ public class PaymentService {
                 booking.setMovieId(movieId);
                 booking.setSessionId(sessionId);
                 booking.setNumberOfTickets(seats != null ? seats.size() : 0);
-                booking.setTotalPrice(amount);
+                booking.setTotalPrice(finalAmount);
                 booking.setBookingTime(java.time.LocalDateTime.now());
                 booking = bookingRepository.save(booking);
 
@@ -131,6 +167,12 @@ public class PaymentService {
                         }
                     }
                 }
+
+                // Add loyalty points for the purchase (50 per ticket, 20 per snack)
+                int ticketPoints = (seats != null ? seats.size() : 0) * 50;
+                int snackPoints = snacks != null ? snacks.size() * 20 : 0;
+                user.setPoints(user.getPoints() + ticketPoints + snackPoints);
+                userRepository.save(user);
 
                 logger.info("Payment processed successfully for booking ID: {}", booking.getId());
             } else {

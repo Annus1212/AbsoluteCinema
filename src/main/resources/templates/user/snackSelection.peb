@@ -647,7 +647,6 @@
                 {% for snack in snacks %}
                 <div class="col-md-6">
                     <div class="snack-card" data-snack-id="{{ snack.id }}">
-                        <img src="/images/snacks/{{ snack.name|lower }}.jpg" alt="{{ snack.name }}" class="snack-image">
                         <h3 class="snack-title">{{ snack.name }}</h3>
                         <div class="snack-price">PKR {{ snack.price }}</div>
                         <div class="quantity-control">

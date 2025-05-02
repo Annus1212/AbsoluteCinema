@@ -3,6 +3,7 @@ package com.absolutecinema.controller;
 import com.absolutecinema.entity.User;
 import com.absolutecinema.service.LoyaltyService;
 import com.absolutecinema.service.UserService;
+import com.absolutecinema.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,15 +16,32 @@ public class PageController {
 
     private final LoyaltyService loyaltyService;
     private final UserService userService;
+    private final MovieService movieService;
 
     @Autowired
-    public PageController(LoyaltyService loyaltyService, UserService userService) {
+    public PageController(LoyaltyService loyaltyService, UserService userService, MovieService movieService) {
         this.loyaltyService = loyaltyService;
         this.userService = userService;
+        this.movieService = movieService;
+    }
+
+    @GetMapping("/user/dashboard")
+    public String getUserDashboard(Model model) {
+        // Get all movies for the slider
+        model.addAttribute("movies", movieService.getAllMovies());
+        return "user/dashboard";
     }
 
     @GetMapping("/feedback")
-    public String getFeedbackPage() {
+    public String getFeedbackPage(Model model) {
+        // Get the currently logged-in user
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByUsername(auth.getName());
+        model.addAttribute("user", user);
+
+        // Get all movies for the dropdown
+        model.addAttribute("movies", movieService.getAllMovies());
+
         return "feedback/feedback";
     }
 

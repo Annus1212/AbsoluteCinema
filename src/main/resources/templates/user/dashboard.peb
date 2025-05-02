@@ -133,125 +133,29 @@
           <i class="bi bi-chevron-right"></i>
         </div>
         <div id="slider" class="d-flex overflow-x-auto">
-          <!-- Movie Card 1 -->
+          {% for movie in movies %}
           <div class="slider-item">
             <div class="movie-card">
               <div class="position-relative">
-                <img src="https://picsum.photos/1024/767" class="card-img-top" alt="Movie poster">
+                <img src="/api/movies/{{ movie.id }}/image" 
+                     class="card-img-top" 
+                     alt="{{ movie.title }}"
+                     onerror="this.src='/images/movies/default.jpg'">
                 <div class="movie-rating">
-                  <i class="bi bi-star-fill"></i> 9.2
+                  <i class="bi bi-star-fill"></i> {{ movie.rating|default('N/A') }}
                 </div>
               </div>
               <div class="card-body">
-                <span class="movie-genre">Action</span>
-                <h5 class="movie-title">Cosmic Odyssey</h5>
+                <span class="movie-genre">{{ movie.genre }}</span>
+                <h5 class="movie-title">{{ movie.title }}</h5>
                 <p class="movie-info">
-                  <i class="bi bi-clock"></i> 142 min | <i class="bi bi-calendar3"></i> 2025
+                  <i class="bi bi-clock"></i> {{ movie.duration }} min | <i class="bi bi-calendar3"></i> {{ movie.releaseDate }}
                 </p>
-                <button class="btn btn-book">Book Now</button>
+                <button class="btn btn-book" onclick="window.location.href='/user/seats?movieId={{ movie.id }}'">Book Now</button>
               </div>
             </div>
           </div>
-          
-          <!-- Movie Card 2 -->
-          <div class="slider-item">
-            <div class="movie-card">
-              <div class="position-relative">
-                <img src="https://picsum.photos/1024/765" class="card-img-top" alt="Movie poster">
-                <div class="movie-rating">
-                  <i class="bi bi-star-fill"></i> 8.7
-                </div>
-              </div>
-              <div class="card-body">
-                <span class="movie-genre">Drama</span>
-                <h5 class="movie-title">Eternal Echoes</h5>
-                <p class="movie-info">
-                  <i class="bi bi-clock"></i> 128 min | <i class="bi bi-calendar3"></i> 2025
-                </p>
-                <button class="btn btn-book">Book Now</button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Movie Card 3 -->
-          <div class="slider-item">
-            <div class="movie-card">
-              <div class="position-relative">
-                <img src="https://picsum.photos/1024/764" class="card-img-top" alt="Movie poster">
-                <div class="movie-rating">
-                  <i class="bi bi-star-fill"></i> 9.0
-                </div>
-              </div>
-              <div class="card-body">
-                <span class="movie-genre">Sci-Fi</span>
-                <h5 class="movie-title">Quantum Frontier</h5>
-                <p class="movie-info">
-                  <i class="bi bi-clock"></i> 156 min | <i class="bi bi-calendar3"></i> 2025
-                </p>
-                <button class="btn btn-book">Book Now</button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Movie Card 4 -->
-          <div class="slider-item">
-            <div class="movie-card">
-              <div class="position-relative">
-                <img src="https://picsum.photos/1024/763" class="card-img-top" alt="Movie poster">
-                <div class="movie-rating">
-                    <i class="bi bi-star-fill"></i> 8.5
-                </div>
-              </div>
-              <div class="card-body">
-                <span class="movie-genre">Comedy</span>
-                <h5 class="movie-title">Urban Legends</h5>
-                <p class="movie-info">
-                  <i class="bi bi-clock"></i> 118 min | <i class="bi bi-calendar3"></i> 2025
-                </p>
-                <button class="btn btn-book">Book Now</button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Movie Card 5 -->
-          <div class="slider-item">
-            <div class="movie-card">
-              <div class="position-relative">
-                <img src="https://picsum.photos/1024/762" class="card-img-top" alt="Movie poster">
-                <div class="movie-rating">
-                  <i class="bi bi-star-fill"></i> 9.1
-                </div>
-              </div>
-              <div class="card-body">
-                <span class="movie-genre">Thriller</span>
-                <h5 class="movie-title">Midnight Protocol</h5>
-                <p class="movie-info">
-                  <i class="bi bi-clock"></i> 135 min | <i class="bi bi-calendar3"></i> 2025
-                </p>
-                <button class="btn btn-book">Book Now</button>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Movie Card 6 -->
-          <div class="slider-item">
-            <div class="movie-card">
-              <div class="position-relative">
-                <img src="https://picsum.photos/1024/750" class="card-img-top" alt="Movie poster">
-                <div class="movie-rating">
-                  <i class="bi bi-star-fill"></i> 8.9
-                </div>
-              </div>
-              <div class="card-body">
-                <span class="movie-genre">Fantasy</span>
-                <h5 class="movie-title">Crimson Legacy</h5>
-                <p class="movie-info">
-                  <i class="bi bi-clock"></i> 162 min | <i class="bi bi-calendar3"></i> 2025
-                </p>
-                <button class="btn btn-book">Book Now</button>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </div>
     </div>

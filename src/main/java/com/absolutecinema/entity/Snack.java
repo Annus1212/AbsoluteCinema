@@ -1,11 +1,10 @@
 package com.absolutecinema.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
-@Table(name = "snack")
-@Data
+@Table(name = "snacks")
 public class Snack {
 
     @Id
@@ -16,23 +15,18 @@ public class Snack {
     private String name;
 
     @Column(nullable = false)
-    private Double price;
+    private double price;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private String description;
 
-    @Column(name = "snackssold", nullable = false)
+    @Column(nullable = false)
     private int snackssold;
 
-    public Snack() {
-    }
+    @Column(nullable = false)
+    private int quantity;
 
-    public Snack(String name, double price, int quantity) {
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-    }
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -57,12 +51,12 @@ public class Snack {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getDescription() {
+        return description;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getSnackssold() {
@@ -71,5 +65,13 @@ public class Snack {
 
     public void setSnackssold(int snackssold) {
         this.snackssold = snackssold;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

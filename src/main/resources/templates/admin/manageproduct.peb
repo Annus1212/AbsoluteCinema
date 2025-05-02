@@ -8,56 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-     <link rel="stylesheet" href="/admin/manageloyalty.css">
-     <link rel="stylesheet" href="/topbar/bar.css">
-     <style>
-       /* Image preview styles */
-       .image-preview-container {
-         width: 100%;
-         margin-bottom: 15px;
-         border: 1px dashed #ccc;
-         border-radius: 5px;
-         padding: 10px;
-         text-align: center;
-       }
-
-       .image-preview {
-         max-width: 200px;
-         max-height: 200px;
-         margin: 10px auto;
-         display: none;
-       }
-
-       .file-input-container {
-         position: relative;
-         overflow: hidden;
-         display: inline-block;
-       }
-
-       .file-input-container input[type=file] {
-         font-size: 100px;
-         position: absolute;
-         left: 0;
-         top: 0;
-         opacity: 0;
-         cursor: pointer;
-       }
-
-       .file-input-button {
-         background-color: #007bff;
-         color: white;
-         padding: 8px 16px;
-         border-radius: 4px;
-         cursor: pointer;
-         display: inline-block;
-       }
-
-       .file-name {
-         margin-top: 5px;
-         font-size: 0.8rem;
-         color: #6c757d;
-       }
-     </style>
+    <link rel="stylesheet" href="/admin/manageloyalty.css">
+    <link rel="stylesheet" href="/topbar/bar.css">
 </head>
 <body>
 <!-- Theme Toggle -->
@@ -349,7 +301,7 @@
     <div class="modal-content">
       <span class="close-btn">&times;</span>
       <h3 id="movieModalTitle">Add New Movie</h3>
-      <form id="movieForm" enctype="multipart/form-data">
+      <form id="movieForm">
         <div class="form-group">
           <label class="form-label">Movie Name</label>
           <input type="text" class="form-control" id="movieName" placeholder="Enter movie name">
@@ -361,20 +313,6 @@
         <div class="form-group">
           <label class="form-label">Release Date</label>
           <input type="date" class="form-control" id="movieReleaseDate">
-        </div>
-
-        <!-- Add Image Upload Field -->
-        <div class="form-group">
-          <label class="form-label">Movie Poster</label>
-          <div class="image-preview-container">
-            <img id="movieImagePreview" class="image-preview" src="#" alt="Preview">
-            <div class="file-input-container">
-              <div class="file-input-button">Choose Image</div>
-              <input type="file" id="movieImage" name="movieImage" accept="image/*">
-            </div>
-            <div id="movieFileName" class="file-name"></div>
-            <input type="hidden" id="movieImageUrl" name="movieImageUrl">
-          </div>
         </div>
 
         <div class="modal-footer">
@@ -390,7 +328,7 @@
     <div class="modal-content">
       <span class="close-btn">&times;</span>
       <h3 id="snackModalTitle">Add New Snack</h3>
-      <form id="snackForm" enctype="multipart/form-data">
+      <form id="snackForm">
         <div class="form-group">
           <label class="form-label">Snack Name</label>
           <input type="text" class="form-control" id="snackName" placeholder="Enter snack name">
@@ -398,20 +336,6 @@
         <div class="form-group">
           <label class="form-label">Price</label>
           <input type="text" class="form-control" id="snackPrice" placeholder="Enter price">
-        </div>
-
-        <!-- Add Image Upload Field -->
-        <div class="form-group">
-          <label class="form-label">Snack Image</label>
-          <div class="image-preview-container">
-            <img id="snackImagePreview" class="image-preview" src="#" alt="Preview">
-            <div class="file-input-container">
-              <div class="file-input-button">Choose Image</div>
-              <input type="file" id="snackImage" name="snackImage" accept="image/*">
-            </div>
-            <div id="snackFileName" class="file-name"></div>
-            <input type="hidden" id="snackImageUrl" name="snackImageUrl">
-          </div>
         </div>
 
         <div class="modal-footer">
@@ -439,64 +363,6 @@
       });
     });
 
-    // Image preview functionality
-    function setupImagePreview(inputId, previewId, fileNameId) {
-      const input = document.getElementById(inputId);
-      const preview = document.getElementById(previewId);
-      const fileName = document.getElementById(fileNameId);
-
-      input.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
-          const file = this.files[0];
-          const reader = new FileReader();
-
-          reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-            fileName.textContent = file.name;
-          }
-
-          reader.readAsDataURL(file);
-        } else {
-          preview.style.display = 'none';
-          fileName.textContent = '';
-        }
-      });
-    }
-
-    // Setup image previews
-    setupImagePreview('movieImage', 'movieImagePreview', 'movieFileName');
-    setupImagePreview('snackImage', 'snackImagePreview', 'snackFileName');
-
-    // Function to upload image
-    async function uploadImage(fileInput) {
-      const file = fileInput.files[0];
-      if (!file) return null;
-
-      // Create FormData object
-      const formData = new FormData();
-      formData.append('image', file);
-
-      try {
-        // In a real application, you'd replace this URL with your actual upload endpoint
-        const response = await fetch('/api/upload-image', {
-          method: 'POST',
-          body: formData
-        });
-
-        if (!response.ok) {
-          throw new Error('Image upload failed');
-        }
-
-        const data = await response.json();
-        return data.imageUrl; // URL to the uploaded image
-      } catch (error) {
-        console.error('Error uploading image:', error);
-        alert('Failed to upload image. Please try again.');
-        return null;
-      }
-    }
-
     // Movie Modal
     const movieModal = document.getElementById('movieModal');
     const addMovieBtn = document.getElementById('addMovieBtn');
@@ -504,7 +370,6 @@
     const cancelMovieBtn = document.getElementById('cancelMovieBtn');
     const closeMovieBtn = movieModal.querySelector('.close-btn');
     const movieModalTitle = document.getElementById('movieModalTitle');
-    const movieImageUrl = document.getElementById('movieImageUrl');
 
     // Open Add Movie Modal
     addMovieBtn.addEventListener('click', () => {
@@ -512,9 +377,6 @@
       document.getElementById('movieName').value = '';
       document.getElementById('movieGenre').value = '';
       document.getElementById('movieReleaseDate').value = '';
-      document.getElementById('movieImagePreview').style.display = 'none';
-      document.getElementById('movieFileName').textContent = '';
-      movieImageUrl.value = '';
       movieModal.style.display = 'block';
     });
 
@@ -527,14 +389,6 @@
         document.getElementById('movieName').value = 'The Last Journey';
         document.getElementById('movieGenre').value = 'Action/Adventure';
         document.getElementById('movieReleaseDate').value = '2025-01-15';
-
-        // Set example image for edit mode
-        const preview = document.getElementById('movieImagePreview');
-        preview.src = '/api/placeholder/200/300';
-        preview.style.display = 'block';
-        document.getElementById('movieFileName').textContent = 'last_journey_poster.jpg';
-        movieImageUrl.value = '/images/movies/last_journey_poster.jpg';
-
         movieModal.style.display = 'block';
       });
     });
@@ -555,16 +409,12 @@
     const cancelSnackBtn = document.getElementById('cancelSnackBtn');
     const closeSnackBtn = snackModal.querySelector('.close-btn');
     const snackModalTitle = document.getElementById('snackModalTitle');
-    const snackImageUrl = document.getElementById('snackImageUrl');
 
     // Open Add Snack Modal
     addSnackBtn.addEventListener('click', () => {
       snackModalTitle.textContent = 'Add New Snack';
       document.getElementById('snackName').value = '';
       document.getElementById('snackPrice').value = '';
-      document.getElementById('snackImagePreview').style.display = 'none';
-      document.getElementById('snackFileName').textContent = '';
-      snackImageUrl.value = '';
       snackModal.style.display = 'block';
     });
 
@@ -576,14 +426,6 @@
         // Here we're just populating with example data
         document.getElementById('snackName').value = 'Small Popcorn';
         document.getElementById('snackPrice').value = '$4.99';
-
-        // Set example image for edit mode
-        const preview = document.getElementById('snackImagePreview');
-        preview.src = '/api/placeholder/200/200';
-        preview.style.display = 'block';
-        document.getElementById('snackFileName').textContent = 'small_popcorn.jpg';
-        snackImageUrl.value = '/images/snacks/small_popcorn.jpg';
-
         snackModal.style.display = 'block';
       });
     });
@@ -597,25 +439,16 @@
       snackModal.style.display = 'none';
     });
 
-    // Form submission with image upload
+    // Form submission
     document.getElementById('movieForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Show loading state (you could add a spinner here)
+      // Show loading state
       const saveBtn = e.target.querySelector('.save-btn');
       saveBtn.disabled = true;
       saveBtn.textContent = 'Saving...';
 
       try {
-        // Upload image if a new one is selected
-        const movieImageInput = document.getElementById('movieImage');
-        if (movieImageInput.files.length > 0) {
-          const imageUrl = await uploadImage(movieImageInput);
-          if (imageUrl) {
-            movieImageUrl.value = imageUrl;
-          }
-        }
-
         // In a real application, you'd collect all form data and submit to your backend
         // For demo purposes, we'll simulate success and close the modal
 
@@ -646,15 +479,6 @@
       saveBtn.textContent = 'Saving...';
 
       try {
-        // Upload image if a new one is selected
-        const snackImageInput = document.getElementById('snackImage');
-        if (snackImageInput.files.length > 0) {
-          const imageUrl = await uploadImage(snackImageInput);
-          if (imageUrl) {
-            snackImageUrl.value = imageUrl;
-          }
-        }
-
         // In a real application, you'd collect all form data and submit to your backend
         // For demo purposes, we'll simulate success and close the modal
 
@@ -673,16 +497,6 @@
         // Reset button state
         saveBtn.disabled = false;
         saveBtn.textContent = 'Save';
-      }
-    });
-
-    // Close modals when clicking outside
-    window.addEventListener('click', (e) => {
-      if (e.target === movieModal) {
-        movieModal.style.display = 'none';
-      }
-      if (e.target === snackModal) {
-        snackModal.style.display = 'none';
       }
     });
   </script>
